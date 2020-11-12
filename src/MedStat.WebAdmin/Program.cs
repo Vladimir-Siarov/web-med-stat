@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MedStat.Web
+namespace MedStat.WebAdmin
 {
 	public class Program
 	{

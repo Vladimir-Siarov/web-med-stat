@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
 
-namespace MedStat.Web
+namespace MedStat.WebAdmin
 {
 	public class Startup
 	{
