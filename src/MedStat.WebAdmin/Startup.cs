@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace MedStat.WebAdmin
 {
@@ -39,9 +40,22 @@ namespace MedStat.WebAdmin
 					new MedStatDbContext(connectionString);
 			});
 
-			services.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
-					.AddEntityFrameworkStores<MedStatDbContext>();
-			services.AddRazorPages();
+			services
+				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
+				.AddEntityFrameworkStores<MedStatDbContext>();
+
+			services
+				.AddRazorPages();
+			//.AddRazorRuntimeCompilation();
+
+			// Setup data protection for Web farm: 
+			// (and prevent "The antiforgery token could not be decrypted" error)
+			// https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-2.1#data-protection-2
+			// https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-2.1#persistkeystofilesystem
+			// NOTE: Switch off "Load User Profile" for app pool.
+			var currDirPath =  System.IO.Directory.GetCurrentDirectory();
+			services.AddDataProtection()
+				.PersistKeysToFileSystem(new System.IO.DirectoryInfo($"{currDirPath}\\..\\PersistKeys"));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
