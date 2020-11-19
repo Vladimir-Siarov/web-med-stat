@@ -1,10 +1,23 @@
 ﻿@page
+@using MedStat.WebAdmin.Classes
 @model IndexModel
+
 @{
-    ViewData["Title"] = "Home page";
+	ViewData["Title"] = "Home page";
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Home);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section PageHeader
+{
+	<div class="pageHeader">
+
+		<h1>Начальная</h1>
+
+	</div>
+}
+
+<h2>Панель управления системы <strong>"МедСтат"</strong></h2>
+<p class="mt-5">
+	<a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login" title="Login">Вход в систему</a>
+</p>
+

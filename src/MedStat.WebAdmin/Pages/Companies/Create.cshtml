@@ -1,0 +1,74 @@
+﻿@page
+@using MedStat.WebAdmin.Classes
+@model CompanyCreateModel
+
+@{
+	ViewData["Title"] = "Создание новой компании";
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
+}
+
+@section PageHeader
+{
+	<div class="pageHeader">
+
+		<h1>Новая компания</h1>
+
+	</div>
+}
+
+	
+<div class="row">
+
+	<div class="col-md-3">
+		<ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+				<a class="nav-link active" id="profile" href="#">Реквизиты</a>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">Контакты</span>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">Аккаунты</span>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">Трекинг</span>
+			</li>
+		</ul>
+
+	</div>
+	
+
+	<div class="col-md-9">
+
+		
+
+		<form id="profile-form" method="post" novalidate="novalidate">
+
+			<fieldset>
+				<legend>Реквизиты</legend>
+
+				<!-- Email -->
+				<div class="md-form">
+					<input type="text" id="materialLoginFormEmail" class="form-control">
+					<label for="materialLoginFormEmail">Название</label>
+				</div>
+
+				<!-- Password -->
+				<div class="md-form">
+					<input type="text" id="materialLoginFormPassword" class="form-control">
+					<label for="materialLoginFormPassword">Юридический адрес</label>
+				</div>
+				
+				<!-- Sign in button -->
+				<button class="btn btn-primary" type="submit">Создать</button>
+
+			</fieldset>
+
+		</form>
+
+
+	</div>
+</div>
+
+
+

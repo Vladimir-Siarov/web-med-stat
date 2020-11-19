@@ -17,9 +17,18 @@ namespace MedStat.WebAdmin.Pages
 			_logger = logger;
 		}
 
-		public void OnGet()
+		public IActionResult OnGet()
 		{
+			if (User.Identity.IsAuthenticated)
+			{
+				//if (User.IsInRole("XXX"))
+				{
+					return 
+						RedirectToPage("/Companies/Index");
+				}
+			}
 
+			return Page();
 		}
 	}
 }
