@@ -13,21 +13,21 @@
 /* Sticky footer styles
 -------------------------------------------------- */
 
-html {
-	font-size: 15px; /* define rem size */
-}
-/* font overriding */
-body {
-	font-family: 'Ubuntu', 'Roboto';
-	font-weight: 400;
-	color: #555;
-}
-.navbar { font-weight: 400; }
-.navbar .dropdown-menu a { font-weight: 400; }
-.navbar .dropdown-menu a:not(.active){ color: #555; }
-#navbar_ProfileDropdownMenuLink { font-size: 0.9rem;}
-.table td { font-weight: 400; color: #606060;}
-.table th { font-weight: 500; color: #444;}
+/* html { */
+/* 	font-size: 15px; /* define rem size !1! */
+/* } */
+/* /* font overriding !1! */
+/* body { */
+/* 	font-family: 'Ubuntu', 'Roboto'; */
+/* 	font-weight: 400; */
+/* 	color: #555; */
+/* } */
+/* .navbar { font-weight: 400; } */
+/* .navbar .dropdown-menu a { font-weight: 400; } */
+/* .navbar .dropdown-menu a:not(.active){ color: #555; } */
+/* #navbar_ProfileDropdownMenuLink { font-size: 0.9rem;} */
+/* .table td { font-weight: 400; color: #606060;} */
+/* .table th { font-weight: 500; color: #444;} */
 
 
 /* html, body */
