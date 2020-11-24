@@ -1,0 +1,81 @@
+﻿@import './_variables';
+
+.ms-sitenav-aside {
+	$ms-sitenav-aside-bg: #39354c;
+	$ms-sitenav-aside-color: #fff;
+
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: $sitenav-aside-collapsed-width;
+	overflow: hidden;
+	box-sizing: border-box;
+	background-color: $ms-sitenav-aside-bg;
+	color: $ms-sitenav-aside-color;
+	transition: width $sitenav-aside-toggle-transition-time linear;
+
+	.ms-sitenav-header {
+		height: $sitenav-header-height;
+		/* default collapse stile */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.ms-togglebtn {
+			color: $ms-sitenav-aside-color;
+			border: none;
+			background: transparent;
+			padding: 0px;
+			margin: 0px;
+			display: inline-block;
+			width: 1.5rem;
+			height: 1.5rem;
+			opacity: .8;
+
+			&:hover {
+				opacity: 1;
+			}
+		}
+
+		.ms-btncollapse {
+			/* default collapse stile */
+			display: none;
+			margin-right: 1rem;
+		}
+
+		.ms-brand {
+			/* default collapse stile */
+			display: none;
+		}
+	}
+
+	.ms-sitenav-menu {
+		width: $sitenav-aside-expanded-width;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+}
+
+/* expanded sitenav */
+.ms-sitenav-expanded {
+	.ms-sitenav-aside {
+		width: $sitenav-aside-expanded-width;
+
+		.ms-sitenav-header {
+			justify-content: space-between;
+
+			.ms-btncollapse {
+				display: inline-block;
+			}
+
+			.ms-brand {
+				display: block;
+			}
+
+			.ms-btnexpand {
+				display: none;
+			}
+		}
+	}
+}
