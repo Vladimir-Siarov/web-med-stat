@@ -1,4 +1,20 @@
 ﻿@import '../lib/bootstrap/scss/bootstrap-reboot';
+@import '../lib/bootstrap/scss/bootstrap-utilities';
+@import '../lib/bootstrap/scss/_buttons';
+@import '../lib/bootstrap/scss/_dropdown';
+
+/* override bootstrap styles*/
+.btn-light {
+	&:hover{
+		background-color: $gray-200;
+	}
+}
+
+/*!
+ * MedStat v1.0.0-betta
+ * Copyright 2020-2020 Vladimir Siarov
+ * Copyright 2020-2020 MedStat, Inc.
+ */
 
 @import './_sitenav';
 @import './_pagecontent';

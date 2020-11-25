@@ -1,8 +1,11 @@
-﻿@import './_variables';
+﻿@import '../lib/bootstrap/scss/_variables';
+@import './_variables';
 
+/* --- ASIDE ---------- */
 .ms-sitenav-aside {
-	$ms-sitenav-aside-bg: #39354c;
-	$ms-sitenav-aside-color: #fff;
+	$sitenav-aside-bg: #39354c;
+	$sitenav-aside-color: #fff;
+	$sitenav-aside-xpadding: 1rem;
 
 	position: fixed;
 	top: 0px;
@@ -11,8 +14,8 @@
 	width: $sitenav-aside-collapsed-width;
 	overflow: hidden;
 	box-sizing: border-box;
-	background-color: $ms-sitenav-aside-bg;
-	color: $ms-sitenav-aside-color;
+	background-color: $sitenav-aside-bg;
+	color: $sitenav-aside-color;
 	transition: width $sitenav-aside-toggle-transition-time linear;
 
 	.ms-sitenav-header {
@@ -23,7 +26,7 @@
 		align-items: center;
 
 		.ms-togglebtn {
-			color: $ms-sitenav-aside-color;
+			color: $sitenav-aside-color;
 			border: none;
 			background: transparent;
 			padding: 0px;
@@ -41,10 +44,13 @@
 		.ms-btncollapse {
 			/* default collapse stile */
 			display: none;
-			margin-right: 1rem;
+			margin-right: $sitenav-aside-xpadding;
 		}
 
 		.ms-brand {
+			font-weight: 600;
+			text-transform: uppercase;
+			margin-left: $sitenav-aside-xpadding;
 			/* default collapse stile */
 			display: none;
 		}
@@ -77,5 +83,84 @@
 				display: none;
 			}
 		}
+	}
+}
+
+
+/* --- TOPPANEL ---------- */
+.ms-sitenav-toppanel {
+	$sitenav-toppanel-xpadding: 1.5rem;
+
+	height: $sitenav-header-height;
+	margin-left: $sitenav-aside-collapsed-width;
+	transition: margin $sitenav-aside-toggle-transition-time linear;
+	padding: 0 $sitenav-toppanel-xpadding;
+	display: flex;
+	flex-direction: row;
+	justify-content: end; /* temporary */
+	align-items: center;
+
+	.ms-nav-link {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			color: $link-hover-color;
+		}
+
+		svg {
+			display: inline-block;
+			margin: 0px 0.5em .15em 0px;
+		}
+	}
+
+	.ms-usermenu {
+		.ms-usermenu-profile {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			font-size: .875rem;
+			font-weight: 600;
+			opacity: .85;
+
+			&:after {
+				/* override bootstrap dropdawn style */
+				display: none;
+			}
+			/* emulate nav-link behavior */
+			&:hover {
+				color: $link-hover-color;
+			}
+
+			.ms-avatar {
+				width: 2.5rem;
+				height: 2.5rem;
+				border-radius: 50%;
+				background-color: $gray-100;
+				display: inline-block;
+				text-align: center;
+				margin-right: 0.5rem;
+
+				svg {
+					width: 2rem;
+					height: 2rem;
+					margin-top: .25rem;
+				}
+
+				img {
+					display: inline-block;
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+				}
+			}
+		}
+	}
+}
+
+/* expanded header */
+.ms-sitenav-expanded {
+	.ms-sitenav-toppanel {
+		margin-left: $sitenav-aside-expanded-width;
 	}
 }

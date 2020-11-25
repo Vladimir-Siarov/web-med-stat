@@ -1,13 +1,13 @@
 ﻿@import './_variables.scss';
 
-.pagecontent {
+.ms-pagecontent {
 	margin-left: $sitenav-aside-collapsed-width;
 	transition: margin $sitenav-aside-toggle-transition-time linear;
 }
 
 /* expanded sitenav */
 .ms-sitenav-expanded {
-	.pagecontent {
+	.ms-pagecontent {
 		margin-left: $sitenav-aside-expanded-width;
 	}
 }
