@@ -3,6 +3,8 @@
 .ms-pagecontent {
 	margin-left: $sitenav-aside-collapsed-width;
 	transition: margin $sitenav-aside-toggle-transition-time linear;
+	padding-left: $content-xpadding;
+	padding-right: $content-xpadding;
 }
 
 /* expanded sitenav */

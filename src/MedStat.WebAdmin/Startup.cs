@@ -45,9 +45,12 @@ namespace MedStat.WebAdmin
 				.AddEntityFrameworkStores<MedStatDbContext>();
 
 			services
-				.AddRazorPages();
+				.AddRazorPages(options =>
+				{
+					options.Conventions.AuthorizeFolder("/Companies");
+				});
 			//.AddRazorRuntimeCompilation();
-
+			
 			// Setup data protection for Web farm: 
 			// (and prevent "The antiforgery token could not be decrypted" error)
 			// https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-2.1#data-protection-2

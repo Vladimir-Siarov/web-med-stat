@@ -15,6 +15,10 @@
  * Copyright 2020-2020 Vladimir Siarov
  * Copyright 2020-2020 MedStat, Inc.
  */
+body {
+	background-color: #f5f8fb;
+}
 
 @import './_sitenav';
 @import './_pagecontent';
+@import './_breadcrumb.scss';

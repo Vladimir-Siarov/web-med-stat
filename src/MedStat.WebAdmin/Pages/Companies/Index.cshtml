@@ -3,12 +3,15 @@
 @model CompanyListModel
 
 @{
-	ViewData["Title"] = "Companies";
+	ViewData["Title"] = "Компании";
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 }
 
 @section PageHeader
 {
+	<nav aria-label="breadcrumb">
+		<breadcrumb parent-page="null" page-title="Компании"></breadcrumb>
+	</nav>
 	<section class="pageHeader">
 		
 		<div class="d-flex justify-content-between flex-column flex-md-row align-items-start align-items-md-end">

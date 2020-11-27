@@ -3,7 +3,7 @@
 
 /* --- ASIDE ---------- */
 .ms-sitenav-aside {
-	$sitenav-aside-bg: #39354c;
+	$sitenav-aside-bg: #262b40; /*#39354c;*/	
 	$sitenav-aside-color: #fff;
 	$sitenav-aside-xpadding: 1rem;
 
@@ -89,12 +89,10 @@
 
 /* --- TOPPANEL ---------- */
 .ms-sitenav-toppanel {
-	$sitenav-toppanel-xpadding: 1.5rem;
-
 	height: $sitenav-header-height;
 	margin-left: $sitenav-aside-collapsed-width;
 	transition: margin $sitenav-aside-toggle-transition-time linear;
-	padding: 0 $sitenav-toppanel-xpadding;
+	padding: 0 $content-xpadding;
 	display: flex;
 	flex-direction: row;
 	justify-content: end; /* temporary */
