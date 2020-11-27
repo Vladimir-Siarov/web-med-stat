@@ -1,15 +1,37 @@
 ﻿@import './_variables.scss';
 
-.ms-pagecontent {
+@mixin shiftedcontent {
 	margin-left: $sitenav-aside-collapsed-width;
 	transition: margin $sitenav-aside-toggle-transition-time linear;
 	padding-left: $content-xpadding;
 	padding-right: $content-xpadding;
 }
 
+
+.ms-pagecontainer{
+	@include shiftedcontent;
+}
+.ms-footer {
+	@include shiftedcontent;
+	text-align: center;
+	padding-top: 1em;
+	color: #4a5073;
+}
+
 /* expanded sitenav */
 .ms-sitenav-expanded {
-	.ms-pagecontent {
+	.ms-pagecontainer, 
+	.ms-footer {
 		margin-left: $sitenav-aside-expanded-width;
 	}
+}
+
+
+.ms-pagecontent {
+	border-color: #eaedf2 !important;
+	box-shadow: 0 2px 18px rgba(0,0,0,.02);
+	padding: 1.25rem 1.5rem;
+	background-color: #fff;
+	background-clip: border-box;
+	border-radius: .5rem;
 }

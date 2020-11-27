@@ -1,0 +1,13 @@
+﻿@import '../lib/bootstrap/scss/bootstrap-reboot';
+/*@import '../lib/bootstrap/scss/bootstrap-utilities';
+@import '../lib/bootstrap/scss/bootstrap-grid';*/
+
+@import '../lib/bootstrap/scss/_buttons';
+@import '../lib/bootstrap/scss/_dropdown';
+
+/* override bootstrap styles*/
+.btn-light {
+	&:hover{
+		background-color: $gray-200;
+	}
+}
