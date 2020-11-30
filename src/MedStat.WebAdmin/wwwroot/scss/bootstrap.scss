@@ -5,6 +5,16 @@
 @import '../lib/bootstrap/scss/_buttons';
 @import '../lib/bootstrap/scss/_dropdown';
 
+@import "../lib/bootstrap/scss/forms/labels";
+@import "../lib/bootstrap/scss/forms/form-text";
+@import "../lib/bootstrap/scss/forms/form-control";
+@import "../lib/bootstrap/scss/forms/form-select";
+@import "../lib/bootstrap/scss/forms/form-check";
+/*@import "forms/form-range";*/
+/*@import "forms/floating-labels";*/
+/*@import "forms/input-group";*/
+/*@import "forms/validation";*/
+
 /* override bootstrap styles*/
 .btn-light {
 	&:hover{

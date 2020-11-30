@@ -2,12 +2,14 @@
 using System.Security.Policy;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
+using MedStat.WebAdmin.Classes.SharedResources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Localization;
 
 namespace MedStat.WebAdmin.Classes.TagHelpers
 {
@@ -22,12 +24,13 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 </svg>";
 
 		private readonly IUrlHelperFactory _urlHelperFactory;
+		private readonly IStringLocalizer<NavResource> _navLocalizer;
 
 
 		/// <summary>
-		/// Define parent page path.
+		/// Define main menu item for current page.
 		/// </summary>
-		public NavHelper.EnMainMenuItem? ParentPage { get; set; } = null;
+		public NavHelper.EnMainMenuItem? MenuItem { get; set; } = null;
 
 		/// <summary>
 		/// Define current page Title.
@@ -39,9 +42,11 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 		public ViewContext ViewContext { get; set; }
 
 
-		public BreadcrumbTagHelper(IUrlHelperFactory urlHelperFactory)
+		public BreadcrumbTagHelper(IUrlHelperFactory urlHelperFactory,
+			IStringLocalizer<NavResource> navLocalizer)
 		{
 			this._urlHelperFactory = urlHelperFactory;
+			this._navLocalizer = navLocalizer;
 		}
 
 
@@ -57,23 +62,23 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 			{
 				output.Content.AppendFormat("<li class='home'><a href='{0}' title='{1}'>",
 					urlHelper.Page("/Index"),
-					"Home"); // TODO: need localization
+					_navLocalizer["Home"]);
 				output.Content.AppendHtml($"{HomeSvgIcon}</a></li>");
 			}
 
-			// Append menu Item node
-			if (this.ParentPage.HasValue)
+			// Append parent page menu Item node
+			if (this.MenuItem.HasValue)
 			{
-				switch (ParentPage)
+				switch (MenuItem)
 				{
 					case NavHelper.EnMainMenuItem.Company:
 						output.Content.AppendFormat("<li><a href='{0}'>{1}</a></li>",
 							urlHelper.Page("/Companies/Index"),
-							"Companies"); // TODO: need localization
+							_navLocalizer["Companies"]);
 						break;
 						
 					default:
-						throw new NotSupportedException(ParentPage.ToString());
+						throw new NotSupportedException(MenuItem.ToString());
 				}
 			}
 

@@ -5,38 +5,38 @@ namespace MedStat.Core.BE.Company
 	// Owned class
 	public class CompanyMainRequisites
 	{
-		[Display(Name = "Сокращенное наименование")]
+		[Display(Name = "Short Name")] // "Сокращенное наименование"
 		public string Name { get; set; }
 
-		[Display(Name = "Полное наименование")]
+		[Display(Name = "Full Name")] // "Полное наименование"
 		public string FullName { get; set; }
 
 
-		[Display(Name = "Юридический адрес")]
+		[Display(Name = "Legal Address")] // "Юридический адрес"
 		public string LegalAddress { get; set; }
 
-		[Display(Name = "Почтовый адрес")]
+		[Display(Name = "Postal Address")] // "Почтовый адрес"
 		public string PostalAddress { get; set; }
 
 
 		// Exp: 1089848059366
-		[Display(Name = "ОГРН")]
+		[Display(Name = "OGRN")] // "ОГРН"
 		public string OGRN { get; set; }
 
 		// Exp: 89041828
-		[Display(Name = "ОКПО")]
+		[Display(Name = "OKPO")] // "ОКПО"
 		public string OKPO { get; set; }
 
 		// Exp: 40278562000
-		[Display(Name = "ОКАТО")]
+		[Display(Name = "OKATO")] // "ОКАТО"
 		public string OKATO { get; set; }
 
 		// Exp: 7842399004
-		[Display(Name = "ИНН")]
+		[Display(Name = "INN")] // "ИНН"
 		public string INN { get; set; }
 
 		// Exp: 780601001
-		[Display(Name = "КПП")]
+		[Display(Name = "KPP")] // "КПП"
 		public string KPP { get; set; }
 
 

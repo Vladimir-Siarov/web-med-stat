@@ -132,6 +132,16 @@ body {
   text-align: center;
   padding-top: 1em;
   color: #4a5073; }
+  .ms-footer:after {
+    display: block;
+    clear: both;
+    content: ''; }
+  .ms-footer .ms-footer-language {
+    float: right;
+    white-space: nowrap; }
+    .ms-footer .ms-footer-language label:first-of-type {
+      float: left;
+      margin-right: 3em; }
 
 /* expanded sitenav */
 .ms-sitenav-expanded .ms-pagecontainer,

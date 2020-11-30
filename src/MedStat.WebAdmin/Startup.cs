@@ -9,12 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Localization;
 
 namespace MedStat.WebAdmin
 {
@@ -44,12 +46,42 @@ namespace MedStat.WebAdmin
 				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddEntityFrameworkStores<MedStatDbContext>();
 
+			services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 			services
-				.AddRazorPages(options =>
+				.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Companies"); })
+				//.AddRazorRuntimeCompilation();
+				.AddDataAnnotationsLocalization(options =>
 				{
-					options.Conventions.AuthorizeFolder("/Companies");
-				});
-			//.AddRazorRuntimeCompilation();
+					options.DataAnnotationLocalizerProvider = (type, factory) =>
+					{
+						// check is "type" from the "MedStat.Core"
+						var stringLocalizer = Core.Resources.Localizer.GetDataAnnotationLocalizer(type, factory);
+						if (stringLocalizer == null)
+						{
+							// create default Localizer for Web project
+							stringLocalizer = factory.Create(type);
+						}
+
+						return stringLocalizer;
+					};
+				})
+				.AddViewLocalization();
+
+			services.Configure<RequestLocalizationOptions>(options =>
+			{
+				var supportedCultures = new []
+				{
+					new CultureInfo("en-US"),
+					new CultureInfo("en-GB"),
+					new CultureInfo("en"),
+					new CultureInfo("ru-RU")
+				};
+
+				options.DefaultRequestCulture = new RequestCulture("ru-RU");
+				options.SupportedCultures = supportedCultures;
+				options.SupportedUICultures = supportedCultures;
+			});
 			
 			// Setup data protection for Web farm: 
 			// (and prevent "The antiforgery token could not be decrypted" error)
@@ -83,6 +115,8 @@ namespace MedStat.WebAdmin
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+
+			app.UseRequestLocalization();
 
 			app.UseEndpoints(endpoints =>
 			{

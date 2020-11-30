@@ -1,19 +1,23 @@
 ﻿@page
 @using MedStat.WebAdmin.Classes
+@using Microsoft.AspNetCore.Mvc.Localization
 @model CompanyCreateModel
 
+@inject IViewLocalizer Localizer
+
 @{
-	ViewData["Title"] = "Создание новой компании";
+	ViewData["Title"] = Localizer["New company creation"];
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 }
 
 @section PageHeader
 {
 	<nav aria-label="breadcrumb">
-		<breadcrumb parent-page="@NavHelper.EnMainMenuItem.Company" page-title="Новая компания"></breadcrumb>
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Company"
+								page-title="@Localizer["New company"].Value"></breadcrumb>
 	</nav>
-	
-	<h1 class="ms-pageheader-pagetitle">Новая компания</h1>
+
+	<h1 class="ms-pageheader-pagetitle">@Localizer["New company"]</h1>
 }
 
 <div class="ms-pagecontent">
@@ -42,28 +46,20 @@
 		<div class="col-md-9">
 
 
+			<form method="post">
 
-			<form id="profile-form" method="post" novalidate="novalidate">
+				<h4>Основные реквизиты</h4>
 
-				<fieldset>
-					<legend>Реквизиты</legend>
+				<div>
+					<label asp-for="Company.MainRequisites.Name" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.Name" class="form-control" />
+				</div>
+				<div>
+					<label asp-for="Company.MainRequisites.INN" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.INN" class="form-control" />
+				</div>
 
-					<!-- Email -->
-					<div class="md-form">
-						<input type="text" id="materialLoginFormEmail" class="form-control">
-						<label for="materialLoginFormEmail">Название</label>
-					</div>
-
-					<!-- Password -->
-					<div class="md-form">
-						<input type="text" id="materialLoginFormPassword" class="form-control">
-						<label for="materialLoginFormPassword">Юридический адрес</label>
-					</div>
-
-					<!-- Sign in button -->
-					<button class="btn btn-primary" type="submit">Создать</button>
-
-				</fieldset>
+				<button class="btn btn-primary" type="submit">Создать</button>
 
 			</form>
 

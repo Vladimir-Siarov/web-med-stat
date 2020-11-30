@@ -18,17 +18,15 @@
 		@RenderBody()
 	</main>
 	
-	<footer class="ms-footer">
-		<div class="container">
-			&copy; 2020 - MedStat.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
-		</div>
-	</footer>
-
-	<!-- jQuery -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+	<partial name="_FooterPartial" />
+	
 	<!-- Bootstrap Bundle with Popper.js --> 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-popRpmFF9JQgExhfw5tZT4I9/CI5e2QcuUZPOVXb1m7qUmeR2b50u+YFEYe1wgzy" crossorigin="anonymous"></script> 
+	
+	<!-- jQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<!-- Cookie -->
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 
 	<script src="~/js/site.js" asp-append-version="true"></script>
 

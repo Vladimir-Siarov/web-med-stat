@@ -1,35 +1,37 @@
 ﻿@page
 @using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
 @model CompanyListModel
 
+@* @inject IViewLocalizer Localizer *@
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
 @{
-	ViewData["Title"] = "Компании";
+	ViewData["Title"] = CmpLocalizer["Company list"];
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 }
 
 @section PageHeader
 {
 	<nav aria-label="breadcrumb">
-		<breadcrumb parent-page="null" page-title="Компании"></breadcrumb>
+		<breadcrumb menu-item="NavHelper.EnMainMenuItem.Company" 
+		            page-title="@(CmpLocalizer["List"].Value)"></breadcrumb>
 	</nav>
-	
+
 	<div class="ms-pageheader-titlepanel">
-		<h1>Компании</h1>
+		<h1>@CmpLocalizer["Companies"]</h1>
 		<div>
 			<a asp-area="" asp-page="/Companies/Create" class="btn btn-success btn-sm">
 				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-					<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-				</svg>Создать компанию
+					<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+				</svg>@CmpLocalizer["Create company"]
 			</a>
 		</div>
 	</div>
 
-	
-		
-		
 
-		
-		
+
 	@* 	<div> *@
 	@* *@
 	@* 		<!-- Search form --> *@
@@ -37,17 +39,6 @@
 	@* 		<i class="fas fa-search" aria-hidden="true"></i> *@
 	@* 		<input class="form-control form-control-sm ml-3 mb-0" type="text" placeholder="company name" aria-label="Search"> *@
 	@* 	</div> *@
-	@* *@
-	@* </div> *@
-	
-		
-
-	@* <div class="pageHeader"> *@
-	@* *@
-	@* 	<h1>Компании</h1> *@
-	@* 	<hr /> *@
-	@* *@
-	@* 	 *@
 	@* *@
 	@* </div> *@
 }
@@ -81,7 +72,7 @@
 			@* 	<a asp-area="" asp-page="/Companies/Create" class="btn btn-link">Создать компанию</a> *@
 			@* </div> *@
 		</div>
-		
+
 		<div class="row">
 			<div class="col-sm-12">
 				<table id="dtBasicExample" class="table table-striped table-bordered table-sm dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="dtBasicExample_info" style="width: 100%;">
