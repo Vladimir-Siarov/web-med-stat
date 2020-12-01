@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bank requisites" xml:space="preserve">
+    <value>Банковские реквизиты</value>
+  </data>
   <data name="Companies" xml:space="preserve">
     <value>Компании</value>
   </data>
@@ -128,5 +131,14 @@
   </data>
   <data name="List" xml:space="preserve">
     <value>Список</value>
+  </data>
+  <data name="Main requisites" xml:space="preserve">
+    <value>Основные реквизиты</value>
+  </data>
+  <data name="New company" xml:space="preserve">
+    <value>Новая компания</value>
+  </data>
+  <data name="New company creation" xml:space="preserve">
+    <value>Создание новой компании</value>
   </data>
 </root>

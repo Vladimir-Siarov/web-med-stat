@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 
-$(document).ready(function() {
+$(function() {
 
 	// Site Nav panel
 	$('#sitenav_header_btnCollapse').click(function () {

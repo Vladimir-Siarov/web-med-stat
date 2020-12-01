@@ -1,4 +1,5 @@
-﻿@import './_variables.scss';
+﻿@import '../lib/bootstrap/scss/_variables.scss';
+@import './_variables.scss';
 
 @mixin shiftedcontent {
 	margin-left: $sitenav-aside-collapsed-width;
@@ -14,7 +15,8 @@
 .ms-footer {
 	@include shiftedcontent;
 	text-align: center;
-	padding-top: 1em;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 	color: #4a5073;
 
 	&:after{
@@ -43,11 +45,37 @@
 }
 
 
+.ms-pagenav-toppanel{
+	font-size:0.9rem;
+	margin-bottom: 1rem;
+}
+
 .ms-pagecontent {
 	border-color: #eaedf2 !important;
 	box-shadow: 0 2px 18px rgba(0,0,0,.02);
 	padding: 1.25rem 1.5rem;
 	background-color: #fff;
 	background-clip: border-box;
-	border-radius: .5rem;
+	border-radius: .5rem;	
 }
+
+
+/* ---- FORMs ---------- */
+/* standard large form */
+	.ms-form-container {
+		max-width: map-get($grid-breakpoints, "xl"); // 1200px
+		color: #4a5073;
+		font-size: 0.9em;
+
+		.ms-col {
+			margin-bottom: 1.8em;
+		}
+
+		.ms-form-indent-top {
+			margin-top: 1em;
+		}
+
+		.form-label{		
+			margin-top: 1em;			
+		}
+	}

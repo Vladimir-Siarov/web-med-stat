@@ -1,9 +1,16 @@
-﻿@import '../lib/bootstrap/scss/bootstrap-reboot';
+﻿/*$nav-tabs-link-active-bg: #262b40;
+$nav-tabs-link-active-border-color: #262b40;*/
+
+
+@import '../lib/bootstrap/scss/bootstrap-reboot';
 /*@import '../lib/bootstrap/scss/bootstrap-utilities';
 @import '../lib/bootstrap/scss/bootstrap-grid';*/
 
 @import '../lib/bootstrap/scss/_buttons';
 @import '../lib/bootstrap/scss/_dropdown';
+
+$nav-pills-link-active-bg: #343950; /*#262b40; - menu bg color*/
+@import '../lib/bootstrap/scss/_nav';
 
 @import "../lib/bootstrap/scss/forms/labels";
 @import "../lib/bootstrap/scss/forms/form-text";
@@ -14,6 +21,13 @@
 /*@import "forms/floating-labels";*/
 /*@import "forms/input-group";*/
 /*@import "forms/validation";*/
+
+/*@import "bootstrap-grid";*/
+
+/* some styles from 'bootstrap-utilities' */
+.text-danger {
+	color: #dc3545 !important;
+}
 
 /* override bootstrap styles*/
 .btn-light {

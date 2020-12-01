@@ -1,12 +1,14 @@
 ﻿@page
 @using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
 @using Microsoft.AspNetCore.Mvc.Localization
 @model CompanyCreateModel
 
-@inject IViewLocalizer Localizer
+@*@inject IViewLocalizer Localizer*@
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
 @{
-	ViewData["Title"] = Localizer["New company creation"];
+	ViewData["Title"] = CmpLocalizer["New company creation"];
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 }
 
@@ -14,58 +16,114 @@
 {
 	<nav aria-label="breadcrumb">
 		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Company"
-								page-title="@Localizer["New company"].Value"></breadcrumb>
+								page-title="@CmpLocalizer["New company"].Value"></breadcrumb>
 	</nav>
 
-	<h1 class="ms-pageheader-pagetitle">@Localizer["New company"]</h1>
+	<h1 class="ms-pageheader-pagetitle">@CmpLocalizer["New company"]</h1>
 }
+
+<nav class="ms-pagenav-toppanel" aria-label="Company menu">
+	<ul class="nav nav-pills">
+		<li class="nav-item">
+			<a class="nav-link active" id="profile" href="#">Реквизиты</a>
+		</li>
+		<li class="nav-item">
+			<span class="nav-link disabled">Контакты</span>
+		</li>
+		<li class="nav-item">
+			<span class="nav-link disabled">Аккаунты</span>
+		</li>
+		<li class="nav-item">
+			<span class="nav-link disabled">Трекинг</span>
+		</li>
+	</ul>
+</nav>
 
 <div class="ms-pagecontent">
 
-	<div class="row">
+	<form method="post" class="ms-form-container">
 
-		<div class="col-md-3">
-			<ul class="nav nav-pills flex-column">
-				<li class="nav-item">
-					<a class="nav-link active" id="profile" href="#">Реквизиты</a>
-				</li>
-				<li class="nav-item">
-					<span class="nav-link disabled">Контакты</span>
-				</li>
-				<li class="nav-item">
-					<span class="nav-link disabled">Аккаунты</span>
-				</li>
-				<li class="nav-item">
-					<span class="nav-link disabled">Трекинг</span>
-				</li>
-			</ul>
-
-		</div>
-
-
-		<div class="col-md-9">
-
-
-			<form method="post">
-
-				<h4>Основные реквизиты</h4>
+		<div class="ms-row-md">
+			<div class="ms-col">
+				<h4>@CmpLocalizer["Main requisites"]</h4>
 
 				<div>
 					<label asp-for="Company.MainRequisites.Name" class="form-label"></label>
 					<input asp-for="Company.MainRequisites.Name" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.Name" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.MainRequisites.FullName" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.FullName" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.FullName" class="text-danger"></span>
+				</div>
+
+				<div>
+					<label asp-for="Company.MainRequisites.LegalAddress" class="form-label"></label>
+					<textarea asp-for="Company.MainRequisites.LegalAddress" class="form-control"></textarea>
+					<span asp-validation-for="Company.MainRequisites.LegalAddress" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.MainRequisites.PostalAddress" class="form-label"></label>
+					<textarea asp-for="Company.MainRequisites.PostalAddress" class="form-control"></textarea>
+					<span asp-validation-for="Company.MainRequisites.PostalAddress" class="text-danger"></span>
+				</div>
+				
+				<div>
+					<label asp-for="Company.MainRequisites.OGRN" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.OGRN" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.OGRN" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.MainRequisites.OKPO" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.OKPO" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.OKPO" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.MainRequisites.OKATO" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.OKATO" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.OKATO" class="text-danger"></span>
 				</div>
 				<div>
 					<label asp-for="Company.MainRequisites.INN" class="form-label"></label>
 					<input asp-for="Company.MainRequisites.INN" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.INN" class="text-danger"></span>
 				</div>
+				<div>
+					<label asp-for="Company.MainRequisites.KPP" class="form-label"></label>
+					<input asp-for="Company.MainRequisites.KPP" class="form-control" />
+					<span asp-validation-for="Company.MainRequisites.KPP" class="text-danger"></span>
+				</div>
+			</div>
 
-				<button class="btn btn-primary" type="submit">Создать</button>
+			<div class="ms-col">
+				<h4>@CmpLocalizer["Bank requisites"]</h4>
 
-			</form>
-
-
+				<div>
+					<label asp-for="Company.BankRequisites.AccountNumber" class="form-label"></label>
+					<input asp-for="Company.BankRequisites.AccountNumber" class="form-control" />
+					<span asp-validation-for="Company.BankRequisites.AccountNumber" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.BankRequisites.BIC" class="form-label"></label>
+					<input asp-for="Company.BankRequisites.BIC" class="form-control" />
+					<span asp-validation-for="Company.BankRequisites.BIC" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.BankRequisites.CorrespondentAccount" class="form-label"></label>
+					<input asp-for="Company.BankRequisites.CorrespondentAccount" class="form-control" />
+					<span asp-validation-for="Company.BankRequisites.CorrespondentAccount" class="text-danger"></span>
+				</div>
+				<div>
+					<label asp-for="Company.BankRequisites.Bank" class="form-label"></label>
+					<input asp-for="Company.BankRequisites.Bank" class="form-control" />
+					<span asp-validation-for="Company.BankRequisites.Bank" class="text-danger"></span>
+				</div>
+			</div>
 		</div>
-	</div>
+
+		<button class="btn btn-primary" type="submit">Создать</button>
+
+	</form>
 
 </div>
-

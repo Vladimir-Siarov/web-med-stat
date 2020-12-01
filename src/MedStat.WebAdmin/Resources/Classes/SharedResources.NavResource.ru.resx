@@ -123,4 +123,10 @@
   <data name="Home" xml:space="preserve">
     <value>Главная</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Выход</value>
+  </data>
 </root>

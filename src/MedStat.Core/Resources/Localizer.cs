@@ -7,7 +7,13 @@ namespace MedStat.Core.Resources
 {
 	public static class Localizer
 	{
+		public struct DataAnnotations
+		{
+			public const string RequiredErrorMessage = "The \"{0}\" field is required.";
+		}
+
 		public static readonly string CoreAssemblyName = typeof(Company).GetTypeInfo().Assembly.FullName;
+
 		
 		private static readonly Type CompanyType = typeof(Company);
 		private static readonly Type CompanyMainRequisitesType = typeof(CompanyMainRequisites);

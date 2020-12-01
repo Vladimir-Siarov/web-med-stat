@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Short Name" xml:space="preserve">
-    <value>Сокращенное наименование</value>
+  <data name="&lt;strong&gt;&quot;MedStat&quot;&lt;/strong&gt; system control panel" xml:space="preserve">
+    <value>Панель управления системы &lt;strong&gt;"МедСтат"&lt;/strong&gt;</value>
+  </data>
+  <data name="Enter to system" xml:space="preserve">
+    <value>Вход в систему</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Начальная</value>
+  </data>
+  <data name="Home page" xml:space="preserve">
+    <value>Начальная страница</value>
   </data>
 </root>

@@ -27,5 +27,34 @@ namespace MedStat.WebAdmin.Pages.Companies
 		{
 
 		}
-	}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				return Page();
+			}
+
+			//_context.Attach(Movie).State = EntityState.Modified;
+
+			//try
+			//{
+			//	await _context.SaveChangesAsync();
+			//}
+			//catch (DbUpdateConcurrencyException)
+			//{
+			//	if (!MovieExists(Movie.ID))
+			//	{
+			//		return NotFound();
+			//	}
+			//	else
+			//	{
+			//		throw;
+			//	}
+			//}
+
+			return RedirectToPage("./Index");
+		}
+
+  }
 }
