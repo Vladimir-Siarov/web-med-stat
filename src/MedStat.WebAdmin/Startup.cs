@@ -1,22 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
+using MedStat.WebAdmin.Classes.Configuration;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace MedStat.WebAdmin
 {
@@ -34,7 +27,6 @@ namespace MedStat.WebAdmin
 		{
 			//services.AddDatabaseDeveloperPageExceptionFilter();
 
-			//services.AddDbContext<MedStatDbContext>();
 			services.AddScoped(sp => 
 			{
 				string connectionString = this.Configuration.GetConnectionString("MedStatConnectionString");
@@ -46,43 +38,19 @@ namespace MedStat.WebAdmin
 				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddEntityFrameworkStores<MedStatDbContext>();
 
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddCoreRepositories(); // custom method: add repositories from "Core" project
+
 			services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 			services
 				.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Companies"); })
 				//.AddRazorRuntimeCompilation();
-				.AddDataAnnotationsLocalization(options =>
-				{
-					options.DataAnnotationLocalizerProvider = (type, factory) =>
-					{
-						// check is "type" from the "MedStat.Core"
-						var stringLocalizer = Core.Resources.Localizer.GetDataAnnotationLocalizer(type, factory);
-						if (stringLocalizer == null)
-						{
-							// create default Localizer for Web project
-							stringLocalizer = factory.Create(type);
-						}
-
-						return stringLocalizer;
-					};
-				})
+				.AddCoreDataAnnotationsLocalization() // custom method: add DA localization for "Core" BEs
 				.AddViewLocalization();
 
-			services.Configure<RequestLocalizationOptions>(options =>
-			{
-				var supportedCultures = new []
-				{
-					new CultureInfo("en-US"),
-					new CultureInfo("en-GB"),
-					new CultureInfo("en"),
-					new CultureInfo("ru-RU")
-				};
+			services.ConfigureRequestLocalization(); // custom method: setup Web App localization
 
-				options.DefaultRequestCulture = new RequestCulture("ru-RU");
-				options.SupportedCultures = supportedCultures;
-				options.SupportedUICultures = supportedCultures;
-			});
-			
 			// Setup data protection for Web farm: 
 			// (and prevent "The antiforgery token could not be decrypted" error)
 			// https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-2.1#data-protection-2

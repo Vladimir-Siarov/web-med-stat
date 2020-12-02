@@ -37,7 +37,7 @@ namespace MedStat.Core.DAL
 		public MedStatDbContext(string connectionString) 
 		{
 			this.ConnectionString = connectionString;
-			Console.WriteLine("MedStatDbContext ctr");
+			Console.WriteLine("MedStatDbContext ctr call"); // TODO: For dev only
 		}
 
 

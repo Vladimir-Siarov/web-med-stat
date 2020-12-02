@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using MedStat.Core.BE.Company;
 using Microsoft.Extensions.Localization;
@@ -11,24 +12,38 @@ namespace MedStat.Core.Resources
 		{
 			public const string RequiredErrorMessage = "The \"{0}\" field is required.";
 		}
-
-		public static readonly string CoreAssemblyName = typeof(Company).GetTypeInfo().Assembly.FullName;
-
 		
-		private static readonly Type CompanyType = typeof(Company);
-		private static readonly Type CompanyMainRequisitesType = typeof(CompanyMainRequisites);
-		private static readonly Type CompanyBankRequisitesType = typeof(CompanyBankRequisites);
+
+		private static IStringLocalizer _companyLocalizer;
+		private static readonly Func<IStringLocalizerFactory, IStringLocalizer> GetCompanyLocalizer
+			= (factory) =>
+			{
+				if (_companyLocalizer == null)
+				{
+					_companyLocalizer = factory.Create("BE.Company",
+						typeof(Company).GetTypeInfo().Assembly.FullName);
+				}
+
+				return _companyLocalizer;
+			};
+
+		private static Dictionary<string, Func<IStringLocalizerFactory, IStringLocalizer>> _localizerDictionary
+			= new Dictionary<string, Func<IStringLocalizerFactory, IStringLocalizer>>
+			{
+				{ typeof(Company).FullName, GetCompanyLocalizer },
+				{ typeof(CompanyMainRequisites).FullName, GetCompanyLocalizer },
+				{ typeof(CompanyBankRequisites).FullName, GetCompanyLocalizer },
+			};
 
 
 		public static Func<Type, IStringLocalizerFactory, IStringLocalizer> GetDataAnnotationLocalizer
 		 = (type, factory) =>
 		 {
-			 if (type == CompanyType
-					 || type == CompanyMainRequisitesType
-					 || type == CompanyBankRequisitesType)
+			 string typeName = type.FullName;
+
+			 if (_localizerDictionary.ContainsKey(typeName))
 			 {
-				 //var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
-				 return factory.Create("BE.Company", CoreAssemblyName);
+				 return _localizerDictionary[typeName](factory);
 			 }
 
 			 return null;
