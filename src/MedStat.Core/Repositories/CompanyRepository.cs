@@ -40,7 +40,7 @@ namespace MedStat.Core.Repositories
 				this.DbContext.Companies.Add(newCompany);
 				await this.DbContext.SaveChangesAsync();
 
-				this.Logger.LogInformation("Company \"{0}\" ({1}) was created successful by {2}",
+				this.Logger.LogInformation("Company \"{0}\" ({1}) was created successfully by {2}",
 					newCompany.MainRequisites.Name, newCompany.Id, this.UserUid);
 
 				return newCompany.Id;

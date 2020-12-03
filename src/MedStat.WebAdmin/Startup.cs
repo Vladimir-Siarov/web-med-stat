@@ -10,6 +10,7 @@ using MedStat.Core.Identity;
 using MedStat.WebAdmin.Classes.Configuration;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 
 namespace MedStat.WebAdmin
 {
@@ -36,6 +37,7 @@ namespace MedStat.WebAdmin
 
 			services
 				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
+				.AddRoles<IdentityRole<Int32>>()
 				.AddEntityFrameworkStores<MedStatDbContext>();
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

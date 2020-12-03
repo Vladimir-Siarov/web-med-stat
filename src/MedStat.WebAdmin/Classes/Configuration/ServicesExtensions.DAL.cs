@@ -16,14 +16,19 @@ namespace MedStat.WebAdmin.Classes.Configuration
 		/// </summary>
 		/// <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> to add the service to.</param>
 		/// <returns>A reference to this instance after the operation has completed.</returns>
-		public static IServiceCollection AddCoreRepositories(this IServiceCollection services) 
+		public static IServiceCollection AddCoreRepositories(this IServiceCollection services)
 		{
-			return 
-				services.AddScoped(sp => new CompanyRepository(
-				sp.GetRequiredService<MedStatDbContext>(),
-				sp.GetRequiredService<ILogger<CompanyRepository>>(),
-				sp.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Identity.Name
-			));
+			return
+				services
+					.AddScoped(sp => new SecurityRepository(
+						sp.GetRequiredService<MedStatDbContext>(),
+						sp.GetRequiredService<ILogger<SecurityRepository>>()
+					))
+					.AddScoped(sp => new CompanyRepository(
+						sp.GetRequiredService<MedStatDbContext>(),
+						sp.GetRequiredService<ILogger<CompanyRepository>>(),
+						sp.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Identity.Name
+					));
 		}
 	}
 }
