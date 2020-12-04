@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+
 using MedStat.Core.BE.Company;
 using MedStat.Core.Repositories;
-using MedStat.WebAdmin.Classes;
+using MedStat.WebAdmin.Classes.SharedResources;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
@@ -15,16 +15,20 @@ namespace MedStat.WebAdmin.Pages.Companies
 	{
 		private readonly ILogger<CompanyCreateModel> _logger;
 		private readonly CompanyRepository _cmpRepository;
+		private readonly IStringLocalizer<CompanyResource> _cmpLocalizer;
+
 
 		[BindProperty]
 		public Company Company { get; set; }
 
 
 		public CompanyCreateModel(ILogger<CompanyCreateModel> logger,
-			CompanyRepository cmpRepository)
+			CompanyRepository cmpRepository,
+			IStringLocalizer<CompanyResource> cmpLocalizer)
 		{
 			_logger = logger;
 			_cmpRepository = cmpRepository;
+			_cmpLocalizer = cmpLocalizer;
 		}
 
 		public void OnGet()
@@ -34,34 +38,21 @@ namespace MedStat.WebAdmin.Pages.Companies
 
 		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
-				return Page();
+				try
+				{
+					int cmpId = await _cmpRepository.CreateCompanyAsync(this.Company.Name, this.Company.Description);
+
+					return RedirectToPage("./Edit", new { id = cmpId, isCreated = true });
+				}
+				catch (Exception ex)
+				{
+					ViewData["error_message"] = string.Format(_cmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
+				}
 			}
 
-			int cmpId = await _cmpRepository.CreateCompanyAsync(this.Company.MainRequisites, 
-				this.Company.BankRequisites);
-
-			//_context.Attach(Movie).State = EntityState.Modified;
-
-			//try
-			//{
-			//	await _context.SaveChangesAsync();
-			//}
-			//catch (DbUpdateConcurrencyException)
-			//{
-			//	if (!MovieExists(Movie.ID))
-			//	{
-			//		return NotFound();
-			//	}
-			//	else
-			//	{
-			//		throw;
-			//	}
-			//}
-
-			return RedirectToPage("./Index");
+			return Page();
 		}
-
   }
 }

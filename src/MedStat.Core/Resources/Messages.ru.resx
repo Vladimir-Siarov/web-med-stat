@@ -117,52 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Acc." xml:space="preserve">
-    <value>Р/С</value>
-  </data>
-  <data name="Bank" xml:space="preserve">
-    <value>Банк</value>
-  </data>
-  <data name="BIC" xml:space="preserve">
-    <value>БИК</value>
-  </data>
-  <data name="Corr. acc." xml:space="preserve">
-    <value>К/С</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Описание</value>
-  </data>
-  <data name="Full Name" xml:space="preserve">
-    <value>Полное наименование</value>
-  </data>
-  <data name="INN" xml:space="preserve">
-    <value>ИНН</value>
-  </data>
-  <data name="KPP" xml:space="preserve">
-    <value>КПП</value>
-  </data>
-  <data name="Legal Address" xml:space="preserve">
-    <value>Юридический адрес</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Название</value>
-  </data>
-  <data name="OGRN" xml:space="preserve">
-    <value>ОГРН</value>
-  </data>
-  <data name="OKATO" xml:space="preserve">
-    <value>ОКАТО</value>
-  </data>
-  <data name="OKPO" xml:space="preserve">
-    <value>ОКПО</value>
-  </data>
-  <data name="Postal Address" xml:space="preserve">
-    <value>Почтовый адрес</value>
-  </data>
-  <data name="Short Name" xml:space="preserve">
-    <value>Сокращенное наименование</value>
-  </data>
-  <data name="The &quot;{0}&quot; field is required." xml:space="preserve">
-    <value>Поле "{0}" является обязательным</value>
+  <data name="Company with ID = {0} is not found" xml:space="preserve">
+    <value>Компания с ID = {0} не найдена</value>
   </data>
 </root>

@@ -1,0 +1,63 @@
+﻿@using MedStat.WebAdmin.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model MedStat.WebAdmin.Models.CompanyPageNavModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+
+<nav class="ms-pagenav-toppanel" aria-label="Company menu">
+	<ul class="nav nav-pills">
+
+		@if (Model.CompanyId.HasValue)
+		{
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Main ? "active" : null)"
+				   asp-page="./Edit"
+				   asp-route-id="@Model.CompanyId"
+				   asp-route-section="@EnCompanySection.Main">@CmpLocalizer["Main"]</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Requisites ? "active" : null)"
+				   asp-page="./Edit"
+				   asp-route-id="@Model.CompanyId"
+				   asp-route-section="@EnCompanySection.Requisites">@CmpLocalizer["Requisites"]</a>
+			</li>
+					@*<li class="nav-item">
+							<span class="nav-link disabled">Контакты</span>
+						</li>*@
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Accounts ? "active" : null)"
+				   asp-page="./Edit"
+				   asp-route-id="@Model.CompanyId"
+				   asp-route-section="@EnCompanySection.Accounts">@CmpLocalizer["Accounts"]</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Trekking ? "active" : null)"
+				   asp-page="./Edit"
+				   asp-route-id="@Model.CompanyId"
+				   asp-route-section="@EnCompanySection.Trekking">@CmpLocalizer["Trekking"]</a>
+			</li>
+		}
+		else
+		{
+			<li class="nav-item">
+				<a class="nav-link active" href="#">@CmpLocalizer["Main"]</a>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">@CmpLocalizer["Requisites"]</span>
+			</li>
+							@*<li class="nav-item">
+									<span class="nav-link disabled">Контакты</span>
+								</li>*@
+			<li class="nav-item">
+				<span class="nav-link disabled">@CmpLocalizer["Accounts"]</span>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">@CmpLocalizer["Trekking"]</span>
+			</li>
+		}
+
+	</ul>
+</nav>

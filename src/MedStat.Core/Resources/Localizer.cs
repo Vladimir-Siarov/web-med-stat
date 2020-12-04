@@ -39,7 +39,7 @@ namespace MedStat.Core.Resources
 		public static Func<Type, IStringLocalizerFactory, IStringLocalizer> GetDataAnnotationLocalizer
 		 = (type, factory) =>
 		 {
-			 string typeName = type.FullName;
+			 string typeName = type.FullName ?? type.Name;
 
 			 if (_localizerDictionary.ContainsKey(typeName))
 			 {

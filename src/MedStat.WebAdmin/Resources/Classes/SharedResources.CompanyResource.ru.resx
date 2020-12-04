@@ -117,20 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accounts" xml:space="preserve">
+    <value>Аккаунты</value>
+  </data>
   <data name="Bank requisites" xml:space="preserve">
     <value>Банковские реквизиты</value>
   </data>
   <data name="Companies" xml:space="preserve">
     <value>Компании</value>
   </data>
+  <data name="Company &quot;{0}&quot; was created successfully" xml:space="preserve">
+    <value>Компания "{0}" была успешно создана</value>
+  </data>
+  <data name="Company data were updated" xml:space="preserve">
+    <value>Данные компании были обновлены</value>
+  </data>
   <data name="Company list" xml:space="preserve">
     <value>Список компаний</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
   </data>
   <data name="Create company" xml:space="preserve">
     <value>Создать компанию</value>
   </data>
+  <data name="Error has occurred: {0}" xml:space="preserve">
+    <value>Произошла ошибка: {0}</value>
+  </data>
   <data name="List" xml:space="preserve">
     <value>Список</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>Основное</value>
   </data>
   <data name="Main requisites" xml:space="preserve">
     <value>Основные реквизиты</value>
@@ -140,5 +158,14 @@
   </data>
   <data name="New company creation" xml:space="preserve">
     <value>Создание новой компании</value>
+  </data>
+  <data name="Requisites" xml:space="preserve">
+    <value>Реквизиты</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Trekking" xml:space="preserve">
+    <value>Трекинг</value>
   </data>
 </root>

@@ -9,7 +9,7 @@ $nav-tabs-link-active-border-color: #262b40;*/
 @import '../lib/bootstrap/scss/_buttons';
 @import '../lib/bootstrap/scss/_dropdown';
 
-$nav-pills-link-active-bg: #343950; /*#262b40; - menu bg color*/
+$nav-pills-link-active-bg: #3c425d; /*#262b40; - menu bg color*/
 @import '../lib/bootstrap/scss/_nav';
 
 @import "../lib/bootstrap/scss/forms/labels";
@@ -28,6 +28,8 @@ $nav-pills-link-active-bg: #343950; /*#262b40; - menu bg color*/
 .text-danger {
 	color: #dc3545 !important;
 }
+
+@import "../lib/bootstrap/scss/alert";
 
 /* override bootstrap styles*/
 .btn-light {

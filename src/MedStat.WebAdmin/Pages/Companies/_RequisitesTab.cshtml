@@ -1,0 +1,88 @@
+﻿@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MedStat.Core.BE.Company.Company
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@*<h4>@CmpLocalizer["Requisites"]</h4>*@
+
+<div class="ms-row-md">
+
+	<div class="ms-col">
+		<h4>@CmpLocalizer["Main requisites"]</h4>
+
+		<div>
+			<label asp-for="MainRequisites.Name" class="form-label"></label>
+			<input asp-for="MainRequisites.Name" class="form-control"/>
+			<span asp-validation-for="MainRequisites.Name" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="MainRequisites.FullName" class="form-label"></label>
+			<input asp-for="MainRequisites.FullName" class="form-control"/>
+			<span asp-validation-for="MainRequisites.FullName" class="text-danger"></span>
+		</div>
+
+		<div>
+			<label asp-for="MainRequisites.LegalAddress" class="form-label"></label>
+			<textarea asp-for="MainRequisites.LegalAddress" class="form-control"></textarea>
+			<span asp-validation-for="MainRequisites.LegalAddress" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="MainRequisites.PostalAddress" class="form-label"></label>
+			<textarea asp-for="MainRequisites.PostalAddress" class="form-control"></textarea>
+			<span asp-validation-for="MainRequisites.PostalAddress" class="text-danger"></span>
+		</div>
+
+		<div>
+			<label asp-for="MainRequisites.OGRN" class="form-label"></label>
+			<input asp-for="MainRequisites.OGRN" class="form-control"/>
+			<span asp-validation-for="MainRequisites.OGRN" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="MainRequisites.OKPO" class="form-label"></label>
+			<input asp-for="MainRequisites.OKPO" class="form-control"/>
+			<span asp-validation-for="MainRequisites.OKPO" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="MainRequisites.OKATO" class="form-label"></label>
+			<input asp-for="MainRequisites.OKATO" class="form-control"/>
+			<span asp-validation-for="MainRequisites.OKATO" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="MainRequisites.INN" class="form-label"></label>
+			<input asp-for="MainRequisites.INN" class="form-control"/>
+			<span asp-validation-for="MainRequisites.INN" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="MainRequisites.KPP" class="form-label"></label>
+			<input asp-for="MainRequisites.KPP" class="form-control"/>
+			<span asp-validation-for="MainRequisites.KPP" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="ms-col">
+		<h4>@CmpLocalizer["Bank requisites"]</h4>
+
+		<div>
+			<label asp-for="BankRequisites.AccountNumber" class="form-label"></label>
+			<input asp-for="BankRequisites.AccountNumber" class="form-control"/>
+			<span asp-validation-for="BankRequisites.AccountNumber" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="BankRequisites.BIC" class="form-label"></label>
+			<input asp-for="BankRequisites.BIC" class="form-control"/>
+			<span asp-validation-for="BankRequisites.BIC" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="BankRequisites.CorrespondentAccount" class="form-label"></label>
+			<input asp-for="BankRequisites.CorrespondentAccount" class="form-control"/>
+			<span asp-validation-for="BankRequisites.CorrespondentAccount" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="BankRequisites.Bank" class="form-label"></label>
+			<input asp-for="BankRequisites.Bank" class="form-control"/>
+			<span asp-validation-for="BankRequisites.Bank" class="text-danger"></span>
+		</div>
+	</div>
+
+</div>

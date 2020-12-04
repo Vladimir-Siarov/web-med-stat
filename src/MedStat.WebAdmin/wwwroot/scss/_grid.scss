@@ -24,6 +24,10 @@
 	flex: 1 0 0%;
 }
 
+.ms-col-md-1 {
+	max-width: map-get($container-max-widths, "md"); // 720px
+}
+
 
 $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 @media only screen and (max-width: $md-grid-breakpoint) {
