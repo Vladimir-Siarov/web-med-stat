@@ -9,6 +9,8 @@ body {
 	background-color: #f5f8fb;
 }
 
+@import './variables';
+
 @import './_sitenav';
 @import './_pagecontent';
 @import './_breadcrumb';

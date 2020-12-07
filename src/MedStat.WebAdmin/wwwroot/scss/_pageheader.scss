@@ -1,5 +1,5 @@
 ﻿@import '../lib/bootstrap/scss/_variables.scss';
-@import './_variables.scss';
+/*@import './_variables.scss';*/
 
 
 @mixin ms-pagetitle {
@@ -43,6 +43,7 @@ $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 	.ms-pageheader-titlepanel {
 		flex-direction: column;
 		justify-content: start;
+		justify-content: flex-start;
 		align-items: normal;
 	}
 }

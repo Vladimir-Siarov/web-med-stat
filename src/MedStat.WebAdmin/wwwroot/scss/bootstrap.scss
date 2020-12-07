@@ -30,6 +30,8 @@ $nav-pills-link-active-bg: #3c425d; /*#262b40; - menu bg color*/
 }
 
 @import "../lib/bootstrap/scss/alert";
+@import "../lib/bootstrap/scss/tables";
+@import "../lib/bootstrap/scss/pagination";
 
 /* override bootstrap styles*/
 .btn-light {
