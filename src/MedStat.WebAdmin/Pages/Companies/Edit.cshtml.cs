@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Localization;
@@ -14,13 +13,8 @@ using MedStat.WebAdmin.Models;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
-	public class CompanyEditModel : PageModel
+	public class CompanyEditModel : CompanyBasePageModel
 	{
-		private readonly ILogger<CompanyCreateModel> _logger;
-		private readonly CompanyRepository _cmpRepository;
-		private readonly IStringLocalizer<CompanyResource> _cmpLocalizer;
-
-
 		[BindProperty]
 		public Company Company { get; set; }
 
@@ -31,10 +25,8 @@ namespace MedStat.WebAdmin.Pages.Companies
 		public CompanyEditModel(ILogger<CompanyCreateModel> logger,
 			CompanyRepository cmpRepository, 
 			IStringLocalizer<CompanyResource> cmpLocalizer)
+			: base(logger, cmpRepository, cmpLocalizer)
 		{
-			_logger = logger;
-			_cmpRepository = cmpRepository;
-			_cmpLocalizer = cmpLocalizer;
 		}
 
 
@@ -43,11 +35,11 @@ namespace MedStat.WebAdmin.Pages.Companies
 			switch (this.Section)
 			{
 				case EnCompanySection.Main:
-					this.Company = await _cmpRepository.GetCompanyMainData(id);
+					this.Company = await this.CmpRepository.GetCompanyMainData(id);
 					break;
 
 				case EnCompanySection.Requisites:
-					this.Company = await _cmpRepository.GetCompanyRequisitesAsync(id);
+					this.Company = await this.CmpRepository.GetCompanyRequisitesAsync(id);
 					break;
 
 				default:
@@ -62,7 +54,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 			if (isCreated == true)
 			{
 				ViewData["success_message"] = string.Format(
-					_cmpLocalizer["Company \"{0}\" was created successfully"].Value,
+					this.CmpLocalizer["Company \"{0}\" was created successfully"].Value,
 					this.Company.Name);
 			}
 
@@ -80,13 +72,13 @@ namespace MedStat.WebAdmin.Pages.Companies
 					switch (this.Section)
 					{
 						case EnCompanySection.Main:
-							await _cmpRepository.UpdateCompanyMainDataAsync(this.Company.Id,
+							await this.CmpRepository.UpdateCompanyMainDataAsync(this.Company.Id,
 								this.Company.Name, this.Company.Description);
 							break;
 
 						case EnCompanySection.Requisites:
 						{
-							await _cmpRepository.UpdateCompanyRequisitesAsync(this.Company.Id,
+							await this.CmpRepository.UpdateCompanyRequisitesAsync(this.Company.Id,
 								this.Company.MainRequisites, this.Company.BankRequisites);
 						}
 							break;
@@ -95,11 +87,11 @@ namespace MedStat.WebAdmin.Pages.Companies
 							throw new NotSupportedException();
 					}
 
-					ViewData["success_message"] = _cmpLocalizer["Company data were updated"];
+					ViewData["success_message"] = this.CmpLocalizer["Company data were updated"];
 				}
 				catch (Exception ex)
 				{
-					ViewData["error_message"] = string.Format(_cmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
+					ViewData["error_message"] = string.Format(this.CmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
 				}
 			}
 

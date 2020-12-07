@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 using System;
@@ -8,16 +7,12 @@ using System.Threading.Tasks;
 using MedStat.Core.BE.Company;
 using MedStat.Core.Repositories;
 using MedStat.WebAdmin.Classes.SharedResources;
+using MedStat.WebAdmin.Models;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
-	public class CompanyCreateModel : PageModel
+	public class CompanyCreateModel : CompanyBasePageModel
 	{
-		private readonly ILogger<CompanyCreateModel> _logger;
-		private readonly CompanyRepository _cmpRepository;
-		private readonly IStringLocalizer<CompanyResource> _cmpLocalizer;
-
-
 		[BindProperty]
 		public Company Company { get; set; }
 
@@ -25,15 +20,12 @@ namespace MedStat.WebAdmin.Pages.Companies
 		public CompanyCreateModel(ILogger<CompanyCreateModel> logger,
 			CompanyRepository cmpRepository,
 			IStringLocalizer<CompanyResource> cmpLocalizer)
+			: base(logger, cmpRepository, cmpLocalizer)
 		{
-			_logger = logger;
-			_cmpRepository = cmpRepository;
-			_cmpLocalizer = cmpLocalizer;
 		}
 
 		public void OnGet()
 		{
-
 		}
 
 		public async Task<IActionResult> OnPostAsync()
@@ -42,13 +34,13 @@ namespace MedStat.WebAdmin.Pages.Companies
 			{
 				try
 				{
-					int cmpId = await _cmpRepository.CreateCompanyAsync(this.Company.Name, this.Company.Description);
+					int cmpId = await this.CmpRepository.CreateCompanyAsync(this.Company.Name, this.Company.Description);
 
 					return RedirectToPage("./Edit", new { id = cmpId, isCreated = true });
 				}
 				catch (Exception ex)
 				{
-					ViewData["error_message"] = string.Format(_cmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
+					ViewData["error_message"] = string.Format(this.CmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
 				}
 			}
 

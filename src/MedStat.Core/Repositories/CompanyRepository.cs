@@ -23,6 +23,21 @@ namespace MedStat.Core.Repositories
 
 		#region Get
 
+		public async Task<IEnumerable<Company>> GetCompaniesAsync(string name)
+		{
+			var q = this.DbContext.Companies.Select(c => c);
+
+			if (!string.IsNullOrEmpty(name))
+			{
+				q = q.Where(c => c.Name.Contains(name));
+			}
+
+			var companies = await q.AsNoTracking().ToArrayAsync();
+
+			return companies;
+		}
+
+
 		public async Task<Company> GetCompanyMainData(int companyId)
 		{
 			var cmpData = await this.DbContext.Companies

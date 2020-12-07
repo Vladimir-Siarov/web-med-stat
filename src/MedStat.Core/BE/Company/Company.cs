@@ -18,6 +18,8 @@ namespace MedStat.Core.BE.Company
 		[Display(Name = "Description")] // "Описание"
 		public string Description { get; set; }
 
+		// TODO: Created, Updated
+
 
 		/* Requisites: */
 

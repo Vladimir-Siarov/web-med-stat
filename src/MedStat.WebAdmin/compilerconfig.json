@@ -1,10 +1,12 @@
 ﻿[
   {
     "outputFile": "wwwroot/css/ms.css",
-    "inputFile": "wwwroot/scss/ms.scss"
+    "inputFile": "wwwroot/scss/ms.scss",
+    "sourceMap": true
   },
   {
     "outputFile": "wwwroot/css/bootstrap.css",
-    "inputFile": "wwwroot/scss/bootstrap.scss"
+    "inputFile": "wwwroot/scss/bootstrap.scss",
+    "sourceMap": true
   }
 ]
