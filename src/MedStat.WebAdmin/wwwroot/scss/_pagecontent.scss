@@ -45,9 +45,24 @@
 }
 
 
-.ms-pagenav-toppanel{
-	font-size:0.9rem;
+.ms-pagenav-toppanel {
+	font-size: 0.9rem;
 	margin-bottom: .5rem;
+
+	.nav-item{
+		margin-right: 5px;
+	}
+
+	.nav-link:not(.disabled):not(.active) {
+		color: $body-color;
+
+		&:hover,
+		&:focus {
+			/* $nav-link-hover-color is null by default */
+			/*color: $link-hover-color;*/
+			background-color: $gray-200;
+		}
+	}
 }
 
 .ms-pagecontent {
@@ -62,16 +77,16 @@
 
 /* ---- FORMs ---------- */
 /* standard large form */
-	.ms-form-container {
-		max-width: map-get($grid-breakpoints, "xl"); // 1200px
-		color: #4a5073;
-		font-size: 0.9em;
+.ms-form-container {
+	max-width: map-get($grid-breakpoints, "xl"); // 1200px
+	/*color: #4a5073;*/
+	font-size: 0.9em;
 
-		.ms-col {
-			margin-bottom: 1.8em;
-		}
-
-		.form-label{		
-			margin-top: 1em;			
-		}
+	*[class*="col-"] {
+		margin-bottom: 1.8em;
 	}
+
+	.form-label {
+		margin-top: 1em;
+	}
+}

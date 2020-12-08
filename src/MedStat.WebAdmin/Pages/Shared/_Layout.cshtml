@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MedStat.WebAdmin.Classes
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -7,6 +8,11 @@
 
 	<!-- Bootstrap and site CSS -->
 	<link rel="stylesheet" href="~/css/bootstrap.css" />
+	@if (ViewData.IsDataTablePage())
+	{
+		<!--DataTables.net-->
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap5.min.css">
+	}
 	<link rel="stylesheet" href="~/css/ms.css" />
 </head>
 <body>
@@ -30,6 +36,13 @@
 	<script defer type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 	<script defer src="~/js/site.js" asp-append-version="true"></script>
+
+	@if (ViewData.IsDataTablePage())
+	{
+		<!-- DataTables.net -->
+		<script defer src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+		<script defer src="//cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+	}
 
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

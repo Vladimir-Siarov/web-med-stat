@@ -1,15 +1,16 @@
-﻿/*$nav-tabs-link-active-bg: #262b40;
-$nav-tabs-link-active-border-color: #262b40;*/
+﻿$ms-component-active-bg2: #3c425d; /*#262b40; - menu bg color*/
 
-
+$body-color: #262b40;
+$component-active-bg: $ms-component-active-bg2;
 @import '../lib/bootstrap/scss/bootstrap-reboot';
+
 /*@import '../lib/bootstrap/scss/bootstrap-utilities';
 @import '../lib/bootstrap/scss/bootstrap-grid';*/
 
 @import '../lib/bootstrap/scss/_buttons';
 @import '../lib/bootstrap/scss/_dropdown';
 
-$nav-pills-link-active-bg: #3c425d; /*#262b40; - menu bg color*/
+/*$nav-pills-link-active-bg: $ms-component-active-bg2;*/
 @import '../lib/bootstrap/scss/_nav';
 
 @import "../lib/bootstrap/scss/forms/labels";
@@ -22,7 +23,7 @@ $nav-pills-link-active-bg: #3c425d; /*#262b40; - menu bg color*/
 /*@import "forms/input-group";*/
 /*@import "forms/validation";*/
 
-/*@import "bootstrap-grid";*/
+@import "./bootstrap-grid-light";
 
 /* some styles from 'bootstrap-utilities' */
 .text-danger {
@@ -31,6 +32,11 @@ $nav-pills-link-active-bg: #3c425d; /*#262b40; - menu bg color*/
 
 @import "../lib/bootstrap/scss/alert";
 @import "../lib/bootstrap/scss/tables";
+
+$pagination-color: $body-color;
+$pagination-hover-color: $body-color;
+/*$pagination-active-bg: $ms-component-active-bg2;
+$pagination-active-border-color: $ms-component-active-bg2;*/
 @import "../lib/bootstrap/scss/pagination";
 
 /* override bootstrap styles*/

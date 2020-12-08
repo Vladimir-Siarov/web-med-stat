@@ -147,6 +147,9 @@
   <data name="List" xml:space="preserve">
     <value>Список</value>
   </data>
+  <data name="List of companies" xml:space="preserve">
+    <value>Список компаний</value>
+  </data>
   <data name="Main" xml:space="preserve">
     <value>Основное</value>
   </data>

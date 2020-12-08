@@ -1,0 +1,46 @@
+@import '../lib/bootstrap/scss/_functions.scss';
+@import '../lib/bootstrap/scss/_variables.scss';
+
+@import "../lib/bootstrap/scss/mixins/_grid.scss";
+
+
+.row {
+	@include make-row();
+
+	> * {
+		@include make-col-ready();
+	}
+}
+
+$sm-grid-breakpoint: map-get($grid-breakpoints, "sm"); // 576px
+@media only screen and (min-width: $sm-grid-breakpoint) {
+	.col-sm-12 {
+		flex: 0 0 auto;
+		width: 100%;
+	}
+}
+
+$md-grid-breakpoint: map-get($grid-breakpoints, "md"); // 768px
+@media only screen and (min-width: $md-grid-breakpoint) {
+	.col-md-5 {
+		flex: 0 0 auto;
+		width: 41.66667%;
+	}
+	.col-md-6 {
+		flex: 0 0 auto;
+		width: 50%;
+	}
+	.col-md-7 {
+		flex: 0 0 auto;
+		width: 58.33333%;
+	}
+}
+
+
+/* Custom behavior */
+$lg-grid-breakpoint: map-get($grid-breakpoints, "lg"); // 960px
+@media only screen and (min-width: $lg-grid-breakpoint) {
+	.row {
+		--bs-gutter-x: 3rem;
+	}
+}

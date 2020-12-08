@@ -2,21 +2,19 @@
 @using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
 @using Microsoft.AspNetCore.Mvc.Localization
+
 @model CompanyListModel
-@* @inject IViewLocalizer Localizer *@
+
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
 @{
 	ViewData["Title"] = CmpLocalizer["Company list"];
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
+	ViewData.SetDataTablePageFlag();
 }
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap5.min.css">
 
 @section Scripts
 {
-	<script defer src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-	<script defer src="//cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
 	<script defer src="@(Url.Content("~/js/pages/companyListPage.js"))"></script>
 }
 
@@ -41,9 +39,10 @@
 
 <div class="ms-pagecontent">
 	
-	<table id="tblCompanies" 
-	       class="table table-hover" style="width:100%"
+	<table id="tblCompanies"
+				 class="table table-hover" style="width: 100%"
 				 data-ajax="@(Url.PageLink("Index", "CompanyList"))">
+		<caption>@CmpLocalizer["List of companies"]</caption>
 		<thead>
 			<tr>
 				<th>Id</th>
