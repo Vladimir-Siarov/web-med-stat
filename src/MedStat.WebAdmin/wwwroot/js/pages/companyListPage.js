@@ -9,9 +9,11 @@
 		//"ajax": "@(Url.PageLink("Index", "OnGetCompanyListAsync"))",
 
 		columns: [
-			{ "data": "id" },
-			{ "data": "name" },
-			{ "data": "description" }
+			{ data: "id" },
+			{ data: "name" },
+			{ data: "description" },
+			{ data: "accountCnt" },
+			{ data: "trackedPersonCnt" }
 		],
 
 		language: {
@@ -21,7 +23,8 @@
 			lengthMenu: "Показывать _MENU_ записей", // "Show _MENU_ entries"
 			search: "Поиск:", // "Search:"
 
-			info: "Показано с _START_ по _END_ из _TOTAL_ записей", // "Showing _START_ to _END_ of _TOTAL_ entries"
+			//info: "Показано с _START_ по _END_ из _TOTAL_ записей", // "Showing _START_ to _END_ of _TOTAL_ entries"
+			info: "Всего записей: _TOTAL_", // "Total records: _TOTAL_"
 			paginate: {
 				first: "Первая",
 				previous: "Предыдущая",

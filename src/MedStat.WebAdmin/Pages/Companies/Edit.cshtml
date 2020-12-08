@@ -10,7 +10,7 @@
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
 @{
-	ViewData["Title"] = CmpLocalizer["New company creation"];
+	ViewData["Title"] = Model.Company.Name;
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 }
 

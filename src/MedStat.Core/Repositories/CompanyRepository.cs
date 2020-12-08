@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using MedStat.Core.BE.Company;
 using MedStat.Core.DAL;
 using MedStat.Core.Helpers;
+using MedStat.Core.Info;
+using MedStat.Core.Info.Company;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +25,9 @@ namespace MedStat.Core.Repositories
 
 		#region Get
 
-		public async Task<IEnumerable<Company>> GetCompaniesAsync(string name)
+		public async Task<SearchResult<CompanySearchInfo>> FindCompaniesAsync(string name, 
+			string sortByProperty, bool isSortByAsc,
+			int skip, int take)
 		{
 			var q = this.DbContext.Companies.Select(c => c);
 
@@ -32,9 +36,59 @@ namespace MedStat.Core.Repositories
 				q = q.Where(c => c.Name.Contains(name));
 			}
 
-			var companies = await q.AsNoTracking().ToArrayAsync();
+			// TODO: Add support for TrackedPersonCnt & AccountCnt properties
 
-			return companies;
+			var result = new SearchResult<CompanySearchInfo>();
+			
+			result.TotalRecords = await q.CountAsync();
+
+			#region Sorting
+
+			if (!string.IsNullOrEmpty(sortByProperty))
+			{
+				switch (sortByProperty)
+				{
+					case nameof(CompanySearchInfo.Id):
+						q = isSortByAsc ? q.OrderBy(c => c.Id) : q.OrderByDescending(c => c.Id);
+						break;
+
+					case nameof(CompanySearchInfo.Name):
+						q = isSortByAsc ? q.OrderBy(c => c.Name) : q.OrderByDescending(c => c.Name);
+						break;
+
+					case nameof(CompanySearchInfo.Description):
+						q = isSortByAsc ? q.OrderBy(c => c.Description) : q.OrderByDescending(c => c.Description);
+						break;
+
+					case nameof(CompanySearchInfo.AccountCnt):
+						// TODO
+						break;
+
+					case nameof(CompanySearchInfo.TrackedPersonCnt):
+						// TODO
+						break;
+
+					default:
+						throw new NotSupportedException(sortByProperty);
+				}
+			}
+
+			#endregion
+			
+			var companies = await q.Skip(skip).Take(take).AsNoTracking().ToArrayAsync();
+
+			result.Data = companies
+				.Select(c => new CompanySearchInfo
+				{
+					Id = c.Id,
+					Name = c.Name,
+					Description = c.Description,
+					AccountCnt = 0, // TODO
+					TrackedPersonCnt = 0 // TODO
+				})
+				.ToArray();
+
+			return result;
 		}
 
 
