@@ -135,6 +135,9 @@
   <data name="Company list" xml:space="preserve">
     <value>Список компаний</value>
   </data>
+  <data name="Company requisites were updated" xml:space="preserve">
+    <value>Реквизиты компании были обновлены</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Создать</value>
   </data>

@@ -94,20 +94,19 @@ namespace MedStat.Core.Repositories
 
 		public async Task<Company> GetCompanyMainData(int companyId)
 		{
-			var cmpData = await this.DbContext.Companies
-				.Where(c => c.Id == companyId)
-				.Select(c => new { name = c.Name, desc = c.Description  })
-				.FirstOrDefaultAsync();
+			Company cmp = await this.DbContext.Companies
+				.AsNoTracking()
+				.FirstOrDefaultAsync(c => c.Id == companyId);
 
-			return 
-				cmpData != null 
-					? new Company { Id = companyId, Name = cmpData.name, Description = cmpData.desc } 
-					: null;
+			return cmp;
 		}
 
 		public async Task<Company> GetCompanyRequisitesAsync(int companyId)
 		{
-			Company cmp = await this.DbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+			Company cmp = await this.DbContext.Companies
+				.Include(c => c.Requisites)
+				.AsNoTracking()
+				.FirstOrDefaultAsync(c => c.Id == companyId);
 
 			return cmp;
 		}
@@ -125,16 +124,24 @@ namespace MedStat.Core.Repositories
 
 			try
 			{
+				var createdDate = DateTime.UtcNow;
 				var newCompany = new Company
 				{
 					Name = name,
 					Description = description,
 
-					MainRequisites = new CompanyMainRequisites
+					CreatedUtc = createdDate,
+					UpdatedUtc = createdDate,
+
+					Requisites = new CompanyRequisites
 					{
-						Name = name
-					},
-					BankRequisites = new CompanyBankRequisites()
+						MainRequisites = new CompanyMainRequisites
+						{
+							Name = name
+						},
+						BankRequisites = new CompanyBankRequisites(),
+						UpdatedUtc = createdDate
+					}
 				};
 
 				this.DbContext.Companies.Add(newCompany);
@@ -175,6 +182,7 @@ namespace MedStat.Core.Repositories
 
 				dbCompany.Name = name;
 				dbCompany.Description = description;
+				dbCompany.UpdatedUtc = DateTime.UtcNow;
 
 				await this.DbContext.SaveChangesAsync();
 
@@ -188,7 +196,7 @@ namespace MedStat.Core.Repositories
 			}
 		}
 
-		public async Task UpdateCompanyRequisitesAsync(int companyId,
+		public async Task UpdateCompanyRequisitesAsync(int companyId, 
 			CompanyMainRequisites mainReqData, CompanyBankRequisites bankReqData)
 		{
 			if(mainReqData == null)
@@ -201,7 +209,10 @@ namespace MedStat.Core.Repositories
 			
 			try
 			{
-				var dbCompany = await this.DbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+				var dbCompany = await this.DbContext.Companies
+					.Include(c => c.Requisites)
+					.FirstOrDefaultAsync(c => c.Id == companyId);
+
 				if(dbCompany == null)
 				{
 					throw new OperationCanceledException(string.Format(
@@ -209,11 +220,12 @@ namespace MedStat.Core.Repositories
 						companyId));
 				}
 
-				dbCompany.MainRequisites = mainReqData.CreateCopy();
+				dbCompany.Requisites.MainRequisites = mainReqData.CreateCopy();
 				if (bankReqData != null)
 				{
-					dbCompany.BankRequisites = bankReqData.CreateCopy();
+					dbCompany.Requisites.BankRequisites = bankReqData.CreateCopy();
 				}
+				dbCompany.Requisites.UpdatedUtc = DateTime.UtcNow;
 
 				await this.DbContext.SaveChangesAsync();
 

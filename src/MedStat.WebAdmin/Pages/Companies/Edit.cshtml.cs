@@ -72,22 +72,28 @@ namespace MedStat.WebAdmin.Pages.Companies
 					switch (this.Section)
 					{
 						case EnCompanySection.Main:
-							await this.CmpRepository.UpdateCompanyMainDataAsync(this.Company.Id,
-								this.Company.Name, this.Company.Description);
+							{
+								await this.CmpRepository.UpdateCompanyMainDataAsync(this.Company.Id,
+									this.Company.Name, this.Company.Description);
+
+								ViewData["success_message"] = this.CmpLocalizer["Company data were updated"];
+							}
 							break;
 
 						case EnCompanySection.Requisites:
-						{
-							await this.CmpRepository.UpdateCompanyRequisitesAsync(this.Company.Id,
-								this.Company.MainRequisites, this.Company.BankRequisites);
-						}
+							{
+								await this.CmpRepository.UpdateCompanyRequisitesAsync(this.Company.Id,
+									this.Company.Requisites.MainRequisites, this.Company.Requisites.BankRequisites);
+
+								ViewData["success_message"] = this.CmpLocalizer["Company requisites were updated"];
+							}
 							break;
 
 						default:
 							throw new NotSupportedException();
 					}
 
-					ViewData["success_message"] = this.CmpLocalizer["Company data were updated"];
+					
 				}
 				catch (Exception ex)
 				{
@@ -106,16 +112,17 @@ namespace MedStat.WebAdmin.Pages.Companies
 			switch (this.Section)
 			{
 				case EnCompanySection.Main:
-					keys = ModelState.Keys.Where(k => k.Contains('.')).ToArray();
-					break;
+					return; // DO NOTHING
+					//keys = ModelState.Keys.Where(k => k.Contains('.')).ToArray();
+					//break;
 
 				case EnCompanySection.Requisites:
 					{
-						string mainRequisitesPrefix = $"{nameof(this.Company.MainRequisites)}.";
-						string bankRequisitesPrefix = $"{nameof(this.Company.BankRequisites)}.";
+						string mainRequisitesPrefix = $"{nameof(this.Company.Requisites.MainRequisites)}.";
+						string bankRequisitesPrefix = $"{nameof(this.Company.Requisites.BankRequisites)}.";
 
 						keys = ModelState.Keys
-							.Where(k => !k.StartsWith(mainRequisitesPrefix) && !k.StartsWith(bankRequisitesPrefix))
+							.Where(k => !k.Contains(mainRequisitesPrefix) && !k.Contains(bankRequisitesPrefix))
 							.ToArray();
 					}
 					break;

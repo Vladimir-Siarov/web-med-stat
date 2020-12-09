@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using MedStat.Core.Resources;
 
 namespace MedStat.Core.BE.Company
@@ -18,13 +16,13 @@ namespace MedStat.Core.BE.Company
 		[Display(Name = "Description")] // "Описание"
 		public string Description { get; set; }
 
-		// TODO: Created, Updated
+		public DateTime CreatedUtc { get; set; }
+
+		public DateTime UpdatedUtc { get; set; }
 
 
 		/* Requisites: */
 
-		public CompanyMainRequisites MainRequisites { get; set; }
-
-		public CompanyBankRequisites BankRequisites { get; set; }
+		public CompanyRequisites Requisites { get; set; }
 	}
 }

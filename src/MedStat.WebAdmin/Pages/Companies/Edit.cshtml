@@ -45,100 +45,33 @@
 
 	<form method="post" class="ms-form-container">
 
+		<input type="hidden" asp-for="Company.Id" class="form-control" />
+
 		@{
 			switch (Model.Section)
 			{
 				case EnCompanySection.Main:
-					<partial name="_MainTab" model="@Model.Company" />
+					{
+						// <partial name="_MainTab" model="@Model.Company"/>
+						<text>
+							@Html.EditorFor(m => m.Company, "~/Pages/Companies/_MainTab.cshtml")
+						</text>
+					}
 					break;
 
 				case EnCompanySection.Requisites:
-					<partial name="_RequisitesTab" model="@Model.Company" />
+					{
+						// <partial name="_RequisitesTab" model="@Model.Company.Requisites" />
+						<text>
+							@Html.EditorFor(m => m.Company.Requisites, "~/Pages/Companies/_RequisitesTab.cshtml")
+						</text>
+					}
 					break;
 
 				default:
 					break;
 			}
 		}
-
-		@*<div class="ms-row-md">
-				<div class="ms-col">
-					<h4>@CmpLocalizer["Main requisites"]</h4>
-
-					<div>
-						<label asp-for="Company.MainRequisites.Name" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.Name" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.Name" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.MainRequisites.FullName" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.FullName" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.FullName" class="text-danger"></span>
-					</div>
-
-					<div>
-						<label asp-for="Company.MainRequisites.LegalAddress" class="form-label"></label>
-						<textarea asp-for="Company.MainRequisites.LegalAddress" class="form-control"></textarea>
-						<span asp-validation-for="Company.MainRequisites.LegalAddress" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.MainRequisites.PostalAddress" class="form-label"></label>
-						<textarea asp-for="Company.MainRequisites.PostalAddress" class="form-control"></textarea>
-						<span asp-validation-for="Company.MainRequisites.PostalAddress" class="text-danger"></span>
-					</div>
-
-					<div>
-						<label asp-for="Company.MainRequisites.OGRN" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.OGRN" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.OGRN" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.MainRequisites.OKPO" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.OKPO" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.OKPO" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.MainRequisites.OKATO" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.OKATO" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.OKATO" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.MainRequisites.INN" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.INN" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.INN" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.MainRequisites.KPP" class="form-label"></label>
-						<input asp-for="Company.MainRequisites.KPP" class="form-control" />
-						<span asp-validation-for="Company.MainRequisites.KPP" class="text-danger"></span>
-					</div>
-				</div>
-
-				<div class="ms-col">
-					<h4>@CmpLocalizer["Bank requisites"]</h4>
-
-					<div>
-						<label asp-for="Company.BankRequisites.AccountNumber" class="form-label"></label>
-						<input asp-for="Company.BankRequisites.AccountNumber" class="form-control" />
-						<span asp-validation-for="Company.BankRequisites.AccountNumber" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.BankRequisites.BIC" class="form-label"></label>
-						<input asp-for="Company.BankRequisites.BIC" class="form-control" />
-						<span asp-validation-for="Company.BankRequisites.BIC" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.BankRequisites.CorrespondentAccount" class="form-label"></label>
-						<input asp-for="Company.BankRequisites.CorrespondentAccount" class="form-control" />
-						<span asp-validation-for="Company.BankRequisites.CorrespondentAccount" class="text-danger"></span>
-					</div>
-					<div>
-						<label asp-for="Company.BankRequisites.Bank" class="form-label"></label>
-						<input asp-for="Company.BankRequisites.Bank" class="form-control" />
-						<span asp-validation-for="Company.BankRequisites.Bank" class="text-danger"></span>
-					</div>
-				</div>
-			</div>*@
 
 		<button class="btn btn-primary" type="submit">@CmpLocalizer["Save"]</button>
 

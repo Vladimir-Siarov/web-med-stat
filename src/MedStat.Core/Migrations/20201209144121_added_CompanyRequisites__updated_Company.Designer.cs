@@ -4,14 +4,16 @@ using MedStat.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedStat.Core.Migrations
 {
     [DbContext(typeof(MedStatDbContext))]
-    partial class MedStatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201209144121_added_CompanyRequisites__updated_Company")]
+    partial class added_CompanyRequisites__updated_Company
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

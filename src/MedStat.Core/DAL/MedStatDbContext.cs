@@ -17,6 +17,8 @@ namespace MedStat.Core.DAL
 		
 		public DbSet<Company> Companies { get; set; }
 
+		public DbSet<CompanyRequisites> CompanyRequisites { get; set; }
+
 
 		protected string ConnectionString { get; }
 				
@@ -71,43 +73,29 @@ namespace MedStat.Core.DAL
 			});
 
 
-			// Company
+			// CompanyRequisites
 			{
 				// CompanyMainRequisites
-				builder.Entity<Company>().OwnsOne(
-					c => c.MainRequisites
-					//, Moved to Data Annotation attributes
-					//cmr =>
-					//{
-					//	cmr.Property(c => c.Name).HasMaxLength(50)
-					//		// bag: doesn't work in EF Core 3.0.x https://github.com/dotnet/efcore/issues/16943
-					//		// fix: manually update the generated migration
-					//		.IsRequired(); // bag: doesn't work in EF Core 3.0
-					//	cmr.Property(c => c.FullName).HasMaxLength(150);
-
-					//	cmr.Property(c => c.LegalAddress).HasMaxLength(300);
-					//	cmr.Property(c => c.PostalAddress).HasMaxLength(300);
-
-					//	cmr.Property(c => c.OGRN).HasMaxLength(50);
-					//	cmr.Property(c => c.OKPO).HasMaxLength(50);
-					//	cmr.Property(c => c.OKATO).HasMaxLength(50);
-					//	cmr.Property(c => c.INN).HasMaxLength(50);
-					//	cmr.Property(c => c.KPP).HasMaxLength(50);
-					//}
-					);
+				builder.Entity<CompanyRequisites>().OwnsOne(c => c.MainRequisites,
+					cmr =>
+					{
+						// Moved to Data Annotation attributes, but doesn't work also ...
+						cmr.Property(mr => mr.Name).IsRequired();
+					});
 
 				// CompanyBankRequisites
-				builder.Entity<Company>().OwnsOne(
-					c => c.BankRequisites
-					//, Moved to Data Annotation attributes
-					//br =>
-					//{
-					//	br.Property(c => c.AccountNumber).HasMaxLength(50);
-					//	br.Property(c => c.BIC).HasMaxLength(50);
-					//	br.Property(c => c.CorrespondentAccount).HasMaxLength(50);
-					//	br.Property(c => c.Bank).HasMaxLength(300);
-					//}
-					);
+				builder.Entity<CompanyRequisites>().OwnsOne(c => c.BankRequisites);
+			}
+
+			// Company
+			{
+				builder.Entity<Company>()
+					.HasOne(c => c.Requisites)
+					.WithOne().HasForeignKey<CompanyRequisites>(r => r.CompanyId)
+					.IsRequired()
+					// If CompanyRequisites wasn't deleted before,
+					// then throws an error at in memory db and leads to constraint violation fail in physical db
+					.OnDelete(DeleteBehavior.ClientSetNull);
 			}
 		}
 
