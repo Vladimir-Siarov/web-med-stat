@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using MedStat.WebAdmin.Classes.SharedResources;
 using MedStat.WebAdmin.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Localization;
 
 namespace MedStat.WebAdmin.Classes
 {
@@ -62,6 +61,28 @@ namespace MedStat.WebAdmin.Classes
 			return model;
 		}
 
+		public static object GetDataTableLanguageConfig(IStringLocalizer<DataTableResource> localizer)
+		{
+			return
+				new
+				{
+					processing = localizer["Loading..."].Value, // "Processing..."
+					loadingRecords = localizer["Loading..."].Value,
+
+					lengthMenu = localizer["Show _MENU_ entries"].Value,
+					search = localizer["Search:"].Value,
+
+					info = localizer["Total records: _TOTAL_"].Value,
+					paginate = new 
+					{
+						first = localizer["First"].Value,
+						previous = localizer["Previous"].Value,
+						next = localizer["Next"].Value,
+						last = localizer["Last"].Value
+					}
+				};
+		}
+
 
 		// Extensions
 
@@ -75,6 +96,5 @@ namespace MedStat.WebAdmin.Classes
 			return 
 				viewData.ContainsKey(DataTablePageFlag) && (bool)viewData[DataTablePageFlag];
 		}
-
 	}
 }

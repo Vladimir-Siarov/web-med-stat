@@ -1,4 +1,9 @@
 ﻿@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.Extensions.Localization
+
+@inject IStringLocalizer<DataTableResource> DtLocalizer
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +39,8 @@
 
 	<!-- jQuery -->
 	<script defer type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+	
+	<script defer src="~/js/jquery.ms.js" asp-append-version="true"></script>
 	<script defer src="~/js/site.js" asp-append-version="true"></script>
 
 	@if (ViewData.IsDataTablePage())
@@ -42,6 +48,12 @@
 		<!-- DataTables.net -->
 		<script defer src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 		<script defer src="//cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
+
+		<script type="text/javascript">
+			window.msDataTableOptions = {
+				language: @(Html.Raw(Json.Serialize(DataTableHelper.GetDataTableLanguageConfig(DtLocalizer))))
+			};
+		</script>
 	}
 
 	@await RenderSectionAsync("Scripts", required: false)

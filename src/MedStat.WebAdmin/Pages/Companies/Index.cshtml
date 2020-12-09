@@ -13,10 +13,6 @@
 	ViewData.SetDataTablePageFlag();
 }
 
-@section Scripts
-{
-	<script defer src="@(Url.Content("~/js/pages/companyListPage.js"))"></script>
-}
 
 @section PageHeader
 {
@@ -38,18 +34,20 @@
 }
 
 <div class="ms-pagecontent">
-	
+
 	<table id="tblCompanies"
 				 class="table table-hover caption-top" style="width: 100%"
-				 data-ajax="@(Url.PageLink("Index", "CompanyList"))">
+				 data-ajax="@(Url.PageLink("Index", "CompanyList"))"
+				 data-length-menu="[2, 10, 25, 50]" @* TODO: For development only (added "2") *@
+				 ms-datatable>
 		<caption>@CmpLocalizer["List of companies"]</caption>
 		<thead>
 			<tr>
-				<th>Id</th>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Accounts</th>
-				<th>Trekking</th>
+				<th data-data="id">Id</th>
+				<th data-data="name">Name</th>
+				<th data-data="description">Description</th>
+				<th data-data="accountCnt">Accounts</th>
+				<th data-data="trackedPersonCnt">Trekking</th>
 			</tr>
 		</thead>
 	</table>

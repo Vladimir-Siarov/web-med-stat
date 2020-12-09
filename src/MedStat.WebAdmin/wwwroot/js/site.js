@@ -5,7 +5,7 @@
 
 $(function() {
 
-	// Site Nav panel
+	// Init Site Nav panel (Expand/Collapse button)
 	$('#sitenav_header_btnCollapse').click(function () {
 		$(document.body).removeClass('ms-sitenav-expanded');
 	});
@@ -14,7 +14,7 @@ $(function() {
 	});
 
 
-	// Switch language
+	// Init Switch language control
 	$('#cbxRuLanguage').change(function () {
 
 		var langCookieName = $(this).attr('data-cookie-name');
@@ -27,5 +27,17 @@ $(function() {
 		document.location = document.location.href;
 
 	});
+
+	// Auto Init DataTables
+	window.setTimeout(function () {
+
+		$("table[ms-datatable]").msDataTable();
+
+	}, 50);
+
+	// Page init
+	if (window.pageInit != null && $.isFunction(window.pageInit)) {
+		window.setTimeout(window.pageInit, 50);
+	}
 
 });
