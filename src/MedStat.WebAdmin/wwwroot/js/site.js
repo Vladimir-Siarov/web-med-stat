@@ -31,7 +31,9 @@ $(function() {
 	// Auto Init DataTables
 	window.setTimeout(function () {
 
-		$("table[ms-datatable]").msDataTable();
+		var tables = $("table[ms-datatable]");
+		if (tables.length > 0)
+			tables.msDataTable();
 
 	}, 50);
 
