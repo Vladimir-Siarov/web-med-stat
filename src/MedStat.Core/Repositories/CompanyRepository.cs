@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Text;
 using System.Threading.Tasks;
 using MedStat.Core.BE.Company;
 using MedStat.Core.DAL;
@@ -23,75 +19,9 @@ namespace MedStat.Core.Repositories
 		{
 		}
 
+
 		#region Get
-
-		public async Task<SearchResult<CompanySearchInfo>> FindCompaniesAsync(string name, 
-			string sortByProperty, bool isSortByAsc,
-			int skip, int take)
-		{
-			var q = this.DbContext.Companies.Select(c => c);
-
-			if (!string.IsNullOrEmpty(name))
-			{
-				q = q.Where(c => c.Name.Contains(name));
-			}
-
-			// TODO: Add support for TrackedPersonCnt & AccountCnt properties
-
-			var result = new SearchResult<CompanySearchInfo>();
-			
-			result.TotalRecords = await q.CountAsync();
-
-			#region Sorting
-
-			if (!string.IsNullOrEmpty(sortByProperty))
-			{
-				switch (sortByProperty)
-				{
-					case nameof(CompanySearchInfo.Id):
-						q = isSortByAsc ? q.OrderBy(c => c.Id) : q.OrderByDescending(c => c.Id);
-						break;
-
-					case nameof(CompanySearchInfo.Name):
-						q = isSortByAsc ? q.OrderBy(c => c.Name) : q.OrderByDescending(c => c.Name);
-						break;
-
-					case nameof(CompanySearchInfo.Description):
-						q = isSortByAsc ? q.OrderBy(c => c.Description) : q.OrderByDescending(c => c.Description);
-						break;
-
-					case nameof(CompanySearchInfo.AccountCnt):
-						// TODO
-						break;
-
-					case nameof(CompanySearchInfo.TrackedPersonCnt):
-						// TODO
-						break;
-
-					default:
-						throw new NotSupportedException(sortByProperty);
-				}
-			}
-
-			#endregion
-			
-			var companies = await q.Skip(skip).Take(take).AsNoTracking().ToArrayAsync();
-
-			result.Data = companies
-				.Select(c => new CompanySearchInfo
-				{
-					Id = c.Id,
-					Name = c.Name,
-					Description = c.Description,
-					AccountCnt = 0, // TODO
-					TrackedPersonCnt = 0 // TODO
-				})
-				.ToArray();
-
-			return result;
-		}
-
-
+		
 		public async Task<Company> GetCompanyMainData(int companyId)
 		{
 			Company cmp = await this.DbContext.Companies
@@ -101,7 +31,7 @@ namespace MedStat.Core.Repositories
 			return cmp;
 		}
 
-		public async Task<Company> GetCompanyRequisitesAsync(int companyId)
+		public async Task<Company> GetCompanyWithRequisitesAsync(int companyId)
 		{
 			Company cmp = await this.DbContext.Companies
 				.Include(c => c.Requisites)
@@ -237,6 +167,77 @@ namespace MedStat.Core.Repositories
 				this.Logger.LogError(ex, "Company Requisites update action was failed");
 				throw;
 			}
+		}
+
+		#endregion
+
+
+		#region Search
+
+		public async Task<SearchResult<CompanySearchInfo>> FindCompaniesAsync(string name, 
+			string sortByProperty, bool isSortByAsc,
+			int skip, int take)
+		{
+			var q = this.DbContext.Companies.Select(c => c);
+
+			if (!string.IsNullOrEmpty(name))
+			{
+				q = q.Where(c => c.Name.Contains(name));
+			}
+
+			// TODO: Add support for TrackedPersonCnt & AccountCnt properties
+
+			var result = new SearchResult<CompanySearchInfo>();
+			
+			result.TotalRecords = await q.CountAsync();
+
+			#region Sorting
+
+			if (!string.IsNullOrEmpty(sortByProperty))
+			{
+				switch (sortByProperty)
+				{
+					case nameof(CompanySearchInfo.Id):
+						q = isSortByAsc ? q.OrderBy(c => c.Id) : q.OrderByDescending(c => c.Id);
+						break;
+
+					case nameof(CompanySearchInfo.Name):
+						q = isSortByAsc ? q.OrderBy(c => c.Name) : q.OrderByDescending(c => c.Name);
+						break;
+
+					case nameof(CompanySearchInfo.Description):
+						q = isSortByAsc ? q.OrderBy(c => c.Description) : q.OrderByDescending(c => c.Description);
+						break;
+
+					case nameof(CompanySearchInfo.AccountCnt):
+						// TODO
+						break;
+
+					case nameof(CompanySearchInfo.TrackedPersonCnt):
+						// TODO
+						break;
+
+					default:
+						throw new NotSupportedException(sortByProperty);
+				}
+			}
+
+			#endregion
+			
+			var companies = await q.Skip(skip).Take(take).AsNoTracking().ToArrayAsync();
+
+			result.Data = companies
+				.Select(c => new CompanySearchInfo
+				{
+					Id = c.Id,
+					Name = c.Name,
+					Description = c.Description,
+					AccountCnt = 0, // TODO
+					TrackedPersonCnt = 0 // TODO
+				})
+				.ToArray();
+
+			return result;
 		}
 
 		#endregion

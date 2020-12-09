@@ -15,12 +15,22 @@ namespace MedStat.WebAdmin.Pages.Companies
 {
 	public class CompanyEditModel : CompanyBasePageModel
 	{
-		[BindProperty]
+		// Common page data. Used for Header, navigation and etc.
 		public Company Company { get; set; }
 
 		[BindProperty(SupportsGet = true)]
 		public EnCompanySection Section { get; set; } = EnCompanySection.Main;
 
+		// Tabs data:
+
+		// Main tab data
+		[BindProperty]
+		public Company MainData { get; set; }
+
+		// Requisites tab data
+		[BindProperty]
+		public CompanyRequisites Requisites { get; set; }
+		
 		
 		public CompanyEditModel(ILogger<CompanyCreateModel> logger,
 			CompanyRepository cmpRepository, 
@@ -35,20 +45,27 @@ namespace MedStat.WebAdmin.Pages.Companies
 			switch (this.Section)
 			{
 				case EnCompanySection.Main:
-					this.Company = await this.CmpRepository.GetCompanyMainData(id);
+					{
+						this.Company = await this.CmpRepository.GetCompanyMainData(id);
+						if (this.Company == null)
+							return NotFound();
+
+						this.MainData = this.Company;
+					}
 					break;
 
 				case EnCompanySection.Requisites:
-					this.Company = await this.CmpRepository.GetCompanyRequisitesAsync(id);
+					{
+						this.Company = await this.CmpRepository.GetCompanyWithRequisitesAsync(id);
+						if (this.Company == null)
+							return NotFound();
+						
+						this.Requisites = this.Company.Requisites;
+					}
 					break;
 
 				default:
 					throw new NotSupportedException(this.Section.ToString());
-			}
-			
-			if (this.Company == null)
-			{
-				return NotFound();
 			}
 
 			if (isCreated == true)
@@ -61,7 +78,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 			return Page();
 		}
 
-		public async Task<IActionResult> OnPostAsync()
+		public async Task<IActionResult> OnPostAsync(int id)
 		{
 			this.FilterModelValidationError();
 
@@ -73,8 +90,8 @@ namespace MedStat.WebAdmin.Pages.Companies
 					{
 						case EnCompanySection.Main:
 							{
-								await this.CmpRepository.UpdateCompanyMainDataAsync(this.Company.Id,
-									this.Company.Name, this.Company.Description);
+								await this.CmpRepository.UpdateCompanyMainDataAsync(id,
+									this.MainData.Name, this.MainData.Description);
 
 								ViewData["success_message"] = this.CmpLocalizer["Company data were updated"];
 							}
@@ -82,8 +99,8 @@ namespace MedStat.WebAdmin.Pages.Companies
 
 						case EnCompanySection.Requisites:
 							{
-								await this.CmpRepository.UpdateCompanyRequisitesAsync(this.Company.Id,
-									this.Company.Requisites.MainRequisites, this.Company.Requisites.BankRequisites);
+								await this.CmpRepository.UpdateCompanyRequisitesAsync(id,
+									this.Requisites.MainRequisites, this.Requisites.BankRequisites);
 
 								ViewData["success_message"] = this.CmpLocalizer["Company requisites were updated"];
 							}
@@ -92,14 +109,15 @@ namespace MedStat.WebAdmin.Pages.Companies
 						default:
 							throw new NotSupportedException();
 					}
-
-					
 				}
 				catch (Exception ex)
 				{
 					ViewData["error_message"] = string.Format(this.CmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
 				}
 			}
+
+			// m.b. we have to use more lighter method for retrieve Id, Name properties
+			this.Company = await this.CmpRepository.GetCompanyMainData(id);
 
 			return Page();
 		}
@@ -112,17 +130,21 @@ namespace MedStat.WebAdmin.Pages.Companies
 			switch (this.Section)
 			{
 				case EnCompanySection.Main:
-					return; // DO NOTHING
-					//keys = ModelState.Keys.Where(k => k.Contains('.')).ToArray();
-					//break;
+					{
+						string companyPrefix = $"{nameof(this.MainData)}.";
+
+						keys = ModelState.Keys
+							.Where(k => !k.StartsWith(companyPrefix))
+							.ToArray();
+					}
+					break;
 
 				case EnCompanySection.Requisites:
 					{
-						string mainRequisitesPrefix = $"{nameof(this.Company.Requisites.MainRequisites)}.";
-						string bankRequisitesPrefix = $"{nameof(this.Company.Requisites.BankRequisites)}.";
+						string requisitesPrefix = $"{nameof(this.Requisites)}.";
 
 						keys = ModelState.Keys
-							.Where(k => !k.Contains(mainRequisitesPrefix) && !k.Contains(bankRequisitesPrefix))
+							.Where(k => !k.StartsWith(requisitesPrefix))
 							.ToArray();
 					}
 					break;

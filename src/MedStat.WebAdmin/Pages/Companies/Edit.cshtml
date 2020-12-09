@@ -45,8 +45,6 @@
 
 	<form method="post" class="ms-form-container">
 
-		<input type="hidden" asp-for="Company.Id" class="form-control" />
-
 		@{
 			switch (Model.Section)
 			{
@@ -54,7 +52,7 @@
 					{
 						// <partial name="_MainTab" model="@Model.Company"/>
 						<text>
-							@Html.EditorFor(m => m.Company, "~/Pages/Companies/_MainTab.cshtml")
+							@Html.EditorFor(m => m.MainData, "~/Pages/Companies/_MainTab.cshtml")
 						</text>
 					}
 					break;
@@ -63,7 +61,7 @@
 					{
 						// <partial name="_RequisitesTab" model="@Model.Company.Requisites" />
 						<text>
-							@Html.EditorFor(m => m.Company.Requisites, "~/Pages/Companies/_RequisitesTab.cshtml")
+							@Html.EditorFor(m => m.Requisites, "~/Pages/Companies/_RequisitesTab.cshtml")
 						</text>
 					}
 					break;
