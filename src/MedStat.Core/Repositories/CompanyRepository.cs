@@ -116,8 +116,8 @@ namespace MedStat.Core.Repositories
 
 				await this.DbContext.SaveChangesAsync();
 
-				this.Logger.LogInformation("Main data of Company \"{0}\" ({1}) was updated by {2}",
-					dbCompany.Name, dbCompany.Id, this.UserUid);
+				this.Logger.LogInformation("Main data of Company {@Company} was updated by {UserUid}",
+					new { dbCompany.Name, dbCompany.Id}, this.UserUid);
 			}
 			catch (Exception ex)
 			{
