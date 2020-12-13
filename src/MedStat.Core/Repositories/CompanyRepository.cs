@@ -77,8 +77,8 @@ namespace MedStat.Core.Repositories
 				this.DbContext.Companies.Add(newCompany);
 				await this.DbContext.SaveChangesAsync();
 
-				this.Logger.LogInformation("Company \"{0}\" ({1}) was created successfully by {2}",
-					newCompany.Name, newCompany.Id, this.UserUid);
+				this.Logger.LogInformation("Company {@Company} was created successfully by {UserUid}",
+					new { newCompany.Id, newCompany.Name }, this.UserUid);
 
 				return newCompany.Id;
 			}
@@ -117,7 +117,7 @@ namespace MedStat.Core.Repositories
 				await this.DbContext.SaveChangesAsync();
 
 				this.Logger.LogInformation("Main data of Company {@Company} was updated by {UserUid}",
-					new { dbCompany.Name, dbCompany.Id}, this.UserUid);
+					new { dbCompany.Id, dbCompany.Name }, this.UserUid);
 			}
 			catch (Exception ex)
 			{
@@ -159,8 +159,8 @@ namespace MedStat.Core.Repositories
 
 				await this.DbContext.SaveChangesAsync();
 
-				this.Logger.LogInformation("Requisites of Company \"{0}\" ({1}) was updated by {2}",
-					dbCompany.Name, dbCompany.Id, this.UserUid);
+				this.Logger.LogInformation("Requisites of Company {@Company} was updated by {UserUid}",
+					new { dbCompany.Id, dbCompany.Name }, this.UserUid);
 			}
 			catch (Exception ex)
 			{

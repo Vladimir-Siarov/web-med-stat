@@ -25,7 +25,7 @@ namespace MedStat.Core.Repositories
 				if (await roleManager.FindByNameAsync(role) == null)
 				{
 					await roleManager.CreateAsync(new IdentityRole<int>(role));
-					this.Logger.LogInformation($"Role \"{role}\" was successfully added to the system");
+					this.Logger.LogInformation("Role {roleName} was successfully added to the system", role);
 				}
 			}
     }
@@ -43,12 +43,12 @@ namespace MedStat.Core.Repositories
 
 				if (result.Succeeded)
 				{
-					this.Logger.LogInformation("Admin user \"{0}\" (1) was created successfully",
-						admin.UserName, admin.Id);
+					this.Logger.LogInformation("Admin user {@User} was created successfully",
+						new { admin.Id, admin.UserName });
 					
 					await userManager.AddToRoleAsync(admin, UserRoles.SystemAdmin);
-					this.Logger.LogInformation("Admin user \"{0}\" was added to the \"{1}\" role",
-						admin.UserName, UserRoles.SystemAdmin);
+					this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
+						new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
 				}
 			}
 			else
@@ -56,8 +56,8 @@ namespace MedStat.Core.Repositories
 				if (false == await userManager.IsInRoleAsync(admin, UserRoles.SystemAdmin))
 				{
 					await userManager.AddToRoleAsync(admin, UserRoles.SystemAdmin);
-					this.Logger.LogInformation("Admin user \"{0}\" was added to the \"{1}\" role",
-						admin.UserName, UserRoles.SystemAdmin);
+					this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
+						new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
 				}
 			}
 		}
