@@ -144,6 +144,9 @@
   <data name="Create company" xml:space="preserve">
     <value>Создать компанию</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
@@ -158,6 +161,9 @@
   </data>
   <data name="Main requisites" xml:space="preserve">
     <value>Основные реквизиты</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
   </data>
   <data name="New company" xml:space="preserve">
     <value>Новая компания</value>

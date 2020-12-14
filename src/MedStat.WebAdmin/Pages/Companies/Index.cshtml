@@ -36,20 +36,29 @@
 <div class="ms-pagecontent">
 
 	<table id="tblCompanies"
-				 class="table table-hover caption-top" style="width: 100%"
-				 data-ajax="@(Url.PageLink("Index", "CompanyList"))"
-				 data-length-menu="[2, 10, 25, 50]" @* TODO: For development only (added "2") *@
-				 ms-datatable>
+	       class="table table-hover caption-top" style="width: 100%"
+	       data-ajax="@(Url.PageLink("Index", "CompanyList"))"
+	       data-length-menu="[2, 10, 25, 50]" @* TODO: For development only (added "2") *@
+				 data-auto-width="false"
+	       ms-datatable>
 		<caption>@CmpLocalizer["List of companies"]</caption>
 		<thead>
 			<tr>
-				<th data-data="id">Id</th>
-				<th data-data="name">Name</th>
-				<th data-data="description">Description</th>
-				<th data-data="accountCnt">Accounts</th>
-				<th data-data="trackedPersonCnt">Trekking</th>
+				<th data-data="id" data-width="5%">Id</th>
+				<th data-data="name" data-width="45%" data-html-template-id="tblCompanies_linkTemplate">@CmpLocalizer["Name"]</th>
+				<th data-data="description" data-width="30%" data-max-length="100">@CmpLocalizer["Description"]</th>
+				<th data-data="accountCnt" data-width="10%">@CmpLocalizer["Accounts"]</th>
+				<th data-data="trackedPersonCnt" data-width="10%">@CmpLocalizer["Trekking"]</th>
 			</tr>
 		</thead>
 	</table>
+	
+	<div id="tblCompanies_linkTemplate" style="display: none">
+		@{
+			string companyUrl = Url.PageLink("Edit", null, new {id = "-1"})
+				.Replace("-1", "{id}");
+		}
+		<a href="@(companyUrl)">{name}</a>
+	</div>
 
 </div>
