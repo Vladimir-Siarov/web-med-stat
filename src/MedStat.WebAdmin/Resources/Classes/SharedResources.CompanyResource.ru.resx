@@ -144,6 +144,9 @@
   <data name="Create company" xml:space="preserve">
     <value>Создать компанию</value>
   </data>
+  <data name="Create date" xml:space="preserve">
+    <value>Датат создания</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Описание</value>
   </data>
@@ -179,5 +182,8 @@
   </data>
   <data name="Trekking" xml:space="preserve">
     <value>Трекинг</value>
+  </data>
+  <data name="Update date" xml:space="preserve">
+    <value>Дата последних изменений</value>
   </data>
 </root>

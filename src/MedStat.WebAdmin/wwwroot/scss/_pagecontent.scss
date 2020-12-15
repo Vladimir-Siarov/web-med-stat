@@ -91,6 +91,35 @@
 	}
 }
 
+.ms-datelist{	
+	margin:0 0 .5em 0;
+	padding:0;
+	display:flex;
+	position:relative;
+	overflow:hidden;	
+
+	dt{
+		margin:0;
+		font-weight: normal;
+		opacity:.5;
+
+		&:not(:first-of-type){ 
+			&:before{
+				content: '|';
+				padding: 0 1.2em;
+				opacity: .5;
+			}
+		}
+	}
+
+	dd{
+		position:absolute;
+		left:-100%;
+		visibility:hidden;
+	}
+}
+
+
 /* ---- DataTable -------*/
 /* override DataTable.net styles */
 table.dataTable{

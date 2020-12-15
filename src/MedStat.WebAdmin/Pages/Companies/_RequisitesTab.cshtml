@@ -6,6 +6,13 @@
 
 @*<h4>@CmpLocalizer["Requisites"]</h4>*@
 
+<dl class="ms-datelist">
+	<dt title="@CmpLocalizer["Update date"]">
+		@Model.UpdatedUtc.ToLocalTime().ToShortDateString() @Model.UpdatedUtc.ToLocalTime().ToShortTimeString()
+	</dt>
+	<dd>@CmpLocalizer["Update date"]</dd>
+</dl>
+
 <div class="row">
 
 	<div class="col-sm-12 col-md-6">
