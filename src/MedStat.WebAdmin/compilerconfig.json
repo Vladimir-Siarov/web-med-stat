@@ -8,5 +8,11 @@
     "outputFile": "wwwroot/css/bootstrap.css",
     "inputFile": "wwwroot/scss/bootstrap.scss",
     "sourceMap": true
+  },
+  {
+    
+    "outputFile": "wwwroot/js/bootstrap.bundle.min.js",
+    "inputFile": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+    "sourceMap": false
   }
 ]
