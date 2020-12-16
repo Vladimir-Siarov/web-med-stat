@@ -169,6 +169,53 @@ namespace MedStat.Core.Repositories
 			}
 		}
 
+
+		public async Task DeleteCompanyAsync(int companyId)
+		{
+			try
+			{
+				var dbCompany = await this.DbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+				if (dbCompany == null)
+				{
+					throw new OperationCanceledException(string.Format(
+						this.MessagesManager.GetString("Company with ID = {0} is not found"),
+						companyId));
+				}
+
+				// Check that company doesn't have sub-data (except Requisites)
+				{
+					// TODO: ...
+				}
+
+				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
+				{
+					var requisites = await this.DbContext.CompanyRequisites
+						.FirstOrDefaultAsync(r => r.CompanyId == dbCompany.Id);
+
+					if (requisites != null)
+					{
+						this.DbContext.CompanyRequisites.Remove(requisites);
+						await this.DbContext.SaveChangesAsync();
+					}
+
+					var cmpInfo = new {dbCompany.Id, dbCompany.Name};
+
+					this.DbContext.Companies.Remove(dbCompany);
+					await this.DbContext.SaveChangesAsync();
+
+					await transaction.CommitAsync();
+
+					this.Logger.LogInformation("Company {@Company} was deleted by {UserUid}",
+						cmpInfo, this.UserUid);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.Logger.LogError(ex, "Company delete action was failed");
+				throw;
+			}
+		}
+
 		#endregion
 
 

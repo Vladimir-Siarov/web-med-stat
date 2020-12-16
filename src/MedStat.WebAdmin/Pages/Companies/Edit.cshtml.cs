@@ -7,9 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using MedStat.Core.BE.Company;
+using MedStat.Core.Identity;
 using MedStat.Core.Repositories;
 using MedStat.WebAdmin.Classes.SharedResources;
 using MedStat.WebAdmin.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
@@ -21,6 +23,10 @@ namespace MedStat.WebAdmin.Pages.Companies
 		[BindProperty(SupportsGet = true)]
 		public EnCompanySection Section { get; set; } = EnCompanySection.Main;
 
+		[BindProperty]
+		public string ConfirmCommand { get; set; }
+
+		
 		// Tabs data:
 
 		// Main tab data
@@ -34,8 +40,9 @@ namespace MedStat.WebAdmin.Pages.Companies
 		
 		public CompanyEditModel(ILogger<CompanyCreateModel> logger,
 			CompanyRepository cmpRepository, 
-			IStringLocalizer<CompanyResource> cmpLocalizer)
-			: base(logger, cmpRepository, cmpLocalizer)
+			IStringLocalizer<CompanyResource> cmpLocalizer,
+			IStringLocalizer<DialogResources> dlgLocalizer)
+			: base(logger, cmpRepository, cmpLocalizer, dlgLocalizer)
 		{
 		}
 
@@ -123,6 +130,37 @@ namespace MedStat.WebAdmin.Pages.Companies
 		}
 
 
+		public async Task<IActionResult> OnPostRemoveAsync(int id)
+		{
+			if (!User.IsInRole(UserRoles.SystemAdmin))
+			{
+				// don't use Forbid() for prevent redirect to another page
+				return StatusCode(StatusCodes.Status403Forbidden, this.DlgLocalizer["Access denied"]);
+			}
+
+			if (this.ConfirmCommand == null
+			    || !this.ConfirmCommand.Equals("delete", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return BadRequest(this.DlgLocalizer["Invalid confirm value"].Value);
+			}
+
+			try
+			{
+				await this.CmpRepository.DeleteCompanyAsync(id);
+			}
+			catch (Exception ex)
+			{
+				var errorMsg = string.Format(this.CmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
+				
+				return 
+					StatusCode(StatusCodes.Status500InternalServerError, errorMsg);
+			}
+
+			return 
+				StatusCode(StatusCodes.Status200OK, this.CmpLocalizer["Company was deleted successfully"].Value);
+		}
+
+
 		private void FilterModelValidationError()
 		{
 			string[] keys;
@@ -159,5 +197,5 @@ namespace MedStat.WebAdmin.Pages.Companies
 				ModelState[key].ValidationState = ModelValidationState.Skipped;
 			}
 		}
-  }
+	}
 }

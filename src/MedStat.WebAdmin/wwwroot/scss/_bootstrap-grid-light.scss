@@ -12,6 +12,21 @@
 	}
 }
 
+.col-auto {
+	flex: 0 0 auto;
+	width: auto;
+}
+
+.g-3,
+.gx-3 {
+	--bs-gutter-x: 1rem;
+}
+
+.g-3,
+.gy-3 {
+	--bs-gutter-y: 1rem;
+}
+
 $sm-grid-breakpoint: map-get($grid-breakpoints, "sm"); // 576px
 @media only screen and (min-width: $sm-grid-breakpoint) {
 	.col-sm-12 {
@@ -33,14 +48,5 @@ $md-grid-breakpoint: map-get($grid-breakpoints, "md"); // 768px
 	.col-md-7 {
 		flex: 0 0 auto;
 		width: 58.33333%;
-	}
-}
-
-
-/* Custom behavior */
-$lg-grid-breakpoint: map-get($grid-breakpoints, "lg"); // 960px
-@media only screen and (min-width: $lg-grid-breakpoint) {
-	.row {
-		--bs-gutter-x: 3rem;
 	}
 }

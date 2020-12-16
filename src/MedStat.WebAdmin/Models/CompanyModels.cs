@@ -34,6 +34,8 @@ namespace MedStat.WebAdmin.Models
 		
 		protected IStringLocalizer<CompanyResource> CmpLocalizer { get; }
 
+		protected IStringLocalizer<DialogResources> DlgLocalizer { get; }
+
 		
 		public CompanyBasePageModel(ILogger logger,
 			CompanyRepository cmpRepository,
@@ -42,6 +44,16 @@ namespace MedStat.WebAdmin.Models
 			this.Logger = logger;
 			this.CmpRepository = cmpRepository;
 			this.CmpLocalizer = cmpLocalizer;
+			this.DlgLocalizer = null;
+		}
+
+		public CompanyBasePageModel(ILogger logger,
+			CompanyRepository cmpRepository,
+			IStringLocalizer<CompanyResource> cmpLocalizer,
+			IStringLocalizer<DialogResources> dlgLocalizer)
+		:this(logger, cmpRepository, cmpLocalizer)
+		{
+			this.DlgLocalizer = dlgLocalizer;
 		}
 	}
 }

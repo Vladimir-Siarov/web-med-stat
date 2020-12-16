@@ -21,11 +21,13 @@
 		margin:0;
 	}
 
-	.bi-plus {
-		width: 1.5em;
-		height: 1.5em;
-		margin-right: 0.4em;
-	}
+	.btn{
+		.bi {
+			width: 1.5em;
+			height: 1.5em;
+			margin-right: 0.4em;
+		}
+	}	
 }
 
 .ms-pageheader-pagetitle {

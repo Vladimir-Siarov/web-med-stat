@@ -41,6 +41,13 @@ $pagination-disabled-border-color: #eaedf2;
 $pagination-active-border-color: $ms-component-active-bg2;*/
 @import "../lib/bootstrap/scss/pagination";
 
+@import "../lib/bootstrap/scss/modal";
+@import "../lib/bootstrap/scss/close";
+
+@import "../lib/bootstrap/scss/helpers/visually-hidden";
+@import "../lib/bootstrap/scss/spinners.scss";
+
+
 /* override bootstrap styles*/
 .btn-light {
 	&:hover{

@@ -91,6 +91,14 @@
 	}
 }
 
+/* Custom behavior */
+$lg-grid-breakpoint: map-get($grid-breakpoints, "lg"); // 960px
+@media only screen and (min-width: $lg-grid-breakpoint) {
+	.ms-form-container > .row{
+		--bs-gutter-x: 3rem;
+	}
+}
+
 .ms-datelist{	
 	margin:0 0 .5em 0;
 	padding:0;
@@ -141,4 +149,11 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .dataTables_wrapper .pagination{
 	font-size: 0.9em; /* like as NavPils */
+}
+
+
+/* --- Modal Dialog ---------*/
+.modal-header-danger {
+	background-color: map-get($theme-colors, "danger");
+	color: color-contrast(map-get($theme-colors, "danger"));
 }

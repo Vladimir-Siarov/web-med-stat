@@ -10,9 +10,11 @@
     "sourceMap": true
   },
   {
-    
     "outputFile": "wwwroot/js/bootstrap.bundle.min.js",
-    "inputFile": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
-    "sourceMap": false
+    "inputFile": "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+  },
+  {
+    "outputFile": "wwwroot/lib/bootstrap/scss/bootstrap-grid.css",
+    "inputFile": "wwwroot/lib/bootstrap/scss/bootstrap-grid.scss"
   }
 ]

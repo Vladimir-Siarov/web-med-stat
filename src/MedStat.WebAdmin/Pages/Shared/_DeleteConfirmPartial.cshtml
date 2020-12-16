@@ -1,0 +1,56 @@
+﻿@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MedStat.WebAdmin.Models.DeleteConfirmationModel
+
+@inject IHtmlLocalizer<DialogResources> DlgLocalizer
+
+<div class="modal fade" id="@(Model.ControlId)" tabindex="-1" aria-labelledby="@(Model.ControlId)Label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header modal-header-danger">
+				<h5 class="modal-title" id="@(Model.ControlId)Label">@DlgLocalizer["Delete confirmation"]</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@DlgLocalizer["Close"]"></button>
+			</div>
+			<div class="modal-body">
+
+				<p>
+					@Model.ConfirmMessage <br />
+					<br />
+					@DlgLocalizer["For confirm remove action type \"delete\" word in text box below and press \"Confirm\" button."]
+				</p>
+
+				<form method="post" class="row gx-3"
+							data-ajax="true" data-ajax-method="post"
+							data-ajax-url="@Model.AjaxUrl"
+							data-ajax-success="@Model.AjaxSuccess"
+							data-ajax-failure="@Model.AjaxFailed"
+							data-ajax-loading="#@(Model.ControlId)_spinner">
+
+					<div class="col-auto">
+						<label for="@Model.ConfirmCommandCtrlId" class="visually-hidden">
+							@DlgLocalizer["Confirm command"]
+						</label>
+						<input type="text" id="@Model.ConfirmCommandCtrlId" name="@Model.ConfirmCommandCtrlName"
+						       class="form-control" placeholder="type 'delete' here" autocomplete="off" />
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-danger">@DlgLocalizer["Confirm"]</button>
+					</div>
+					<div class="col-auto">
+						<div id="@(Model.ControlId)_spinner" class="spinner-border text-danger" role="status" style="display: none">
+							<span class="visually-hidden">@DlgLocalizer["Processing..."]</span>
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					@DlgLocalizer["Close"]
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
