@@ -38,7 +38,14 @@ namespace MedStat.Core.Repositories
 			// Check and Create System Admin user
 			if (admin == null)
 			{
-				admin = new SystemUser { Email = adminEmail, UserName = adminEmail };
+				admin = new SystemUser 
+				{ 
+					Email = adminEmail, 
+					UserName = adminEmail,
+					FirstName = "Admin",
+					Surname = "Adminov",
+					Patronymic = "Adminovich"
+				};
 				IdentityResult result = await userManager.CreateAsync(admin, adminPassword);
 
 				if (result.Succeeded)
