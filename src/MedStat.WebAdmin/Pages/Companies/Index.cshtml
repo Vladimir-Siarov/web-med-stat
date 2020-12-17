@@ -8,6 +8,8 @@
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
 @{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+
 	ViewData["Title"] = CmpLocalizer["Company list"];
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 	ViewData.SetDataTablePageFlag();
@@ -23,6 +25,7 @@
 
 	<div class="ms-pageheader-titlepanel">
 		<h1>@CmpLocalizer["Companies"]</h1>
+
 		<div>
 			<a asp-area="" asp-page="/Companies/Create" class="btn btn-success btn-sm">
 				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +58,7 @@
 	
 	<div id="tblCompanies_linkTemplate" style="display: none">
 		@{
-			string companyUrl = Url.PageLink("Edit", null, new {id = "-1"})
+			string companyUrl = Url.PageLink("./Main", null, new {CompanyId = "-1"})
 				.Replace("-1", "{id}");
 		}
 		<a href="@(companyUrl)">{name}</a>

@@ -22,7 +22,7 @@ namespace MedStat.Core.Repositories
 
 		#region Get
 		
-		public async Task<Company> GetCompanyMainData(int companyId)
+		public async Task<Company> GetCompanyMainDataAsync(int companyId)
 		{
 			Company cmp = await this.DbContext.Companies
 				.AsNoTracking()

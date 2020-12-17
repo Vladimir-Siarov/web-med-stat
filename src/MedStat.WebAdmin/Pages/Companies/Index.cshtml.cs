@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MedStat.Core.Info.Company;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Localization;
 
 using MedStat.Core.Repositories;
 using MedStat.WebAdmin.Classes;
-using MedStat.WebAdmin.Models;
-using MedStat.WebAdmin.Classes.SharedResources;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
-	public class CompanyListModel : CompanyBasePageModel
+	public class CompanyListModel : PageModel
 	{
+		private readonly CompanyRepository _cmpRepository;
+
+
 		public CompanyListModel(ILogger<CompanyListModel> logger,
-			CompanyRepository cmpRepository,
-			IStringLocalizer<CompanyResource> cmpLocalizer)
-			: base(logger, cmpRepository, cmpLocalizer)
+			CompanyRepository cmpRepository)
 		{
+			_cmpRepository = cmpRepository;
 		}
 
 
@@ -62,7 +61,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 					throw new NotSupportedException(model.SortByColumnIndex.ToString());
 			}
 
-			var searchResult = await this.CmpRepository.FindCompaniesAsync(model.SearchTerm,
+			var searchResult = await _cmpRepository.FindCompaniesAsync(model.SearchTerm,
 				sortByProperty, model.IsSortByAsc, 
 				model.Skip, model.Take);
 			

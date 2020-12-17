@@ -1,10 +1,9 @@
-﻿@page
+﻿@page "/Companies/{CompanyId:int}/Main"
 
-@using Microsoft.AspNetCore.Mvc.Localization
 @using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
 
-@model CompanyCreatePageModel
-
+@model CompanyMainPageModel
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
 @{
@@ -17,7 +16,7 @@
 
 		@Html.EditorFor(m => m.MainData, "~/Pages/Companies/_MainTab.cshtml")
 
-		<button class="btn btn-primary" type="submit">@CmpLocalizer["Create"]</button>
+		<button class="btn btn-primary" type="submit">@CmpLocalizer["Save"]</button>
 
 	</form>
 

@@ -11,13 +11,16 @@ using MedStat.WebAdmin.Models;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
-	public class CompanyCreateModel : CompanyBasePageModel
+	public class CompanyCreatePageModel : CompanyBasePageModel
 	{
+		public override EnCompanySection Section => EnCompanySection.Main;
+
+		// Main tab data
 		[BindProperty]
-		public Company Company { get; set; }
+		public Company MainData { get; set; }
 
 
-		public CompanyCreateModel(ILogger<CompanyCreateModel> logger,
+		public CompanyCreatePageModel(ILogger<CompanyCreatePageModel> logger,
 			CompanyRepository cmpRepository,
 			IStringLocalizer<CompanyResource> cmpLocalizer)
 			: base(logger, cmpRepository, cmpLocalizer)
@@ -34,9 +37,9 @@ namespace MedStat.WebAdmin.Pages.Companies
 			{
 				try
 				{
-					int cmpId = await this.CmpRepository.CreateCompanyAsync(this.Company.Name, this.Company.Description);
+					int cmpId = await this.CmpRepository.CreateCompanyAsync(this.MainData.Name, this.MainData.Description);
 
-					return RedirectToPage("./Edit", new { id = cmpId, isCreated = true });
+					return RedirectToPage("./Main", new { CompanyId = cmpId, isCreated = true });
 				}
 				catch (Exception ex)
 				{

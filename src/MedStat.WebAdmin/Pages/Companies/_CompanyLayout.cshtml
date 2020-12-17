@@ -1,26 +1,32 @@
-﻿@page "{id:int}/{section?}"
-
-@using MedStat.Core.Identity
+﻿@using MedStat.Core.Identity
 @using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
 @using MedStat.WebAdmin.Models
 @using Microsoft.AspNetCore.Mvc.Localization
 
-@model CompanyEditModel
-
+@model ICompanyLayoutData
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
-@inject IHtmlLocalizer<DialogResources> DlgLocalizer
 
 @{
-	ViewData["Title"] = Model.Company.Name;
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+
+	var pageTitle = Model.CompanyId > 0
+		? Model.CompanyName
+		: CmpLocalizer["New company"].Value;
+
+	var browserPageTitle = Model.CompanyId > 0
+		? $"{CmpLocalizer[Model.Section.ToString()].Value} - {Model.CompanyName}"
+		: CmpLocalizer["New company creation"].Value;
+
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
+	ViewData["Title"] = browserPageTitle;
 }
+
 
 @section PageHeader
 {
 	<nav aria-label="breadcrumb">
-		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Company"
-								page-title="@Model.Company.Name"></breadcrumb>
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Company" page-title="@pageTitle"></breadcrumb>
 	</nav>
 
 	@if (ViewData["success_message"] != null)
@@ -38,9 +44,9 @@
 	}
 
 	<div class="ms-pageheader-titlepanel">
-		<h1>@Model.Company.Name</h1>
-		
-		@if (User.IsInRole(UserRoles.SystemAdmin))
+		<h1>@pageTitle</h1>
+
+		@if (Model.CompanyId > 0 && User.IsInRole(UserRoles.SystemAdmin))
 		{
 			<div>
 				<button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dlgRemoveCompany">
@@ -54,54 +60,22 @@
 	</div>
 }
 
+
 <partial name="_PageNavTopPanel"
-				 model="@(new CompanyPageNavModel { CompanyId = Model.Company.Id, Section = Model.Section })" />
+				 model="@(new CompanyPageNavModel { CompanyId = Model.CompanyId, Section = Model.Section })" />
 
-<div class="ms-pagecontent">
-
-	<form method="post" class="ms-form-container">
-
-		@{
-			switch (Model.Section)
-			{
-				case EnCompanySection.Main:
-					{
-						// <partial name="_MainTab" model="@Model.Company"/>
-						<text>
-							@Html.EditorFor(m => m.MainData, "~/Pages/Companies/_MainTab.cshtml")
-						</text>
-					}
-					break;
-
-				case EnCompanySection.Requisites:
-					{
-						// <partial name="_RequisitesTab" model="@Model.Company.Requisites" />
-						<text>
-							@Html.EditorFor(m => m.Requisites, "~/Pages/Companies/_RequisitesTab.cshtml")
-						</text>
-					}
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		<button class="btn btn-primary" type="submit">@CmpLocalizer["Save"]</button>
-
-	</form>
-
-</div>
+@RenderBody()
 
 
-@if(User.IsInRole(UserRoles.SystemAdmin)){
+@if (Model.CompanyId > 0 && User.IsInRole(UserRoles.SystemAdmin))
+{
 
 	var confirmCompanyDelModel = new DeleteConfirmationModel
 	{
 		ControlId = "dlgRemoveCompany",
 		ConfirmMessage = CmpLocalizer["Company will be deleted permanently. Are you sure?"].Value,
 
-		AjaxUrl = Url.Page("./Edit", "Remove", new { Model.Company.Id }),
+		AjaxUrl = Url.Page("./Remove", "Ajax", new { Model.CompanyId }),
 		AjaxSuccess = "onCmpRemoved",
 		AjaxFailed = "onCmpDeletionFailed",
 
@@ -132,4 +106,7 @@
 		};
 
 	</script>
+
+	@* Redefine Sections from Master Layout *@
+	@await RenderSectionAsync("Scripts", required: false)
 }
