@@ -43,8 +43,7 @@ namespace MedStat.Core.Repositories
 					Email = adminEmail, 
 					UserName = adminEmail,
 					FirstName = "Admin",
-					Surname = "Adminov",
-					Patronymic = "Adminovich"
+					Surname = "Adminov"
 				};
 				IdentityResult result = await userManager.CreateAsync(admin, adminPassword);
 

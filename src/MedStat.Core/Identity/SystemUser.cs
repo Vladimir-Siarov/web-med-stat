@@ -17,7 +17,6 @@ namespace MedStat.Core.Identity
 		[Display(Name = "Surname")] // "Фамилия"
 		public string Surname { get; set; }
 
-		[Required(ErrorMessage = Localizer.DataAnnotations.RequiredErrorMessage)]
 		[StringLength(20)]
 		[Display(Name = "Patronymic")] // "Отчество"
 		public string Patronymic { get; set; }
