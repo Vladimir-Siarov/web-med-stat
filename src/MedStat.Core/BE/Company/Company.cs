@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using MedStat.Core.Resources;
 
@@ -21,8 +22,8 @@ namespace MedStat.Core.BE.Company
 		public DateTime UpdatedUtc { get; set; }
 
 
-		/* Requisites: */
-
 		public CompanyRequisites Requisites { get; set; }
+
+		public List<CompanyUser> Users { get; set; }
 	}
 }

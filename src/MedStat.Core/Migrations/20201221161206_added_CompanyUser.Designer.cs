@@ -4,14 +4,16 @@ using MedStat.Core.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MedStat.Core.Migrations
 {
     [DbContext(typeof(MedStatDbContext))]
-    partial class MedStatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201221161206_added_CompanyUser")]
+    partial class added_CompanyUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +91,7 @@ namespace MedStat.Core.Migrations
                     b.HasIndex("SystemUserId")
                         .IsUnique();
 
-                    b.ToTable("CompanyUsers");
+                    b.ToTable("CompanyUser");
                 });
 
             modelBuilder.Entity("MedStat.Core.Identity.SystemUser", b =>
@@ -170,7 +172,7 @@ namespace MedStat.Core.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("SystemUsers");
+                    b.ToTable("SystemUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>

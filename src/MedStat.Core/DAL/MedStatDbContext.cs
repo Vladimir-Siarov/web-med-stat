@@ -69,7 +69,7 @@ namespace MedStat.Core.DAL
 			// Override default AspNet Identity table names
 			builder.Entity<SystemUser>(b => 
 			{ 
-				b.ToTable(name: "SystemUser"); 
+				b.ToTable(name: "SystemUsers"); 
 			});
 
 
@@ -87,6 +87,17 @@ namespace MedStat.Core.DAL
 				builder.Entity<CompanyRequisites>().OwnsOne(c => c.BankRequisites);
 			}
 
+			// CompanyUser
+			{
+				builder.Entity<CompanyUser>()
+					.HasOne(cu => cu.Login)
+					.WithOne().HasForeignKey<CompanyUser>(c => c.SystemUserId)
+					.IsRequired()
+					.OnDelete(DeleteBehavior.ClientSetNull);
+
+				builder.Entity<CompanyUser>().ToTable("CompanyUsers");
+			}
+
 			// Company
 			{
 				builder.Entity<Company>()
@@ -96,6 +107,14 @@ namespace MedStat.Core.DAL
 					// If CompanyRequisites wasn't deleted before,
 					// then throws an error at in memory db and leads to constraint violation fail in physical db
 					.OnDelete(DeleteBehavior.ClientSetNull);
+
+				builder.Entity<Company>()
+					.HasMany(c => c.Users)
+					.WithOne().HasForeignKey(cu => cu.CompanyId)
+					.IsRequired()
+					// If Company wasn't deleted before,
+					// then throws an error at in memory db and leads to constraint violation fail in physical db
+					.OnDelete(deleteBehavior: DeleteBehavior.ClientSetNull);
 			}
 		}
 
