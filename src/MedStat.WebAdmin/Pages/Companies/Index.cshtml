@@ -1,6 +1,7 @@
 ﻿@page
 @using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
+@using MedStat.WebAdmin.Models
 @using Microsoft.AspNetCore.Mvc.Localization
 
 @model CompanyListModel
@@ -13,6 +14,8 @@
 	ViewData["Title"] = CmpLocalizer["Company list"];
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
 	ViewData.SetDataTablePageFlag();
+
+	var cmpSearchPanelModel = new DataTableSearchPanelModel("tblCompanies");
 }
 
 
@@ -23,9 +26,12 @@
 								page-title="@(CmpLocalizer["List"].Value)"></breadcrumb>
 	</nav>
 
-	<div class="ms-pageheader-titlepanel">
-		<h1>@CmpLocalizer["Companies"]</h1>
+	<h1 class="ms-pageheader-pagetitle">@CmpLocalizer["Companies"]</h1>
+}
 
+<div class="ms-pagecontent">
+
+	<div class="ms-section-header">
 		<div>
 			<a asp-area="" asp-page="/Companies/Create" class="btn btn-success btn-sm">
 				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -33,32 +39,33 @@
 				</svg>@CmpLocalizer["Create company"]
 			</a>
 		</div>
+		
+		<partial name="_DtSearchPanelPartial" model="@cmpSearchPanelModel" />
+		
 	</div>
-}
-
-<div class="ms-pagecontent">
 
 	<table id="tblCompanies"
-	       class="table table-hover caption-top" style="width: 100%"
-	       data-ajax="@(Url.PageLink("Index", "CompanyList"))"
-	       data-length-menu="[2, 10, 25, 50]" @* TODO: For development only (added "2") *@
+				 class="table table-hover caption-top" style="width: 100%"
+				 data-ajax="@(Url.PageLink("Index", "CompanyList"))"
 				 data-auto-width="false"
-	       ms-datatable>
+				 data-ms-page-length-control="#@cmpSearchPanelModel.PageLengthControlId"
+				 data-ms-search-control="#@cmpSearchPanelModel.SearchControlId"
+				 ms-datatable>
 		<caption>@CmpLocalizer["List of companies"]</caption>
 		<thead>
 			<tr>
 				<th data-data="id" data-width="5%">Id</th>
-				<th data-data="name" data-width="45%" data-html-template-id="tblCompanies_linkTemplate">@CmpLocalizer["Name"]</th>
-				<th data-data="description" data-width="30%" data-max-length="100">@CmpLocalizer["Description"]</th>
-				<th data-data="accountCnt" data-width="10%">@CmpLocalizer["Accounts"]</th>
+				<th data-data="name" data-width="45%" data-ms-html-template="#tblCompanies_linkTemplate">@CmpLocalizer["Name"]</th>
+				<th data-data="description" data-width="30%" data-ms-max-length="100">@CmpLocalizer["Description"]</th>
+				<th data-data="userCnt" data-width="10%">@CmpLocalizer["Users"]</th>
 				<th data-data="trackedPersonCnt" data-width="10%">@CmpLocalizer["Trekking"]</th>
 			</tr>
 		</thead>
 	</table>
-	
+
 	<div id="tblCompanies_linkTemplate" style="display: none">
 		@{
-			string companyUrl = Url.PageLink("./Main", null, new {CompanyId = "-1"})
+			string companyUrl = Url.PageLink("./Main", null, new { CompanyId = "-1" })
 				.Replace("-1", "{id}");
 		}
 		<a href="@(companyUrl)">{name}</a>

@@ -232,7 +232,7 @@ namespace MedStat.Core.Repositories
 				q = q.Where(c => c.Name.Contains(name));
 			}
 
-			// TODO: Add support for TrackedPersonCnt & AccountCnt properties
+			// TODO: Add support for TrackedPersonCnt & UserCnt properties
 
 			var result = new SearchResult<CompanySearchInfo>();
 			
@@ -256,7 +256,7 @@ namespace MedStat.Core.Repositories
 						q = isSortByAsc ? q.OrderBy(c => c.Description) : q.OrderByDescending(c => c.Description);
 						break;
 
-					case nameof(CompanySearchInfo.AccountCnt):
+					case nameof(CompanySearchInfo.UserCnt):
 						// TODO
 						break;
 
@@ -279,7 +279,7 @@ namespace MedStat.Core.Repositories
 					Id = c.Id,
 					Name = c.Name,
 					Description = c.Description,
-					AccountCnt = 0, // TODO
+					UserCnt = 0, // TODO
 					TrackedPersonCnt = 0 // TODO
 				})
 				.ToArray();

@@ -50,7 +50,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 					break;
 
 				case 3:
-					sortByProperty = nameof(CompanySearchInfo.AccountCnt);
+					sortByProperty = nameof(CompanySearchInfo.UserCnt);
 					break;
 
 				case 4:

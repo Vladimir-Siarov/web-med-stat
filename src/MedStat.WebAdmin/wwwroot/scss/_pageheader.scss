@@ -14,7 +14,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	margin: 0 0 1rem 0;
+	margin: 0 0 .5rem 0;
 
 	h1 {
 		@include ms-pagetitle;
@@ -47,5 +47,9 @@ $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 		justify-content: start;
 		justify-content: flex-start;
 		align-items: normal;
+
+		h1 {
+			margin: 0 0 .5rem 0;
+		}
 	}
 }

@@ -12,7 +12,7 @@ namespace MedStat.WebAdmin.Models
 	{
 		Main,
 		Requisites,
-		Accounts,
+		Users,
 		Trekking
 	}
 

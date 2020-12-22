@@ -14,22 +14,22 @@
 		{
 			<li class="nav-item">
 				<a class="nav-link @(Model.Section == EnCompanySection.Main ? "active" : null)"
-				   asp-page="./Main"
+				   asp-page="/Companies/Main"
 				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Main"]</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link @(Model.Section == EnCompanySection.Requisites ? "active" : null)"
-				   asp-page="./Requisites"
+				   asp-page="/Companies/Requisites"
 				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Requisites"]</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link @(Model.Section == EnCompanySection.Accounts ? "active" : null)"
-				   asp-page="./Accounts"
-				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Accounts"]</a>
+				<a class="nav-link @(Model.Section == EnCompanySection.Users ? "active" : null)"
+				   asp-page="/Companies/Users/Index"
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Users"]</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link @(Model.Section == EnCompanySection.Trekking ? "active" : null)"
-				   asp-page="./Trekking"
+				   asp-page="/Companies/Trekking"
 				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Trekking"]</a>
 			</li>
 		}
@@ -42,7 +42,7 @@
 				<span class="nav-link disabled">@CmpLocalizer["Requisites"]</span>
 			</li>
 			<li class="nav-item">
-				<span class="nav-link disabled">@CmpLocalizer["Accounts"]</span>
+				<span class="nav-link disabled">@CmpLocalizer["Users"]</span>
 			</li>
 			<li class="nav-item">
 				<span class="nav-link disabled">@CmpLocalizer["Trekking"]</span>

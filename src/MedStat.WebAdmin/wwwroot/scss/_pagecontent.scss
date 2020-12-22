@@ -47,11 +47,16 @@
 
 .ms-pagenav-toppanel {
 	font-size: 0.9rem;
-	margin-bottom: .5rem;
+	/*margin-bottom: .5rem;*/
+	margin:0px;
 
-	.nav-item{
-		margin-right: 5px;
+	.nav-item {
+		margin-right: .5rem;
 	}
+
+	/*.nav-link{
+		border-radius: 0.25rem 0.25rem 0 0;
+	}*/
 
 	.nav-link:not(.disabled):not(.active) {
 		color: $body-color;
@@ -66,12 +71,64 @@
 }
 
 .ms-pagecontent {
-	border-color: #eaedf2 !important;
+	border: solid 1px #ecf0f4; /* #eaedf2 */
 	box-shadow: 0 2px 18px rgba(0,0,0,.02);
 	padding: 1.25rem 1.5rem;
 	background-color: #fff;
 	background-clip: border-box;
-	border-radius: .5rem;	
+	border-radius: .5rem;
+}
+
+.ms-section-header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 1rem;
+	/*margin-bottom: 1.8rem;*/
+	margin-bottom: .5rem;
+	border-bottom: solid 2px #eff3f8; /*$ms-body-bgcolor;*/
+	
+	.btn {
+		.bi {
+			width: 1.5em;
+			height: 1.5em;
+			margin-right: 0.4em;
+			display: inline-block;
+			margin-top: -2px;
+		}
+	}
+}
+.ms-section-footer {
+	padding-top: 1rem;
+	margin-top: 1.8rem;
+	border-top: solid 2px #eff3f8; /*$ms-body-bgcolor;*/
+	
+	.btn {
+		.bi {
+			width: 1.5em;
+			height: 1.5em;
+			margin-right: 0.4em;
+			display: inline-block;
+			margin-top: -2px;
+		}
+	}
+}
+
+$md-grid-breakpoint: map-get($grid-breakpoints, "md");
+@media only screen and (max-width: $md-grid-breakpoint) {
+
+	.ms-section-header,
+	.ms-section-footer {
+		flex-direction: column;
+		justify-content: start;
+		justify-content: flex-start;
+		align-items: normal;
+
+		& > div:first-of-type {
+			margin-bottom: .5rem;
+		}
+	}
 }
 
 
@@ -129,8 +186,27 @@ $lg-grid-breakpoint: map-get($grid-breakpoints, "lg"); // 960px
 
 
 /* ---- DataTable -------*/
+.ms-datatable-searchpanel {
+	display: flex;
+	flex-wrap: nowrap;
+
+	input[type='search'] {
+		display: inline-block;
+		margin: 0 1rem 0 0.5rem;
+		width: auto;
+	}
+
+	select {
+		width: auto;
+	}
+}
+
 /* override DataTable.net styles */
 table.dataTable{
+
+	/*margin-top: 1rem!important;*/
+	margin-top: 0px!important;
+
 	th{
 		font-size: 0.9em;
 	}

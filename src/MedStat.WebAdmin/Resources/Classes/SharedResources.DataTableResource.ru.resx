@@ -138,6 +138,9 @@
   <data name="Search:" xml:space="preserve">
     <value>Поиск:</value>
   </data>
+  <data name="Show entries:" xml:space="preserve">
+    <value>Показывать записей:</value>
+  </data>
   <data name="Show _MENU_ entries" xml:space="preserve">
     <value>Показывать _MENU_ записей</value>
   </data>

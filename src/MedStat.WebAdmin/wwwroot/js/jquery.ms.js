@@ -11,28 +11,25 @@
 	// Provides extra functionality for DataTable control
 	window.ms.DataTableToolsClass = function() {
 
+		// <TH> attributes processing:
+
 		// Creates column definition object by: 
-		//  - specified attribute name
-		//  - specified DOM element (TH)
+		//  - specified attribute
 		//  - column index
-		function getColumnDefByAttribute(attrName, thEl, columnIndex) {
+		function getColumnDefByAttribute(attr, columnIndex) {
 
-			switch (attrName) {
+			switch (attr.name) {
 
-				case 'data-html-template-id':
+				case 'data-ms-html-template':
 					{
-						var htmlTemplateId = $(thEl).attr('data-html-template-id');
-						if (htmlTemplateId != null && htmlTemplateId != '') {
+						var htmlTemplate = $(attr.value).html();
 
-							return getColumnDefByHtmlTemplateId(htmlTemplateId, columnIndex);
-						}
-						else
-							return null;
+						return getColumnDefByHtmlTemplate(htmlTemplate, columnIndex);
 					};
 
-				case 'data-max-length':
+				case 'data-ms-max-length':
 					{
-						var maxLength = parseInt($(thEl).attr('data-max-length'));
+						var maxLength = parseInt(attr.value);
 						if (maxLength !== NaN) {
 
 							return getColumnDefByMaxLength(maxLength, columnIndex);
@@ -42,16 +39,15 @@
 					}
 
 				default:
-					throw 'Attribute "' + attrName + '" is not supported';
+					return null;
 			}
 		};
 
 		// Creates column definition object with custom "render" function.
-		// That function parses HTML of specified element 
+		// That function parses specified HTML 
 		//	and replace "{X}" string with appropriate X property of row data object.
-		function getColumnDefByHtmlTemplateId(templateId, columnIndex) {
+		function getColumnDefByHtmlTemplate(htmlTemplate, columnIndex) {
 
-			var htmlTemplate = $('#' + templateId).html();
 			if (htmlTemplate != null && htmlTemplate != '') {
 
 				//console.log('htmlTemplate: ', htmlTemplate);
@@ -107,23 +103,19 @@
 
 		// Checks all TH elements in specified tableEl for special attributes
 		// and creates DataTable options with appropriate column def. options. 
-		this.processThAttributes = function(tableEl) {
+		function preProcessThAttributes(tableEl) {
 
 			var columnDefsOptions = {
 				columnDefs: []
 			};
 
-			var attributes = [
-					'data-html-template-id',
-					'data-max-length'
-			];
-
 			var thArray = $(tableEl).find('th');
 			for (var thIndex = 0; thIndex < thArray.length; thIndex++) {
 
+				var attributes = thArray[thIndex].attributes;
 				for (var attrIndex = 0; attrIndex < attributes.length; attrIndex++) {
 
-					var columnDef = getColumnDefByAttribute(attributes[attrIndex], thArray[thIndex], thIndex);
+					var columnDef = getColumnDefByAttribute(attributes[attrIndex], thIndex);
 					if (columnDef != null) {
 
 						columnDefsOptions.columnDefs.push(columnDef);
@@ -134,6 +126,100 @@
 
 			return columnDefsOptions;
 		}
+
+
+		// <table> attribute processing
+
+		// Creates DataTable option based on table element attributes.
+		function preProcessTableAttributes(tableEl) {
+
+			var options = {};
+			
+			$.each(tableEl.attributes, function (i, attr) {
+				//console.log(i, attr.name, attr.value);
+				
+				switch (attr.name) {
+
+					case 'data-ms-page-length-control':
+						$(attr.value).each(function () {
+
+							var pageLength = parseInt(this.value);
+							if (pageLength != null) {
+
+								//options.lengthChange = false; // disable default Page Length control
+								options.pageLength = pageLength;
+
+								// remove default Page Length control
+								options.dom = options.dom != null ? options.dom : $.fn.dataTable.defaults.dom;
+								options.dom = options.dom
+									.replace('l>', '>'); // by idea we need to check that "l" not inside single quotes, because it is class name. 
+							}
+
+						});
+						break;
+
+					case 'data-ms-search-control':
+						$(attr.value).each(function () {
+
+							// remove default Search control
+							options.dom = options.dom != null ? options.dom : $.fn.dataTable.defaults.dom;
+							options.dom = options.dom
+								.replace('f>', '>'); // by idea we need to check that "f" not inside single quotes, because it is class name. 
+
+							//console.log('new dom', options.dom);
+						});
+						break;
+
+				}
+			});
+
+			//console.log('preProcessTableAttributes: options', options);
+			return options;
+		}
+
+		// Add extra functionality (via DT Api) to the DataTable instance
+		// based on his table element attributes.
+		function postProcessTableAttributes(dataTable) {
+
+			$.each(dataTable.table().node().attributes, function (i, attr) {
+				//console.log(i, attr.name, attr.value);
+
+				switch (attr.name) {
+
+					case 'data-ms-page-length-control':
+						$(attr.value).change(function () {
+							dataTable.page.len(parseInt(this.value)).draw();
+						});
+						break;
+
+					case 'data-ms-search-control':
+						$(attr.value).on('keyup', function () {
+							//TODO: Need optimization
+							dataTable.search(this.value).draw();
+						});
+						break;
+
+				}
+			});
+		}
+
+
+		// Public methods:
+
+		this.preProcessCustomAttributes = function (tableEl) {
+
+			var columnDefsOptions = preProcessThAttributes(tableEl);
+			var tableOptions = preProcessTableAttributes(tableEl);
+
+			return $.extend(columnDefsOptions, tableOptions);
+
+		}
+
+		this.postProcessCustomAttributes = function (dataTable) {
+
+			postProcessTableAttributes(dataTable);
+
+		}
 	};
 
 
@@ -141,26 +227,35 @@
 
 	$.fn.msDataTable = function (options) {
 
-		// Default grid options
-		var defOptions = {
-			processing: true,
-			serverSide: true,
+		var jQueryThis = this;
 
-			lengthMenu: [10, 25, 50],
-			pagingType: "first_last_numbers",
-			
-			language: window.msDataTableOptions != null ? window.msDataTableOptions.language : null
-		}
+		this.each(function() {
 
-		// Define render functions for columns with special attributes
-		var dataTableTools = new window.ms.DataTableToolsClass();
-		var columnDefsOptions = dataTableTools.processThAttributes(this);
+			var tableEl = this;
+			var dataTableTools = new window.ms.DataTableToolsClass();
 
-		var newOptions = $.extend(defOptions, columnDefsOptions, options || {});
+			// Default grid options
+			var defOptions = {
+				processing: true,
+				serverSide: true,
 
-		this.DataTable(newOptions);
+				lengthMenu: [10, 25, 50],
+				pagingType: "first_last_numbers",
 
-		return this;
+				language: window.msDataTableOptions != null ? window.msDataTableOptions.language : null
+			}
+
+			// Define render functions for columns with special attributes
+			var attributesOptions = dataTableTools.preProcessCustomAttributes(tableEl);
+
+			var newOptions = $.extend(defOptions, attributesOptions, options || {});
+			var dataTable = $(tableEl).DataTable(newOptions);
+
+			dataTableTools.postProcessCustomAttributes(dataTable);
+
+		});
+
+		return jQueryThis;
 
 	};
 

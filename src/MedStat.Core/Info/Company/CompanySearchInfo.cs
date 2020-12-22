@@ -12,7 +12,7 @@ namespace MedStat.Core.Info.Company
 
 		// Summary properties:
 
-		public int AccountCnt { get; set; }
+		public int UserCnt { get; set; }
 
 		public int TrackedPersonCnt { get; set; }
 	}

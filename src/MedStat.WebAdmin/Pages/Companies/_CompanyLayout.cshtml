@@ -1,5 +1,4 @@
-﻿@using MedStat.Core.Identity
-@using MedStat.WebAdmin.Classes
+﻿@using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
 @using MedStat.WebAdmin.Models
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -45,68 +44,18 @@
 
 	<div class="ms-pageheader-titlepanel">
 		<h1>@pageTitle</h1>
-
-		@if (Model.CompanyId > 0 && User.IsInRole(UserRoles.SystemAdmin))
-		{
-			<div>
-				<button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dlgRemoveCompany">
-					<svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-trash" xmlns="http://www.w3.org/2000/svg">
-						<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-						<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-					</svg>@CmpLocalizer["Delete company"]
-				</button>
-			</div>
-		}
+		
+		<partial name="_PageNavTopPanel"
+						 model="@(new CompanyPageNavModel { CompanyId = Model.CompanyId, Section = Model.Section })" />
 	</div>
 }
 
 
-<partial name="_PageNavTopPanel"
-				 model="@(new CompanyPageNavModel { CompanyId = Model.CompanyId, Section = Model.Section })" />
-
 @RenderBody()
 
 
-@if (Model.CompanyId > 0 && User.IsInRole(UserRoles.SystemAdmin))
-{
-
-	var confirmCompanyDelModel = new DeleteConfirmationModel
-	{
-		ControlId = "dlgRemoveCompany",
-		ConfirmMessage = CmpLocalizer["Company will be deleted permanently. Are you sure?"].Value,
-
-		AjaxUrl = Url.Page("./Remove", "Ajax", new { Model.CompanyId }),
-		AjaxSuccess = "onCmpRemoved",
-		AjaxFailed = "onCmpDeletionFailed",
-
-		ConfirmCommandCtrlId = Html.IdFor(m => m.ConfirmCommand),
-		ConfirmCommandCtrlName = Html.NameFor(m => m.ConfirmCommand)
-	};
-
-	<partial name="_DeleteConfirmPartial" model="@confirmCompanyDelModel" />
-}
-
 @section Scripts
 {
-	<script type="text/javascript">
-
-		onCmpRemoved = function (status) {
-
-			window.setTimeout(function() {
-
-				alert(status);
-				document.location = '@Url.Page("./Index")';
-
-			}, 50);
-		};
-
-		onCmpDeletionFailed = function (xhr) {
-
-			window.setTimeout(function () { alert(xhr.responseText); }, 50);
-		};
-
-	</script>
-
 	@* Redefine Sections from Master Layout *@
 	@await RenderSectionAsync("Scripts", required: false)
 }
