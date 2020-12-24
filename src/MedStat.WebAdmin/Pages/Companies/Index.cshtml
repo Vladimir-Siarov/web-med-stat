@@ -65,7 +65,7 @@
 
 	<div id="tblCompanies_linkTemplate" style="display: none">
 		@{
-			string companyUrl = Url.PageLink("./Main", null, new { CompanyId = "-1" })
+			string companyUrl = Url.Page("./Main", new { CompanyId = "-1" })
 				.Replace("-1", "{id}");
 		}
 		<a href="@(companyUrl)">{name}</a>

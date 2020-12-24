@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MedStat.Core.BE.Company;
@@ -7,16 +6,22 @@ using MedStat.Core.DAL;
 using MedStat.Core.Helpers;
 using MedStat.Core.Info;
 using MedStat.Core.Info.Company;
+using MedStat.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace MedStat.Core.Repositories
 {
-	public class CompanyRepository : BaseRepository
+	public partial class CompanyRepository : BaseRepository, ICompanyRepository
 	{
-		public CompanyRepository(MedStatDbContext dbContext, ILogger<CompanyRepository> logger, string userUid)
+		private readonly IIdentityRepository _identityRepository;
+
+
+		public CompanyRepository(IIdentityRepository identityRepository,
+			MedStatDbContext dbContext, ILogger<CompanyRepository> logger, string userUid)
 			: base(dbContext, logger, userUid)
 		{
+			this._identityRepository = identityRepository;
 		}
 
 
@@ -47,7 +52,7 @@ namespace MedStat.Core.Repositories
 
 		public async Task<int> CreateCompanyAsync(string name, string description)
 		{
-			if (name == null)
+			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
 			// TODO: Check name for unique
@@ -95,7 +100,7 @@ namespace MedStat.Core.Repositories
 
 		public async Task UpdateCompanyMainDataAsync(int companyId, string name, string description)
 		{
-			if (name == null)
+			if (string.IsNullOrEmpty(name))
 				throw new ArgumentNullException(nameof(name));
 
 			// TODO: Check name for unique

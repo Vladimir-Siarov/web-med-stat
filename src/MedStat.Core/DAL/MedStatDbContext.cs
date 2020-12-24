@@ -13,11 +13,15 @@ namespace MedStat.Core.DAL
 	public class MedStatDbContext : IdentityDbContext<SystemUser, IdentityRole<Int32>, Int32>
 	{
 		private string _defaultConnectionString;
-		
-		
+
+
+		public DbSet<SystemUser> SystemUsers { get; set; }
+
 		public DbSet<Company> Companies { get; set; }
 
 		public DbSet<CompanyRequisites> CompanyRequisites { get; set; }
+
+		public DbSet<CompanyUser> CompanyUsers { get; set; }
 
 
 		protected string ConnectionString { get; }
@@ -66,10 +70,11 @@ namespace MedStat.Core.DAL
 		{
 			base.OnModelCreating(builder);
 
-			// Override default AspNet Identity table names
+			// SystemUsers
 			builder.Entity<SystemUser>(b => 
 			{ 
-				b.ToTable(name: "SystemUsers"); 
+				b.ToTable(name: "SystemUsers"); // override default AspNet Identity table names
+				b.Property(su => su.IsPasswordChangeRequired).HasColumnName("PasswordChangeRequired");
 			});
 
 

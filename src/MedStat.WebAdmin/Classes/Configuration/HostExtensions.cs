@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MedStat.Core.Identity;
-using MedStat.Core.Repositories;
+using MedStat.Core.Interfaces;
 using MedStat.WebAdmin.Classes.Configuration.Sections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +25,7 @@ namespace MedStat.WebAdmin.Classes.Configuration
 				try
 				{
 					var rolesManager = services.GetRequiredService<RoleManager<IdentityRole<Int32>>>();
-					var securityRepository = services.GetRequiredService<SecurityRepository>();
+					var securityRepository = services.GetRequiredService<ISecurityRepository>();
 
 					await securityRepository.SetupRolesAsync(rolesManager);
 				}
@@ -55,13 +54,12 @@ namespace MedStat.WebAdmin.Classes.Configuration
 					var adminSettings = configuration.GetSection(SystemAdminSection.SectionName)
 						.Get<SystemAdminSection>();
 
-					if (!string.IsNullOrEmpty(adminSettings.Email))
+					if (!string.IsNullOrEmpty(adminSettings.PhoneNumber))
 					{
-						var userManager = services.GetRequiredService<UserManager<SystemUser>>();
-						var securityRepository = services.GetRequiredService<SecurityRepository>();
+						var securityRepository = services.GetRequiredService<ISecurityRepository>();
 
-						await securityRepository.SetupSystemAdminAsync(userManager, 
-							adminSettings.Email, adminSettings.Password);
+						await securityRepository.SetupSystemAdminAsync(adminSettings.PhoneNumber, 
+							adminSettings.Password);
 					}
 				}
 				catch (Exception ex)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 using MedStat.Core.Identity;
-using MedStat.Core.Repositories;
+using MedStat.Core.Interfaces;
 using MedStat.WebAdmin.Classes.SharedResources;
 using MedStat.WebAdmin.Models;
 
@@ -18,7 +18,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 
 		
 		public CompanyRemovePageModel(ILogger<CompanyRemovePageModel> logger,
-			CompanyRepository cmpRepository, 
+			ICompanyRepository cmpRepository, 
 			IStringLocalizer<CompanyResource> cmpLocalizer,
 			IStringLocalizer<DialogResources> dlgLocalizer)
 			: base(logger, cmpRepository, cmpLocalizer, dlgLocalizer)

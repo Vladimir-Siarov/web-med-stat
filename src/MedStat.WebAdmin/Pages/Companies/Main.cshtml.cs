@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 
 using MedStat.Core.BE.Company;
-using MedStat.Core.Repositories;
+using MedStat.Core.Interfaces;
 using MedStat.WebAdmin.Classes.SharedResources;
 using MedStat.WebAdmin.Models;
 
@@ -21,7 +21,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 
 		
 		public CompanyMainPageModel(ILogger<CompanyMainPageModel> logger,
-			CompanyRepository cmpRepository, 
+			ICompanyRepository cmpRepository, 
 			IStringLocalizer<CompanyResource> cmpLocalizer,
 			IStringLocalizer<DialogResources> dlgLocalizer)
 			: base(logger, cmpRepository, cmpLocalizer, dlgLocalizer)

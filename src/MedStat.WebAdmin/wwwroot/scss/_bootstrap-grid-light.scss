@@ -21,14 +21,26 @@
 .gx-3 {
 	--bs-gutter-x: 1rem;
 }
-
 .g-3,
 .gy-3 {
 	--bs-gutter-y: 1rem;
 }
 
+.g-5,
+.gx-5 {
+	--bs-gutter-x: 3rem;
+}
+.g-5,
+.gy-5 {
+	--bs-gutter-y: 3rem;
+}
+
 $sm-grid-breakpoint: map-get($grid-breakpoints, "sm"); // 576px
 @media only screen and (min-width: $sm-grid-breakpoint) {
+	.col-sm-6 {
+		flex: 0 0 auto;
+		width: 50%;
+	}
 	.col-sm-12 {
 		flex: 0 0 auto;
 		width: 100%;

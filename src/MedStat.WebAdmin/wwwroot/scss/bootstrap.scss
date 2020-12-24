@@ -41,6 +41,7 @@ $pagination-disabled-border-color: #eaedf2;
 $pagination-active-border-color: $ms-component-active-bg2;*/
 @import "../lib/bootstrap/scss/pagination";
 
+$modal-title-line-height: inherit;
 @import "../lib/bootstrap/scss/modal";
 @import "../lib/bootstrap/scss/close";
 
@@ -48,7 +49,7 @@ $pagination-active-border-color: $ms-component-active-bg2;*/
 @import "../lib/bootstrap/scss/spinners.scss";
 
 
-/* override bootstrap styles*/
+/* override bootstrap styles */
 .btn-light {
 	&:hover{
 		background-color: $gray-200;

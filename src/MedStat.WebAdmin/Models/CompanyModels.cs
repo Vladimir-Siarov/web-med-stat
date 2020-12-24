@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
-using MedStat.Core.Repositories;
+using MedStat.Core.Interfaces;
 using MedStat.WebAdmin.Classes.SharedResources;
 
 namespace MedStat.WebAdmin.Models
@@ -51,7 +51,7 @@ namespace MedStat.WebAdmin.Models
 	{
 		protected ILogger Logger { get; }
 		
-		protected CompanyRepository CmpRepository { get; }
+		protected ICompanyRepository CmpRepository { get; }
 		
 		
 		protected IStringLocalizer<CompanyResource> CmpLocalizer { get; }
@@ -60,14 +60,14 @@ namespace MedStat.WebAdmin.Models
 
 
 		private protected CompanyBasePageModel(ILogger logger,
-			CompanyRepository cmpRepository,
+			ICompanyRepository cmpRepository,
 			IStringLocalizer<CompanyResource> cmpLocalizer)
 			: this(logger, cmpRepository, cmpLocalizer, null)
 		{
 		}
 
 		private protected CompanyBasePageModel(ILogger logger,
-			CompanyRepository cmpRepository,
+			ICompanyRepository cmpRepository,
 			IStringLocalizer<CompanyResource> cmpLocalizer,
 			IStringLocalizer<DialogResources> dlgLocalizer)
 		{

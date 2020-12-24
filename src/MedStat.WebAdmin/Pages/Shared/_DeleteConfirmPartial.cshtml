@@ -21,11 +21,11 @@
 				</p>
 
 				<form method="post" class="row gx-3"
-							data-ajax="true" data-ajax-method="post"
-							data-ajax-url="@Model.AjaxUrl"
-							data-ajax-success="@Model.AjaxSuccess"
-							data-ajax-failure="@Model.AjaxFailed"
-							data-ajax-loading="#@(Model.ControlId)_spinner">
+				      data-ajax="true" data-ajax-method="post"
+				      data-ajax-url="@Model.AjaxUrl"
+				      data-ajax-success="@Model.AjaxSuccess"
+				      data-ajax-failure="@Model.AjaxFailed"
+				      data-ajax-loading="#@(Model.ControlId)_spinner">
 
 					<div class="col-auto">
 						<label for="@Model.ConfirmCommandCtrlId" class="visually-hidden">
@@ -54,3 +54,12 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+
+	document.getElementById('@Model.ControlId').addEventListener('shown.bs.modal',
+		function() {
+			document.getElementById('@Model.ConfirmCommandCtrlId').focus();
+		});
+
+</script>

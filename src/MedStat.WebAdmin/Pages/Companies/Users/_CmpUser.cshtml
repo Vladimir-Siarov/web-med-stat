@@ -1,0 +1,50 @@
+﻿@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MedStat.Core.Info.Company.CompanyUserInfo
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+
+<div class="row gx-5">
+
+	<div class="col-sm-6">
+		@*<h4>@CmpLocalizer["Main requisites"]</h4>*@
+
+		@Html.EditorFor(m => m.User.Login, "~/Pages/Account/_SystemUserPartial.cshtml")
+
+		<div>
+			<label asp-for="User.Description" class="form-label"></label>
+			<textarea asp-for="User.Description" class="form-control"></textarea>
+			<span asp-validation-for="User.Description" class="text-danger"></span>
+		</div>
+
+	</div>
+
+	<div class="col-sm-6">
+		
+		<section class="ms-form-group">
+			<h5 class="ms-form-checkgroup-header">@CmpLocalizer["User rights"]</h5>
+
+			<div class="form-check">
+				<input asp-for="CanManageCompanyAccess" class="form-check-input" />
+				<label asp-for="CanManageCompanyAccess" class="form-check-label"></label>
+			</div>
+			<div class="form-check">
+				<input asp-for="CanManageCompanyStaff" class="form-check-input" />
+				<label asp-for="CanManageCompanyStaff" class="form-check-label"></label>
+			</div>
+		</section>
+		
+		<section class="ms-form-group">
+			<h5>Login information</h5>
+			
+			@*<div>
+				<label asp-for="User.MobilePhoneNumber" class="form-label"></label>
+				<input asp-for="User.MobilePhoneNumber" class="form-control" />
+				<span asp-validation-for="User.MobilePhoneNumber" class="text-danger"></span>
+			</div>*@
+		</section>
+
+	</div>
+
+</div>

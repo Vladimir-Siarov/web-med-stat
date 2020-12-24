@@ -4,16 +4,22 @@ using System.Text;
 using System.Threading.Tasks;
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
+using MedStat.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
 namespace MedStat.Core.Repositories
 {
-	public class SecurityRepository : BaseRepository
+	public class SecurityRepository : BaseRepository, ISecurityRepository
 	{
-		public SecurityRepository(MedStatDbContext dbContext, ILogger<SecurityRepository> logger/*, string userUid*/)
+		private readonly IIdentityRepository _identityRepository;
+
+
+		public SecurityRepository(IIdentityRepository identityRepository,
+			MedStatDbContext dbContext, ILogger<SecurityRepository> logger/*, string userUid*/)
 			: base(dbContext, logger, null/*userUid*/)
 		{
+			this._identityRepository = identityRepository;
 		}
 
 
@@ -30,41 +36,40 @@ namespace MedStat.Core.Repositories
 			}
     }
 
-		public async Task SetupSystemAdminAsync(UserManager<SystemUser> userManager,
-			string adminEmail, string adminPassword)
+		public async Task SetupSystemAdminAsync(string adminPhoneNumber, string adminPassword)
 		{
-			SystemUser admin = await userManager.FindByNameAsync(adminEmail);
+			SystemUser admin = await _identityRepository.FindByPhoneNumberAsync(adminPhoneNumber);
 
-			// Check and Create System Admin user
+			// Create System Admin user
 			if (admin == null)
 			{
 				admin = new SystemUser 
 				{ 
-					Email = adminEmail, 
-					UserName = adminEmail,
+					PhoneNumber = adminPhoneNumber, 
+					
 					FirstName = "Admin",
 					Surname = "Adminov"
 				};
-				IdentityResult result = await userManager.CreateAsync(admin, adminPassword);
 
-				if (result.Succeeded)
+				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
 				{
+					admin = await _identityRepository.CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(admin,
+						adminPassword, new[] {UserRoles.SystemAdmin});
+					
+					await transaction.CommitAsync();
+
 					this.Logger.LogInformation("Admin user {@User} was created successfully",
 						new { admin.Id, admin.UserName });
-					
-					await userManager.AddToRoleAsync(admin, UserRoles.SystemAdmin);
 					this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
 						new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
 				}
 			}
 			else
 			{
-				if (false == await userManager.IsInRoleAsync(admin, UserRoles.SystemAdmin))
-				{
-					await userManager.AddToRoleAsync(admin, UserRoles.SystemAdmin);
-					this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
-						new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
-				}
+				await _identityRepository.AddToRolesAsync(admin, new[] {UserRoles.SystemAdmin});
+				
+				this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
+					new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
 			}
 		}
 	}

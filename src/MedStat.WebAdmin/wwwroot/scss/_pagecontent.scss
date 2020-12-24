@@ -11,6 +11,15 @@
 
 .ms-pagecontainer{
 	@include shiftedcontent;
+
+	.ms-pagecontent {
+		border: solid 1px #ecf0f4; /* #eaedf2 */
+		box-shadow: 0 2px 18px rgba(0,0,0,.02);
+		padding: 1.25rem 1.5rem;
+		background-color: #fff;
+		background-clip: border-box;
+		border-radius: .5rem;
+	}
 }
 .ms-footer {
 	@include shiftedcontent;
@@ -70,15 +79,6 @@
 	}
 }
 
-.ms-pagecontent {
-	border: solid 1px #ecf0f4; /* #eaedf2 */
-	box-shadow: 0 2px 18px rgba(0,0,0,.02);
-	padding: 1.25rem 1.5rem;
-	background-color: #fff;
-	background-clip: border-box;
-	border-radius: .5rem;
-}
-
 .ms-section-header {
 	display: flex;
 	flex-direction: row;
@@ -135,16 +135,39 @@ $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 /* ---- FORMs ---------- */
 /* standard large form */
 .ms-form-container {
+	$ms-font-size: 0.9rem;
+	$ms-form-label-margin-top: $ms-font-size;
+
 	max-width: map-get($grid-breakpoints, "xl"); // 1200px
 	/*color: #4a5073;*/
-	font-size: 0.9em;
-
-	*[class*="col-"] {
-		margin-bottom: 1.8em;
-	}
+	font-size: $ms-font-size;
 
 	.form-label {
-		margin-top: 1em;
+		margin-top: $ms-form-label-margin-top;
+	}
+
+	.ms-form-group {
+
+		h5 {
+			margin: $ms-form-label-margin-top 0 0 0;
+		}
+
+		.form-check {
+			margin-bottom: $form-label-margin-bottom;
+
+			&:first-of-type {
+				margin-top: $ms-form-label-margin-top;
+			}
+		}
+
+		&:not(:first-of-type) {
+			margin-top: 2 * $ms-font-size;
+		}
+	}
+
+
+	*[class*="col-"] {
+		margin-bottom: 2 * $ms-font-size;
 	}
 }
 
@@ -229,7 +252,27 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 
 /* --- Modal Dialog ---------*/
+.modal-header {
+	background-color: #f5f8fb; //$ms-body-bgcolor: #f5f8fb; #eaf0f7;
+	
+	h3 {
+		font-size: 1.5rem;
+	}
+}
 .modal-header-danger {
 	background-color: map-get($theme-colors, "danger");
 	color: color-contrast(map-get($theme-colors, "danger"));
+}
+
+/* -- Popup layout --- */
+.ms-popup-pagecontainer {
+
+	.ms-pagecontent {
+		padding: 0rem 0rem;
+		background-color: #fff;
+	}
+
+	.ms-form-container {
+		overflow-x: hidden; /* cut negative x-margins of Grid rows */
+	}
 }

@@ -20,5 +20,20 @@ namespace MedStat.Core.Identity
 		[StringLength(20)]
 		[Display(Name = "Patronymic")] // "Отчество"
 		public string Patronymic { get; set; }
+
+
+		[ProtectedPersonalData]
+		[Required(ErrorMessage = Localizer.DataAnnotations.RequiredErrorMessage)]
+		[Phone(ErrorMessage = Localizer.DataAnnotations.InvalidPhoneNumber)]
+		[StringLength(20)]
+		[Display(Name = "Mobile phone number")] // "Номер мобильного телефона"
+		public override string PhoneNumber { get; set; }
+
+		[Required]
+		[StringLength(20)]
+		public string NormalizedPhoneNumber { get; set; }
+
+
+		public bool IsPasswordChangeRequired { get; set; }
 	}
 }

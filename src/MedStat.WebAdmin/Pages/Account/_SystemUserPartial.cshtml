@@ -1,0 +1,24 @@
+﻿@*@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization*@
+
+@model MedStat.Core.Identity.SystemUser
+@*@inject IHtmlLocalizer<CompanyResource> CmpLocalizer*@
+
+@*<h4>@CmpLocalizer["Main"]</h4>*@
+
+
+<div>
+	<label asp-for="Surname" class="form-label"></label>
+	<input asp-for="Surname" class="form-control" />
+	<span asp-validation-for="Surname" class="text-danger"></span>
+</div>
+<div>
+	<label asp-for="FirstName" class="form-label"></label>
+	<input asp-for="FirstName" class="form-control" />
+	<span asp-validation-for="FirstName" class="text-danger"></span>
+</div>
+<div>
+	<label asp-for="Patronymic" class="form-label"></label>
+	<input asp-for="Patronymic" class="form-control" />
+	<span asp-validation-for="Patronymic" class="text-danger"></span>
+</div>

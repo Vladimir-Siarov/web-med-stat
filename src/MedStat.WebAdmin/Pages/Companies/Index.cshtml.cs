@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MedStat.Core.Info.Company;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
-using MedStat.Core.Repositories;
-using MedStat.WebAdmin.Classes;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
+using MedStat.Core.Info.Company;
+using MedStat.Core.Interfaces;
+using MedStat.WebAdmin.Classes;
 
 namespace MedStat.WebAdmin.Pages.Companies
 {
 	public class CompanyListModel : PageModel
 	{
-		private readonly CompanyRepository _cmpRepository;
+		private readonly ICompanyRepository _cmpRepository;
 
 
 		public CompanyListModel(ILogger<CompanyListModel> logger,
-			CompanyRepository cmpRepository)
+			ICompanyRepository cmpRepository)
 		{
 			_cmpRepository = cmpRepository;
 		}

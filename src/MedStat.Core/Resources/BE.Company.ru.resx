@@ -126,6 +126,12 @@
   <data name="BIC" xml:space="preserve">
     <value>БИК</value>
   </data>
+  <data name="Company access control" xml:space="preserve">
+    <value>Управление доступом к компании</value>
+  </data>
+  <data name="Company staff management" xml:space="preserve">
+    <value>Управление сотрудниками компании</value>
+  </data>
   <data name="Corr. acc." xml:space="preserve">
     <value>К/С</value>
   </data>
@@ -162,7 +168,10 @@
   <data name="Short Name" xml:space="preserve">
     <value>Сокращенное наименование</value>
   </data>
+  <data name="The &quot;{0}&quot; field is not a valid phone number." xml:space="preserve">
+    <value>Поле "{0}" содержит неверное значение.</value>
+  </data>
   <data name="The &quot;{0}&quot; field is required." xml:space="preserve">
-    <value>Поле "{0}" является обязательным</value>
+    <value>Поле "{0}" является обязательным.</value>
   </data>
 </root>

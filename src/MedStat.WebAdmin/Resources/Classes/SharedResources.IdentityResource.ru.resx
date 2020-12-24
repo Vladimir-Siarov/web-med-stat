@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Adding user to roles was failed" xml:space="preserve">
-    <value>Не удалось добавить назначить роли пользователю</value>
+  <data name="FirstName" xml:space="preserve">
+    <value>Имя</value>
   </data>
-  <data name="Company with ID = {0} is not found" xml:space="preserve">
-    <value>Компания с ID = {0} не найдена</value>
+  <data name="Patronymic" xml:space="preserve">
+    <value>Отчество</value>
   </data>
-  <data name="Phone Number {0} is already registered in the system" xml:space="preserve">
-    <value>Телефонный номер {0} уже зарегистрирован в системе</value>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Номер телефона</value>
   </data>
-  <data name="System User creation was failed" xml:space="preserve">
-    <value>Не удалось сосдать системного пользователя</value>
+  <data name="Surname" xml:space="preserve">
+    <value>Фамилия</value>
   </data>
 </root>

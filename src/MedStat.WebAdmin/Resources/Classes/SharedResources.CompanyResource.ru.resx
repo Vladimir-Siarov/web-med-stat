@@ -186,6 +186,9 @@
   <data name="New company creation" xml:space="preserve">
     <value>Создание новой компании</value>
   </data>
+  <data name="New user" xml:space="preserve">
+    <value>Новый пользователь</value>
+  </data>
   <data name="Requisites" xml:space="preserve">
     <value>Реквизиты</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="Update date" xml:space="preserve">
     <value>Дата последних изменений</value>
+  </data>
+  <data name="User rights" xml:space="preserve">
+    <value>Права пользователя</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>
