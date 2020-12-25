@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MedStat.Core.DAL;
@@ -66,10 +67,14 @@ namespace MedStat.Core.Repositories
 			}
 			else
 			{
-				await _identityRepository.AddToRolesAsync(admin, new[] {UserRoles.SystemAdmin});
-				
-				this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
-					new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
+				var addedRoles = await _identityRepository.AddToRolesAsync(admin, 
+					new[] {UserRoles.SystemAdmin}, true);
+
+				if (addedRoles.Any())
+				{
+					this.Logger.LogInformation("Admin user {@User} was added to the \"{roleName}\" role",
+						new { admin.Id, admin.UserName }, UserRoles.SystemAdmin);
+				}
 			}
 		}
 	}

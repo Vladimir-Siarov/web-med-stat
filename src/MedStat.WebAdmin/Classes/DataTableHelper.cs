@@ -72,6 +72,9 @@ namespace MedStat.WebAdmin.Classes
 					lengthMenu = localizer["Show _MENU_ entries"].Value,
 					search = localizer["Search:"].Value,
 
+					emptyTable = localizer["No data available"].Value,
+					infoEmpty = localizer["0 records"].Value,
+
 					info = localizer["Total records: _TOTAL_"].Value,
 					paginate = new 
 					{

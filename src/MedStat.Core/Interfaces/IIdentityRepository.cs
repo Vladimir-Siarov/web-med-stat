@@ -29,7 +29,8 @@ namespace MedStat.Core.Interfaces
 		/// </summary>
 		/// <param name="phoneNumber"></param>
 		/// <param name="roles"></param>
+		/// <param name="checkBeforeAdding"></param>
 		/// <returns></returns>
-		Task AddToRolesAsync(SystemUser user, IEnumerable<string> roles);
+		Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles, bool checkBeforeAdding = false);
 	}
 }

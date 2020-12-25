@@ -146,6 +146,7 @@ $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 		margin-top: $ms-form-label-margin-top;
 	}
 
+	/* Controls group like as checkbox group */
 	.ms-form-group {
 
 		h5 {
@@ -165,8 +166,12 @@ $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 		}
 	}
 
+	/* For single checkbox row */
+	.ms-form-checkrow{
+		margin-top: $ms-form-label-margin-top;
+	}
 
-	*[class*="col-"] {
+	&> .row > *[class*="col-"] {
 		margin-bottom: 2 * $ms-font-size;
 	}
 }
@@ -275,4 +280,57 @@ div.dataTables_wrapper div.dataTables_paginate {
 	.ms-form-container {
 		overflow-x: hidden; /* cut negative x-margins of Grid rows */
 	}
+}
+
+
+
+/* -- Login Page -- */
+.ms-login-container{
+	display:flex;
+	justify-content:normal;
+	flex-wrap: wrap;
+}
+.ms-login-container-left {
+	flex-grow: 1;
+	flex-shrink: 10;
+	flex-basis: 150px;
+	background-position-x: 100%;
+}
+.ms-login-container-right {
+	flex-grow: 1;
+	flex-shrink: 10;
+	flex-basis: 200px;
+	background-position-x: 0;
+}
+.ms-login-container-content {
+	flex-basis: 500px;
+	flex-grow: 0;
+	flex-shrink: 1;
+
+	.ms-pageheader-pagetitle {
+		text-align: center;
+	}
+
+	.ms-pagecontent {
+		padding: 1.25rem 2rem;
+	}
+
+	.btn-primary {
+		display: block;
+		width: 100%;
+	}
+}
+
+@mixin ms-login-container-bg($imageUrl) {
+	overflow: hidden;
+	background-size: contain;
+	background-position-y: 100%;
+	background-repeat: no-repeat;
+	background-image: $imageUrl;
+}
+.ms-login-container-left.bg {
+	@include ms-login-container-bg(url('../images/login_bg_left.png'));
+}
+.ms-login-container-right.bg {
+	@include ms-login-container-bg(url('../images/login_bg_right.png'));
 }

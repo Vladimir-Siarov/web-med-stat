@@ -36,7 +36,7 @@
 
 	<table id="tblCmpUsers"
 				 class="table table-hover caption-top" style="width: 100%"
-				 data-ajax="@(Url.Page("/Companies/Users/", "CompanyUserList", new { CompanyId = Model.CompanyId }))"
+				 data-ajax="@(Url.Page("/Companies/Users/Index", "CompanyUserList", new { CompanyId = Model.CompanyId }))"
 				 data-auto-width="false"
 				 data-ms-page-length-control="#@userSearchPanelModel.PageLengthControlId"
 				 data-ms-search-control="#@userSearchPanelModel.SearchControlId"

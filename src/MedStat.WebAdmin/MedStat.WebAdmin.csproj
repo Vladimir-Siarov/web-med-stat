@@ -32,4 +32,10 @@
     <Folder Include="wwwroot\lib\bootstrap\scss\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Classes\SharedResources.IdentityResource.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

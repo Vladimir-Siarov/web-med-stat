@@ -1,0 +1,92 @@
+﻿@page
+@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model LoginPageModel
+
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<IdentityResource> IdentityLocalizer
+
+@{
+	ViewData["Title"] = @IdentityLocalizer["Sign in"].Value;
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Account);
+}
+
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="null"
+								page-title="@IdentityLocalizer["Sign in"].Value"></breadcrumb>
+	</nav>
+
+	@if (ViewData["error_message"] != null)
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewData["error_message"]
+		</div>
+	}
+}
+
+<div class="ms-login-container">
+	<div class="ms-login-container-left"></div>
+
+	<div class="ms-login-container-content">
+		<h1 class="ms-pageheader-pagetitle">@IdentityLocalizer["Sign in to the system"].Value</h1>
+	</div>
+
+	<div class="ms-login-container-right"></div>
+</div>
+
+<div class="ms-login-container">
+	<div class="ms-login-container-left bg"></div>
+
+	<div class="ms-login-container-content">
+
+
+		<div class="ms-pagecontent">
+
+			<form method="post" class="ms-form-container">
+
+				<div class="row">
+					<div class="col-xs-12">
+
+						<div>
+							<label asp-for="PhoneNumber" class="form-label"></label>
+							<input asp-for="PhoneNumber" class="form-control" />
+							<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+						</div>
+						<div>
+							<label asp-for="Password" class="form-label"></label>
+							<input asp-for="Password" class="form-control" />
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
+
+						<div class="row ms-form-checkrow">
+							<div class="col-auto">
+								<div class="form-check">
+									<input asp-for="RememberMe" class="form-check-input" />
+									<label asp-for="RememberMe" class="form-check-label"></label>
+								</div>
+							</div>
+							<div class="col" style="text-align: right">
+								<a asp-area="Identity" asp-page="/Account/ForgotPassword">@IdentityLocalizer["Lost password?"].Value</a>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+				<button class="btn btn-primary" type="submit">
+					@IdentityLocalizer["__button__Sign in"].Value.Replace("__button__", "")
+				</button>
+
+			</form>
+
+		</div>
+	</div>
+
+	<div class="ms-login-container-right bg"></div>
+</div>

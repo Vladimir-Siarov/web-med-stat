@@ -100,16 +100,41 @@ namespace MedStat.Core.Repositories
 			return user;
 		}
 
-		public async Task AddToRolesAsync(SystemUser user, IEnumerable<string> roles)
+		public async Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles,
+			bool checkBeforeAdding = false)
 		{
 			if(user == null)
 				throw new ArgumentNullException(nameof(user));
 			if (roles == null)
 				throw new ArgumentNullException(nameof(roles));
 
-			var result = await _userManager.AddToRolesAsync(user, roles);
-			if (!result.Succeeded)
-				throw new Exception(this.MessagesManager.GetString("Adding user to roles was failed"));
+			if (checkBeforeAdding)
+			{
+				List<string> addedRoles = new List<string>();
+
+				foreach (string role in roles)
+				{
+					bool isInRole = await _userManager.IsInRoleAsync(user, role);
+					if (!isInRole)
+					{
+						var result = await _userManager.AddToRoleAsync(user, role);
+						if (!result.Succeeded)
+							throw new Exception(this.MessagesManager.GetString("Adding user to roles was failed"));
+
+						addedRoles.Add(role);
+					}
+				}
+
+				return addedRoles;
+			}
+			else
+			{
+				var result = await _userManager.AddToRolesAsync(user, roles);
+				if (!result.Succeeded)
+					throw new Exception(this.MessagesManager.GetString("Adding user to roles was failed"));
+
+				return roles;
+			}
 		}
 
 

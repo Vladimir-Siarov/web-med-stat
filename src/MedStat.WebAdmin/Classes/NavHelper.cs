@@ -7,7 +7,8 @@ namespace MedStat.WebAdmin.Classes
 		public enum EnMainMenuItem
 		{
 			Home,
-			Company
+			Company,
+			Account
 		}
 
 
