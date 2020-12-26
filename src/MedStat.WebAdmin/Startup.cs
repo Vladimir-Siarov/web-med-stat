@@ -48,7 +48,7 @@ namespace MedStat.WebAdmin
 			services
 				.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Companies"); })
 				//.AddRazorRuntimeCompilation();
-				.AddCoreDataAnnotationsLocalization() // custom method: add DA localization for "Core" BEs
+				.AddCustomDataAnnotationsLocalization() // custom method: add DA localization for "Core" BEs and project's ViewModels
 				.AddViewLocalization();
 
 			services.ConfigureRequestLocalization(); // custom method: setup Web App localization

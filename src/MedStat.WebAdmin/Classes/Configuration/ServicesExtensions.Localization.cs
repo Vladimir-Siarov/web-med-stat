@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
-using MedStat.Core.DAL;
-using MedStat.Core.Repositories;
+using MedStat.Core.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -12,19 +11,19 @@ namespace MedStat.WebAdmin.Classes.Configuration
 	public static partial class ServicesExtensions
 	{
 		/// <summary>
-		/// Adds MVC data annotations localization for "MedStat.Core" BEs to the application.
+		/// Adds MVC data annotations localization for "MedStat.Core" BEs and project's View Models to the application.
 		/// </summary>
 		/// <param name="builder">The <see cref="T:Microsoft.Extensions.DependencyInjection.IMvcBuilder" />.</param>
 		/// <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.IMvcBuilder" />.</returns>
-		public static IMvcBuilder AddCoreDataAnnotationsLocalization(this IMvcBuilder builder) 
+		public static IMvcBuilder AddCustomDataAnnotationsLocalization(this IMvcBuilder builder) 
 		{
 			return
 				builder.AddDataAnnotationsLocalization(options =>
 				{
 					options.DataAnnotationLocalizerProvider = (type, factory) =>
 					{
-						// check is "type" from the "MedStat.Core"
-						var stringLocalizer = Core.Resources.Localizer.GetDataAnnotationLocalizer(type, factory);
+						// try get localizer from custom type mapping
+						var stringLocalizer = DataAnnotationsLocalizer.GetDataAnnotationLocalizer(type, factory);
 						if (stringLocalizer == null)
 						{
 							// create default Localizer for Web project
