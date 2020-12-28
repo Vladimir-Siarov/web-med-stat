@@ -123,10 +123,19 @@
   <data name="Company with ID = {0} is not found" xml:space="preserve">
     <value>Компания с ID = {0} не найдена</value>
   </data>
+  <data name="Password add operation was failed" xml:space="preserve">
+    <value>Не удалось добавить пароль</value>
+  </data>
+  <data name="Password reset operation was failed" xml:space="preserve">
+    <value>Не удалось сбросить пароль</value>
+  </data>
   <data name="Phone Number {0} is already registered in the system" xml:space="preserve">
     <value>Телефонный номер {0} уже зарегистрирован в системе</value>
   </data>
   <data name="System User creation was failed" xml:space="preserve">
     <value>Не удалось сосдать системного пользователя</value>
+  </data>
+  <data name="User with phone number {0} is not found" xml:space="preserve">
+    <value>Пользователь с номером телефона {0} не найден</value>
   </data>
 </root>

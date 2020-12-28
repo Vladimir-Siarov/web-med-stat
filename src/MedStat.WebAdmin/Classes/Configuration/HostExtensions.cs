@@ -58,8 +58,7 @@ namespace MedStat.WebAdmin.Classes.Configuration
 					{
 						var securityRepository = services.GetRequiredService<ISecurityRepository>();
 
-						await securityRepository.SetupSystemAdminAsync(adminSettings.PhoneNumber, 
-							adminSettings.Password);
+						await securityRepository.SetupSystemAdminAsync(adminSettings.PhoneNumber);
 					}
 				}
 				catch (Exception ex)

@@ -76,7 +76,13 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 							urlHelper.Page("/Companies/Index"),
 							_navLocalizer["Companies"]);
 						break;
-						
+
+					case NavHelper.EnMainMenuItem.Account:
+						output.Content.AppendFormat("<li><a href='{0}'>{1}</a></li>",
+							urlHelper.Page("/Account/Manage/Index", new { area = "Identity" }),
+							_navLocalizer["Account"]);
+						break;
+
 					default:
 						throw new NotSupportedException(MenuItem.ToString());
 				}

@@ -31,7 +31,7 @@ namespace MedStat.Core.Repositories
 			if (string.IsNullOrEmpty(phoneNumber))
 				return null;
 
-			var normalizedPhoneNumber = normalizePhoneNumber(phoneNumber);
+			var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
 			var user = await this.DbContext.SystemUsers
 				.FirstOrDefaultAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
 
@@ -40,15 +40,13 @@ namespace MedStat.Core.Repositories
 
 
 		public async Task<SystemUser> CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(SystemUser userData, 
-			string userPassword, IEnumerable<string> userRoles)
+			IEnumerable<string> userRoles)
 		{
 			#region Validation
 
 			if (userData == null)
 				throw new ArgumentNullException(nameof(userData));
-			if (string.IsNullOrEmpty(userPassword))
-				throw new ArgumentNullException(nameof(userPassword));
-
+			
 			if (string.IsNullOrEmpty(userData.FirstName))
 				throw new ArgumentNullException($"{nameof(userData)}.{nameof(userData.FirstName)}");
 			if (string.IsNullOrEmpty(userData.Surname))
@@ -57,7 +55,7 @@ namespace MedStat.Core.Repositories
 			if (string.IsNullOrEmpty(userData.PhoneNumber))
 				throw new ArgumentNullException($"{nameof(userData)}.{nameof(userData.PhoneNumber)}");
 			
-			string normalizedPhoneNumber = normalizePhoneNumber(userData.PhoneNumber);
+			string normalizedPhoneNumber = NormalizePhoneNumber(userData.PhoneNumber);
 
 			// Check for unique Phone Number
 			{
@@ -88,9 +86,12 @@ namespace MedStat.Core.Repositories
 				Patronymic = userData.Patronymic
 			};
 
-			var result = await _userManager.CreateAsync(user, userPassword);
+			var result = await _userManager.CreateAsync(user);
 			if (!result.Succeeded)
-				throw new Exception(this.MessagesManager.GetString("System User creation was failed"));
+			{ 
+				throw GenerateIdentityResultException(result,
+					this.MessagesManager.GetString("System User creation was failed"));
+			}
 
 			if (userRoles != null && userRoles.Any())
 			{
@@ -119,7 +120,10 @@ namespace MedStat.Core.Repositories
 					{
 						var result = await _userManager.AddToRoleAsync(user, role);
 						if (!result.Succeeded)
-							throw new Exception(this.MessagesManager.GetString("Adding user to roles was failed"));
+						{
+							throw GenerateIdentityResultException(result,
+								this.MessagesManager.GetString("Adding user to roles was failed"));
+						}
 
 						addedRoles.Add(role);
 					}
@@ -131,14 +135,99 @@ namespace MedStat.Core.Repositories
 			{
 				var result = await _userManager.AddToRolesAsync(user, roles);
 				if (!result.Succeeded)
-					throw new Exception(this.MessagesManager.GetString("Adding user to roles was failed"));
+				{
+					throw GenerateIdentityResultException(result,
+						this.MessagesManager.GetString("Adding user to roles was failed"));
+				}
 
 				return roles;
 			}
 		}
 
 
-		private static string normalizePhoneNumber(string number)
+		public async Task ChangeUserPasswordAsync(string phoneNumber, string password)
+		{
+			if (string.IsNullOrEmpty(phoneNumber))
+				throw new ArgumentNullException(nameof(phoneNumber));
+			if (string.IsNullOrEmpty(password))
+				throw new ArgumentNullException(nameof(password));
+
+			try
+			{
+				var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
+				var user = await this.DbContext.SystemUsers
+					.FirstOrDefaultAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
+			
+				if (user == null)
+				{
+					throw new OperationCanceledException(string.Format(
+						this.MessagesManager.GetString("User with phone number {0} is not found"),
+						phoneNumber));
+				}
+
+				if (await _userManager.HasPasswordAsync(user))
+				{
+					var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+					var result = await _userManager.ResetPasswordAsync(user, token, password);
+					if (!result.Succeeded)
+					{
+						throw GenerateIdentityResultException(result,
+							this.MessagesManager.GetString("Password reset operation was failed"));
+					}
+				}
+				else
+				{
+					var result = await _userManager.AddPasswordAsync(user, password);
+					if (!result.Succeeded)
+					{
+						throw GenerateIdentityResultException(result, 
+							this.MessagesManager.GetString("Password add operation was failed"));
+					}
+				}
+
+				this.Logger.LogInformation("Password for SystemUser {@User} was changed",
+					new { user.Id, user.UserName });
+			}
+			catch (Exception ex)
+			{
+				this.Logger.LogError(ex, "SystemUser change password action was failed");
+				throw;
+			}
+		}
+
+		public async Task SetPasswordChangeRequiredFlagAsync(string phoneNumber, bool isChangePasswordRequired)
+		{
+			if (string.IsNullOrEmpty(phoneNumber))
+				throw new ArgumentNullException(nameof(phoneNumber));
+			
+			try
+			{
+				var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
+				var user = await this.DbContext.SystemUsers
+					.FirstOrDefaultAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
+
+				if (user == null)
+				{
+					throw new OperationCanceledException(string.Format(
+						this.MessagesManager.GetString("User with phone number {0} is not found"),
+						phoneNumber));
+				}
+
+				user.IsPasswordChangeRequired = isChangePasswordRequired;
+				await this.DbContext.SaveChangesAsync();
+
+				this.Logger.LogInformation("\"PasswordChangeRequired\" flag was updated for SystemUser {@User}",
+					new { user.Id, user.UserName });
+			}
+			catch (Exception ex)
+			{
+				this.Logger.LogError(ex, "SystemUser update action for \"PasswordChangeRequired\" flag was failed");
+				throw;
+			}
+		}
+
+
+		private static string NormalizePhoneNumber(string number)
 		{
 			number = Regex.Replace(number, @"[^\d|\+]", "");
 
@@ -150,6 +239,15 @@ namespace MedStat.Core.Repositories
 			}
 
 			return number;
+		}
+
+		private static Exception GenerateIdentityResultException(IdentityResult result, string mainExMessage)
+		{
+			var innerException = result?.Errors?.FirstOrDefault() != null
+				? new Exception(result.Errors.FirstOrDefault().Description)
+				: null;
+
+			return new Exception(mainExMessage, innerException);
 		}
 	}
 }

@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Confirm password" xml:space="preserve">
+    <value>Подтверждение пароля</value>
+  </data>
+  <data name="Confirmation code" xml:space="preserve">
+    <value>Код подтверждения</value>
+  </data>
+  <data name="Field values &quot;{0}&quot; and &quot;{1}&quot; do not match." xml:space="preserve">
+    <value>Значения полей "{0}" и "{1}" не совпадают.</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>Имя</value>
   </data>
   <data name="Mobile phone number" xml:space="preserve">
     <value>Номер мобильного телефона</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>Новый пароль</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>

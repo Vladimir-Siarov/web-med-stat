@@ -54,7 +54,8 @@ namespace MedStat.WebAdmin.Classes
 
 				// MedStat.WebAdmin types:
 
-				{ typeof(LoginPageModel).FullName, GetIdentityUserLocalizer }
+				{ typeof(LoginPageModel).FullName, GetIdentityUserLocalizer },
+				{ typeof(ChangePasswordPageModel).FullName, GetIdentityUserLocalizer }
 			};
 
 

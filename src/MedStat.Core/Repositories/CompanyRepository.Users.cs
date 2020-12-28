@@ -17,7 +17,7 @@ namespace MedStat.Core.Repositories
 			// Cmp User data
 			string description,
 			// Login data
-			SystemUser login, string userPassword,
+			SystemUser login,
 			// user rights
 			bool canManageCompanyAccess, bool canManageCompanyStaff)
 		{
@@ -52,7 +52,7 @@ namespace MedStat.Core.Repositories
 				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
 				{
 					var newLogin = await _identityRepository
-						.CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(login, userPassword, userRoles);
+						.CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(login, userRoles);
 
 					newCmpUser.Login = newLogin;
 

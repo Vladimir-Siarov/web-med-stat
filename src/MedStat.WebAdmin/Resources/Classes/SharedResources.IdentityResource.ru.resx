@@ -120,11 +120,17 @@
   <data name="Account is locked. Try again later." xml:space="preserve">
     <value>Аккаунт заблокирован. Попробуйте снова позже.</value>
   </data>
+  <data name="Confirmation code was sent to the following number: {0}" xml:space="preserve">
+    <value>Код подтверждения был отправлен на номер: {0}</value>
+  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="Invalid confirmation code" xml:space="preserve">
+    <value>Неверный код подтверждения</value>
   </data>
   <data name="Invalid password" xml:space="preserve">
     <value>Неверный пароль</value>
@@ -135,14 +141,20 @@
   <data name="Lost password?" xml:space="preserve">
     <value>Забыли пароль?</value>
   </data>
+  <data name="Password must be at least six characters long." xml:space="preserve">
+    <value>Пароль должен состоять не менее чем из шести символов.</value>
+  </data>
+  <data name="Password requirements:" xml:space="preserve">
+    <value>Требования к паролю:</value>
+  </data>
+  <data name="Password should contains an uppercase character, lowercase character, a digit, and a non-alphanumeric character." xml:space="preserve">
+    <value>Пароль должен содержать символ верхнего регистра, символ нижнего регистра, цифру и не буквенно-цифровой символ.</value>
+  </data>
   <data name="Patronymic" xml:space="preserve">
     <value>Отчество</value>
   </data>
-  <data name="PhoneNumber" xml:space="preserve">
+  <data name="Phone number" xml:space="preserve">
     <value>Номер телефона</value>
-  </data>
-  <data name="Remember me" xml:space="preserve">
-    <value>Запомнить меня</value>
   </data>
   <data name="Sign in" xml:space="preserve">
     <value>Авторизация</value>
@@ -154,12 +166,24 @@
     <value>Фамилия</value>
   </data>
   <data name="__button__Back" xml:space="preserve">
-    <value>__button__Назад</value>
+    <value>Назад</value>
+  </data>
+  <data name="__button__Change" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="__button__Create" xml:space="preserve">
+    <value>Создать</value>
   </data>
   <data name="__button__Next" xml:space="preserve">
     <value>Далее</value>
   </data>
   <data name="__button__Sign in" xml:space="preserve">
-    <value>__button__Войти</value>
+    <value>Войти</value>
+  </data>
+  <data name="__pageTitle__Change password" xml:space="preserve">
+    <value>Изменение пароля</value>
+  </data>
+  <data name="__pageTitle__Create password" xml:space="preserve">
+    <value>Создание пароля</value>
   </data>
 </root>

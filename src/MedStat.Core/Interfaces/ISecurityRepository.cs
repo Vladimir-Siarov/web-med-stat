@@ -17,8 +17,7 @@ namespace MedStat.Core.Interfaces
 		/// Creates (if required) System Admin user and it to the appropriate roles.
 		/// </summary>
 		/// <param name="adminPhoneNumber"></param>
-		/// <param name="adminPassword"></param>
 		/// <returns></returns>
-		Task SetupSystemAdminAsync(string adminPhoneNumber, string adminPassword);
+		Task SetupSystemAdminAsync(string adminPhoneNumber);
 	}
 }

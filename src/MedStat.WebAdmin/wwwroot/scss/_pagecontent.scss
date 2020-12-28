@@ -334,3 +334,27 @@ div.dataTables_wrapper div.dataTables_paginate {
 .ms-login-container-right.bg {
 	@include ms-login-container-bg(url('../images/login_bg_right.png'));
 }
+
+
+/* ---- Field validation ---- */
+.field-validation-error {
+	color: #ff0000;
+}
+
+.field-validation-valid {
+	display: none;
+}
+
+.input-validation-error {
+	border: 1px solid #dc9393;
+	background-color: #fee;
+}
+
+.validation-summary-errors {
+	font-weight: bold;
+	color: #ff0000;
+}
+
+.validation-summary-valid {
+	display: none;
+}

@@ -13,16 +13,16 @@ namespace MedStat.Core.Interfaces
 		/// <returns></returns>
 		Task<SystemUser> FindByPhoneNumberAsync(string phoneNumber);
 		
+
 		/// <summary>
 		/// Creates SystemUser with specified data and adds it to the specified roles.<br/>
 		/// Note: Method doesn't rollback partial results if one or several sub-actions were failed!
 		/// </summary>
 		/// <param name="userData"></param>
-		/// <param name="userPassword"></param>
 		/// <param name="userRoles"></param>
 		/// <returns></returns>
 		Task<SystemUser> CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(SystemUser userData,
-			string userPassword, IEnumerable<string> userRoles);
+			IEnumerable<string> userRoles);
 
 		/// <summary>
 		/// Adds specified user to the specified roles.
@@ -32,5 +32,22 @@ namespace MedStat.Core.Interfaces
 		/// <param name="checkBeforeAdding"></param>
 		/// <returns></returns>
 		Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles, bool checkBeforeAdding = false);
+
+
+		/// <summary>
+		/// Change password for specified user.
+		/// </summary>
+		/// <param name="phoneNumber"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		Task ChangeUserPasswordAsync(string phoneNumber, string password);
+
+		/// <summary>
+		/// Set "ChangePasswordRequired" flag for specified user.
+		/// </summary>
+		/// <param name="phoneNumber"></param>
+		/// <param name="isChangePasswordRequired"></param>
+		/// <returns></returns>
+		Task SetPasswordChangeRequiredFlagAsync(string phoneNumber, bool isChangePasswordRequired);
 	}
 }

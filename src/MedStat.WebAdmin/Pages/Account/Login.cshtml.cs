@@ -90,6 +90,15 @@ namespace MedStat.WebAdmin.Pages.Account
 					if (user != null)
 					{
 						DisplayPhoneNumberSection = false;
+
+						if (user.IsPasswordChangeRequired 
+						    || false == await _userManager.HasPasswordAsync(user))
+						{
+							return RedirectToPage("/Account/ChangePassword", new
+							{
+								PhoneNumber = user.NormalizedPhoneNumber
+							});
+						}
 					}
 					else
 					{

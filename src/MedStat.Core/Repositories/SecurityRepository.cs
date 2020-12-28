@@ -37,7 +37,7 @@ namespace MedStat.Core.Repositories
 			}
     }
 
-		public async Task SetupSystemAdminAsync(string adminPhoneNumber, string adminPassword)
+		public async Task SetupSystemAdminAsync(string adminPhoneNumber)
 		{
 			SystemUser admin = await _identityRepository.FindByPhoneNumberAsync(adminPhoneNumber);
 
@@ -55,7 +55,7 @@ namespace MedStat.Core.Repositories
 				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
 				{
 					admin = await _identityRepository.CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(admin,
-						adminPassword, new[] {UserRoles.SystemAdmin});
+						new[] {UserRoles.SystemAdmin});
 					
 					await transaction.CommitAsync();
 

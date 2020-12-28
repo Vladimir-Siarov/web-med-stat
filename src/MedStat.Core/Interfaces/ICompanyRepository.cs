@@ -86,7 +86,6 @@ namespace MedStat.Core.Interfaces
 		/// <param name="companyId"></param>
 		/// <param name="description"></param>
 		/// <param name="login"></param>
-		/// <param name="userPassword"></param>
 		/// <param name="canManageCompanyAccess"></param>
 		/// <param name="canManageCompanyStaff"></param>
 		/// <returns></returns>
@@ -94,7 +93,7 @@ namespace MedStat.Core.Interfaces
 			// Cmp User data
 			string description,
 			// Login data
-			SystemUser login, string userPassword,
+			SystemUser login,
 			// user rights
 			bool canManageCompanyAccess, bool canManageCompanyStaff);
 	}
