@@ -1,19 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Localization;
+
 using MedStat.Core.Identity;
 using MedStat.Core.Interfaces;
 using MedStat.Core.Resources;
 using MedStat.WebAdmin.Classes.SharedResources;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
 
 namespace MedStat.WebAdmin.Pages.Account
 {
@@ -21,6 +20,7 @@ namespace MedStat.WebAdmin.Pages.Account
 	{
 		private readonly ILogger<LoginPageModel> _logger;
 		private readonly UserManager<SystemUser> _userManager;
+		private readonly SignInManager<SystemUser> _signInManager;
 		private readonly IIdentityRepository _identityRepository;
 		private readonly IStringLocalizer<IdentityResource> _identityLocalizer;
 
@@ -43,13 +43,20 @@ namespace MedStat.WebAdmin.Pages.Account
 		public bool RememberMe { get; set; }
 
 
+		// Wizard properties:
+
+		public bool DisplayPhoneNumberSection { get; set; }
+
+
 		public LoginPageModel(IIdentityRepository identityRepository, 
 			UserManager<SystemUser> userManager,
+			SignInManager<SystemUser> signInManager,
 			IStringLocalizer<IdentityResource> identityLocalizer,
 			ILogger<LoginPageModel> logger)
 		{
 			this._identityRepository = identityRepository;
 			this._userManager = userManager;
+			this._signInManager = signInManager;
 			this._identityLocalizer = identityLocalizer;
 			this._logger = logger;
 		}
@@ -62,35 +69,74 @@ namespace MedStat.WebAdmin.Pages.Account
 				return RedirectToPage("/Index");
 			}
 
+			DisplayPhoneNumberSection = true;
+
 			return Page();
 		}
 
-		//[ValidateAntiForgeryToken]
-		public async Task<IActionResult> OnPostAsync()
+
+		public async Task<IActionResult> OnPostCheckPhoneNumberAsync()
 		{
+			DisplayPhoneNumberSection = true;
+
+			ModelState[nameof(this.Password)].Errors.Clear();
+			ModelState[nameof(this.Password)].ValidationState = ModelValidationState.Skipped;
+
 			if (ModelState.IsValid)
 			{
 				try
 				{
 					var user = await _identityRepository.FindByPhoneNumberAsync(this.PhoneNumber);
-					if (user != null 
-					    && await _userManager.CheckPasswordAsync(user, this.Password))
+					if (user != null)
 					{
-						var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
-						{
-							identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-							identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
-						}
-
-						await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
-							new ClaimsPrincipal(identity), 
-							new AuthenticationProperties{ IsPersistent = this.RememberMe});
-
-						return RedirectToPage("/Index");
+						DisplayPhoneNumberSection = false;
 					}
 					else
 					{
-						ViewData["error_message"] = _identityLocalizer["Invalid phone or password"].Value;
+						ViewData["error_message"] = _identityLocalizer["Invalid phone number"].Value;
+					}
+				}
+				catch (Exception ex)
+				{
+					ViewData["error_message"]
+						= string.Format(_identityLocalizer["Error has occurred: {0}"].Value, ex.Message);
+				}
+			}
+
+			return Page();
+		}
+
+		public async Task<IActionResult> OnPostCheckPasswordAsync()
+		{
+			DisplayPhoneNumberSection = false;
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var user = await _identityRepository.FindByPhoneNumberAsync(this.PhoneNumber);
+					if (user != null)
+					{
+						var result = await _signInManager.PasswordSignInAsync(user.UserName, this.Password, 
+							this.RememberMe, true);
+
+						if (result.Succeeded)
+						{
+							return RedirectToPage("/Index");
+						}
+						else if (result.IsLockedOut)
+						{
+							// Account is locked until: user.LockoutEnd?.DateTime.ToLocalTime().ToShortTimeString());
+							ViewData["error_message"] = _identityLocalizer["Account is locked. Try again later."].Value;
+						}
+						else
+						{
+							ViewData["error_message"] = _identityLocalizer["Invalid password"].Value;
+						}
+					}
+					else
+					{
+						ViewData["error_message"] = _identityLocalizer["Invalid phone number"].Value;
 					}
 				}
 				catch (Exception ex)

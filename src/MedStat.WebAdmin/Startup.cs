@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
+using MedStat.WebAdmin.Classes;
 using MedStat.WebAdmin.Classes.Configuration;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
@@ -38,7 +39,8 @@ namespace MedStat.WebAdmin
 			services
 				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddRoles<IdentityRole<Int32>>()
-				.AddEntityFrameworkStores<MedStatDbContext>();
+				.AddEntityFrameworkStores<MedStatDbContext>()
+				.AddClaimsPrincipalFactory<SystemUserClaimsPrincipalFactory>(); // custom factory: adds custom claims
 
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddCoreRepositories(); // custom method: add repositories from "Core" project
