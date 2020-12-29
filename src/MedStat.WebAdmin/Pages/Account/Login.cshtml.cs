@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -13,17 +12,14 @@ using MedStat.Core.Identity;
 using MedStat.Core.Interfaces;
 using MedStat.Core.Resources;
 using MedStat.WebAdmin.Classes.SharedResources;
+using MedStat.WebAdmin.Models;
 
 namespace MedStat.WebAdmin.Pages.Account
 {
-	public class LoginPageModel : PageModel
+	public class LoginPageModel : SignInBasePageModel
 	{
-		private readonly ILogger<LoginPageModel> _logger;
-		private readonly UserManager<SystemUser> _userManager;
-		private readonly SignInManager<SystemUser> _signInManager;
 		private readonly IIdentityRepository _identityRepository;
-		private readonly IStringLocalizer<IdentityResource> _identityLocalizer;
-
+		
 
 		[BindProperty]
 		[Required(ErrorMessage = Localizer.DataAnnotations.RequiredErrorMessage)]
@@ -49,16 +45,12 @@ namespace MedStat.WebAdmin.Pages.Account
 
 
 		public LoginPageModel(IIdentityRepository identityRepository, 
-			UserManager<SystemUser> userManager,
 			SignInManager<SystemUser> signInManager,
 			IStringLocalizer<IdentityResource> identityLocalizer,
 			ILogger<LoginPageModel> logger)
+			: base(logger, identityLocalizer, signInManager)
 		{
 			this._identityRepository = identityRepository;
-			this._userManager = userManager;
-			this._signInManager = signInManager;
-			this._identityLocalizer = identityLocalizer;
-			this._logger = logger;
 		}
 
 
@@ -91,8 +83,7 @@ namespace MedStat.WebAdmin.Pages.Account
 					{
 						DisplayPhoneNumberSection = false;
 
-						if (user.IsPasswordChangeRequired 
-						    || false == await _userManager.HasPasswordAsync(user))
+						if (user.IsPasswordChangeRequired || string.IsNullOrEmpty(user.PasswordHash))
 						{
 							return RedirectToPage("/Account/ChangePassword", new
 							{
@@ -102,13 +93,13 @@ namespace MedStat.WebAdmin.Pages.Account
 					}
 					else
 					{
-						ViewData["error_message"] = _identityLocalizer["Invalid phone number"].Value;
+						ViewData["error_message"] = this.IdentityLocalizer["Invalid phone number"].Value;
 					}
 				}
 				catch (Exception ex)
 				{
 					ViewData["error_message"]
-						= string.Format(_identityLocalizer["Error has occurred: {0}"].Value, ex.Message);
+						= string.Format(this.IdentityLocalizer["Error has occurred: {0}"].Value, ex.Message);
 				}
 			}
 
@@ -126,32 +117,19 @@ namespace MedStat.WebAdmin.Pages.Account
 					var user = await _identityRepository.FindByPhoneNumberAsync(this.PhoneNumber);
 					if (user != null)
 					{
-						var result = await _signInManager.PasswordSignInAsync(user.UserName, this.Password, 
-							this.RememberMe, true);
-
-						if (result.Succeeded)
-						{
-							return RedirectToPage("/Index");
-						}
-						else if (result.IsLockedOut)
-						{
-							// Account is locked until: user.LockoutEnd?.DateTime.ToLocalTime().ToShortTimeString());
-							ViewData["error_message"] = _identityLocalizer["Account is locked. Try again later."].Value;
-						}
-						else
-						{
-							ViewData["error_message"] = _identityLocalizer["Invalid password"].Value;
-						}
+						var actionResult = await this.SignInAsync(user.UserName, this.Password, this.RememberMe);
+						if (actionResult != null)
+							return actionResult;
 					}
 					else
 					{
-						ViewData["error_message"] = _identityLocalizer["Invalid phone number"].Value;
+						ViewData["error_message"] = this.IdentityLocalizer["Invalid phone number"].Value;
 					}
 				}
 				catch (Exception ex)
 				{
 					ViewData["error_message"]
-						= string.Format(_identityLocalizer["Error has occurred: {0}"].Value, ex.Message);
+						= string.Format(this.IdentityLocalizer["Error has occurred: {0}"].Value, ex.Message);
 				}
 			}
 
