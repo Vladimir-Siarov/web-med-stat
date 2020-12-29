@@ -45,8 +45,7 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 				}
 				catch (Exception ex)
 				{
-					ViewData["error_message"] 
-						= string.Format(this.CmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
+					ViewData["error_message"] = this.CmpLocalizer.GetFormattedValue_ErrorHasOccurred(ex.Message);
 				}
 			}
 

@@ -53,7 +53,7 @@ namespace MedStat.WebAdmin.Pages.Companies
 			}
 			catch (Exception ex)
 			{
-				var errorMsg = string.Format(this.CmpLocalizer["Error has occurred: {0}"].Value, ex.Message);
+				var errorMsg = this.CmpLocalizer.GetFormattedValue_ErrorHasOccurred(ex.Message);
 
 				return
 					StatusCode(StatusCodes.Status500InternalServerError, errorMsg);

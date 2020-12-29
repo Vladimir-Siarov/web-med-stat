@@ -93,13 +93,12 @@ namespace MedStat.WebAdmin.Pages.Account
 					}
 					else
 					{
-						ViewData["error_message"] = this.IdentityLocalizer["Invalid phone number"].Value;
+						ViewData["error_message"] = this.IdentityLocalizer.GetValue_InvalidPhoneNumber();
 					}
 				}
 				catch (Exception ex)
 				{
-					ViewData["error_message"]
-						= string.Format(this.IdentityLocalizer["Error has occurred: {0}"].Value, ex.Message);
+					ViewData["error_message"] = this.IdentityLocalizer.GetFormattedValue_ErrorHasOccurred(ex.Message);
 				}
 			}
 
@@ -123,13 +122,12 @@ namespace MedStat.WebAdmin.Pages.Account
 					}
 					else
 					{
-						ViewData["error_message"] = this.IdentityLocalizer["Invalid phone number"].Value;
+						ViewData["error_message"] = this.IdentityLocalizer.GetValue_InvalidPhoneNumber();
 					}
 				}
 				catch (Exception ex)
 				{
-					ViewData["error_message"]
-						= string.Format(this.IdentityLocalizer["Error has occurred: {0}"].Value, ex.Message);
+					ViewData["error_message"] = this.IdentityLocalizer.GetFormattedValue_ErrorHasOccurred(ex.Message);
 				}
 			}
 

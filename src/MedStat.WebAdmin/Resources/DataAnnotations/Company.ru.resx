@@ -150,9 +150,6 @@
   <data name="Legal Address" xml:space="preserve">
     <value>Юридический адрес</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Название</value>
-  </data>
   <data name="OGRN" xml:space="preserve">
     <value>ОГРН</value>
   </data>
@@ -173,5 +170,8 @@
   </data>
   <data name="The &quot;{0}&quot; field is required." xml:space="preserve">
     <value>Поле "{0}" является обязательным.</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Название</value>
   </data>
 </root>

@@ -11,7 +11,7 @@ namespace MedStat.Core.BE.Company
 
 		[Required(ErrorMessage = Localizer.DataAnnotations.RequiredErrorMessage)]
 		[StringLength(50)]
-		[Display(Name = "Name")] // "Название"
+		[Display(Name = "Title")] // "Название"
 		public string Name { get; set; }
 		
 		[Display(Name = "Description")] // "Описание"

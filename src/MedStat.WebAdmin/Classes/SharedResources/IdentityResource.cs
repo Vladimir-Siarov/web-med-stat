@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Extensions.Localization;
+
 namespace MedStat.WebAdmin.Classes.SharedResources
 {
 	/// <summary>
@@ -8,5 +10,22 @@ namespace MedStat.WebAdmin.Classes.SharedResources
 	/// </summary>
 	public class IdentityResource
 	{
+	}
+
+
+	// Helper class
+	public static class IdentityStringLocalizerExtensions
+	{
+		// Plain values:
+		
+		public static string GetValue_InvalidPhoneNumber(this IStringLocalizer<IdentityResource> localizer)
+			=> localizer["Invalid phone number"].Value;
+
+
+		// Formatted values:
+
+		public static string GetFormattedValue_ErrorHasOccurred(this IStringLocalizer<IdentityResource> localizer, 
+			string errorMessage)
+			=> string.Format(localizer["Error has occurred: {0}"].Value, errorMessage);
 	}
 }
