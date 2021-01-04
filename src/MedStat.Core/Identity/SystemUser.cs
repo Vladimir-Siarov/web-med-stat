@@ -29,7 +29,7 @@ namespace MedStat.Core.Identity
 		[Display(Name = "Mobile phone number")] // "Номер мобильного телефона"
 		public override string PhoneNumber { get; set; }
 
-		[Required]
+		//[Required] - moved do DataContext definition
 		[StringLength(20)]
 		public string NormalizedPhoneNumber { get; set; }
 

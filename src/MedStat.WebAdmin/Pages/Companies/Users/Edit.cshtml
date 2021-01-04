@@ -1,16 +1,16 @@
-﻿@page "/Companies/{CompanyId:int}/Users/Create"
+﻿@page "/Companies/{CompanyId:int}/Users/Edit/{CmpUserId:int}"
 
 @using Microsoft.AspNetCore.Mvc.Localization
 @using MedStat.WebAdmin.Classes.SharedResources
 
-@model CompanyUserCreatePageModel
+@model CompanyUserEditPageModel
 
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
 @{
 	Layout = "_PopupLayout";
 
-	ViewData["Title"] = CmpLocalizer["New user"];
+	ViewData["Title"] = $"{this.Model?.CmpUserData?.User?.Login?.Surname} {this.Model?.CmpUserData?.User?.Login?.FirstName}";
 }
 
 <div class="ms-pagecontent">
@@ -59,7 +59,7 @@
 
 		</div>
 
-		<button class="btn btn-primary" type="submit">@CmpLocalizer["Create"]</button>
+		<button class="btn btn-primary" type="submit">@CmpLocalizer["Save"]</button>
 
 	</form>
 

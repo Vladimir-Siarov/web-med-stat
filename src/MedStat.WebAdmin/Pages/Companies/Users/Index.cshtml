@@ -98,19 +98,16 @@
 
 			var openCmpUserPopup = function(userId) {
 
-				$('#modalUser_label').text(userId ? 'Edit user' : '@CmpLocalizer["New user"]');
 				$('#modalUser_iframe').get(0).contentDocument.body.innerHTML = '@DlgLocalizer["Loading..."]';
 
 				if (userModal == null) {
-					userModal = new bootstrap.Modal(document.getElementById('modalUser'),
-						{
-							focus: true
-						});
+					userModal = new bootstrap.Modal(document.getElementById('modalUser'), { focus: true });
 				}
 
 				userModal.show();
 
 				if (userId) {
+					// format url to Edit page
 				}
 				else {
 					$('#modalUser_iframe').get(0).src = '@Url.Page("./Create", new {CompanyId = Model.CompanyId})';
@@ -123,12 +120,17 @@
 				openCmpUserPopup();
 			});
 
-			$('#modalUser_iframe').get(0).addEventListener("load",
-				function(e) {
+			$('#modalUser_iframe').get(0).addEventListener("load", function(e) {
 
-					$(this).height($(this.contentDocument.body).height());
-				});
+				$(this).height($(this.contentDocument.body).height());
+			});
 
+			$(window).bind('ms_popup_loaded', function(e, popupParams) {
+
+				if (popupParams != null) {
+					$('#modalUser_label').html(popupParams.title);
+				}
+			});
 		};
 
 	</script>

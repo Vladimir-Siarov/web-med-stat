@@ -13,7 +13,6 @@ namespace MedStat.Core.Interfaces
 		/// <returns></returns>
 		Task<SystemUser> FindByPhoneNumberAsync(string phoneNumber);
 		
-
 		/// <summary>
 		/// Creates SystemUser with specified data and adds it to the specified roles.<br/>
 		/// Note: Method doesn't rollback partial results if one or several sub-actions were failed!
@@ -24,14 +23,22 @@ namespace MedStat.Core.Interfaces
 		Task<SystemUser> CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(SystemUser userData,
 			IEnumerable<string> userRoles);
 
+
 		/// <summary>
 		/// Adds specified user to the specified roles.
 		/// </summary>
-		/// <param name="phoneNumber"></param>
+		/// <param name="user"></param>
 		/// <param name="roles"></param>
 		/// <param name="checkBeforeAdding"></param>
 		/// <returns></returns>
 		Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles, bool checkBeforeAdding = false);
+
+		/// <summary>
+		/// Get Roles assigned to the specified user.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns></returns>
+		Task<IEnumerable<string>> GetUserRolesAsync(SystemUser user);
 
 
 		/// <summary>

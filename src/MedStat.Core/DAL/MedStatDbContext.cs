@@ -75,6 +75,7 @@ namespace MedStat.Core.DAL
 			{ 
 				b.ToTable(name: "SystemUsers"); // override default AspNet Identity table names
 				b.Property(su => su.IsPasswordChangeRequired).HasColumnName("PasswordChangeRequired");
+				b.Property(su => su.NormalizedPhoneNumber).IsRequired();
 			});
 
 

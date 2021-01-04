@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MedStat.Core.BE.Company;
 using MedStat.Core.Identity;
+using MedStat.Core.Info.Company;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +13,35 @@ namespace MedStat.Core.Repositories
 {
 	public partial class CompanyRepository
 	{
+		#region Get
+
+		public async Task<CompanyUserInfo> GetCompanyUserAsync(int cmpUserId)
+		{
+			CompanyUserInfo userInfo = null;
+
+			CompanyUser cmpUser = await this.DbContext.CompanyUsers
+				.Include(cu => cu.Login)
+				.AsNoTracking()
+				.FirstOrDefaultAsync(cu => cu.Id == cmpUserId);
+
+			if (cmpUser != null)
+			{
+				userInfo = new CompanyUserInfo
+				{
+					User = cmpUser
+				};
+
+				var roles = await this._identityRepository.GetUserRolesAsync(cmpUser.Login);
+
+				userInfo.CanManageCompanyAccess = roles != null && roles.Contains(UserRoles.CompanyAccessManager);
+				userInfo.CanManageCompanyStaff = roles != null && roles.Contains(UserRoles.CompanyStaffManager);
+			}
+
+			return userInfo;
+		}
+
+		#endregion
+
 		#region Create
 
 		public async Task<int> CreateCompanyUserAsync(int companyId,

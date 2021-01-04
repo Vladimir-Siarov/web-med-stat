@@ -37,11 +37,20 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 			{
 				try
 				{
-//					int cmpId = await this.CmpRepository.CreateCompanyUserAsync(this.CmpUserData.User,
-//						this.CmpUserData.CanManageCompanyAccess, 
-//						this.CmpUserData.CanManageCompanyStaff);
-//
-//					return RedirectToPage("./Main", new { CompanyId = cmpId, isCreated = true });
+					int cmpUserId = await this.CmpRepository.CreateCompanyUserAsync(this.CompanyId,
+						this.CmpUserData.User.Description,
+						this.CmpUserData.User.Login,
+						this.CmpUserData.CanManageCompanyAccess,
+						this.CmpUserData.CanManageCompanyStaff);
+					
+					return 
+						RedirectToPage("./Edit", 
+							new
+							{
+								CompanyId = this.CompanyId,
+								CmpUserId = cmpUserId,
+								isCreated = true
+							});
 				}
 				catch (Exception ex)
 				{

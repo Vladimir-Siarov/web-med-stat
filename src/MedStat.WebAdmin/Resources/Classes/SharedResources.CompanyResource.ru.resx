@@ -195,8 +195,11 @@
   <data name="Update date" xml:space="preserve">
     <value>Дата последних изменений</value>
   </data>
-  <data name="User rights" xml:space="preserve">
-    <value>Права пользователя</value>
+  <data name="User data were updated" xml:space="preserve">
+    <value>Данные пользователя были обновлены</value>
+  </data>
+  <data name="User __CmpUserName__ was created successfully" xml:space="preserve">
+    <value>Пользователь {1} {0} был успешно создан</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>
@@ -215,6 +218,12 @@
   </data>
   <data name="__CmpUserGrid_Column__Surname" xml:space="preserve">
     <value>Фамилия</value>
+  </data>
+  <data name="__CmpUserPage__Login information" xml:space="preserve">
+    <value>Данные для входа в систему</value>
+  </data>
+  <data name="__CmpUserPage__User rights" xml:space="preserve">
+    <value>Права пользователя</value>
   </data>
   <data name="__CompanyGrid_Column__Description" xml:space="preserve">
     <value>Описание</value>

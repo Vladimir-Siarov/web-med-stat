@@ -26,6 +26,8 @@ namespace MedStat.Core.Repositories
 		}
 
 
+		// SystemUser:
+
 		public async Task<SystemUser> FindByPhoneNumberAsync(string phoneNumber)
 		{
 			if (string.IsNullOrEmpty(phoneNumber))
@@ -37,8 +39,7 @@ namespace MedStat.Core.Repositories
 
 			return user;
 		}
-
-
+		
 		public async Task<SystemUser> CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(SystemUser userData, 
 			IEnumerable<string> userRoles)
 		{
@@ -101,6 +102,9 @@ namespace MedStat.Core.Repositories
 			return user;
 		}
 
+
+		// Roles:
+
 		public async Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles,
 			bool checkBeforeAdding = false)
 		{
@@ -144,6 +148,16 @@ namespace MedStat.Core.Repositories
 			}
 		}
 
+		public async Task<IEnumerable<string>> GetUserRolesAsync(SystemUser user)
+		{
+			if (user == null)
+				throw new ArgumentNullException(nameof(user));
+
+			return await _userManager.GetRolesAsync(user);
+		}
+
+
+		// Password:
 
 		public async Task ChangeUserPasswordAsync(string phoneNumber, string password)
 		{

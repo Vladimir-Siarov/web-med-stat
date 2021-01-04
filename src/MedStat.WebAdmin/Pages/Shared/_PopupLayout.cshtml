@@ -22,6 +22,19 @@
 </head>
 <body>
 	
+	@if (ViewData["success_message"] != null)
+	{
+		<div class="alert alert-success" role="alert">
+			@ViewData["success_message"]
+		</div>
+	}
+
+	@if (ViewData["error_message"] != null)
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewData["error_message"]
+		</div>
+	}
 
 	<main role="main" class="ms-popup-pagecontainer">
 		@RenderBody()
@@ -39,7 +52,7 @@
 	<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
 
 	<script defer src="~/js/jquery.ms.js" asp-append-version="true"></script>
-	<script defer src="~/js/site.js" asp-append-version="true"></script>
+	@*<script defer src="~/js/site.js" asp-append-version="true"></script>*@
 
 	@if (ViewData.IsDataTablePage())
 	{
@@ -53,6 +66,19 @@
 			};
 		</script>
 	}
+
+<script type="text/javascript">
+		window.addEventListener('load', (event) => {
+
+			if (window.parent != null && window.parent.$ != null) {
+
+				window.parent.$(window.parent).trigger('ms_popup_loaded', [
+					{
+						title: '@ViewData["Title"]'
+					}]);
+			}
+		});
+</script>
 
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
