@@ -9,7 +9,9 @@
 @inject IHtmlLocalizer<IdentityResource> IdentityLocalizer
 
 @{
-	ViewData["Title"] = IdentityLocalizer["Sign in"].Value;
+	var title = IdentityLocalizer["__pageTitle__Sign in"].Value;
+
+	ViewData["Title"] = title;
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Account);
 }
 
@@ -17,8 +19,7 @@
 @section PageHeader
 {
 	<nav aria-label="breadcrumb">
-		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Account"
-								page-title="@IdentityLocalizer["Sign in"].Value"></breadcrumb>
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Account" page-title="@title"></breadcrumb>
 	</nav>
 
 	@if (ViewData["error_message"] != null)
@@ -64,7 +65,7 @@
 					</div>
 
 					<button class="btn btn-primary" type="submit">
-						@IdentityLocalizer["__button__Next"].Value.Replace("__button__", "")
+						@IdentityLocalizer["__button__Next"].Value
 					</button>
 
 				</form>
@@ -102,12 +103,12 @@
 					<div class="row">
 						<div class="col-auto">
 							<a class="btn btn-link" asp-area="" asp-page="/Account/Login">
-								@IdentityLocalizer["__button__Back"].Value.Replace("__button__", "")
+								@IdentityLocalizer["__button__Back"].Value
 							</a>
 						</div>
 						<div class="col">
 							<button class="btn btn-primary" type="submit">
-								@IdentityLocalizer["__button__Sign in"].Value.Replace("__button__", "")
+								@IdentityLocalizer["__button__Sign in"].Value
 							</button>
 						</div>
 					</div>

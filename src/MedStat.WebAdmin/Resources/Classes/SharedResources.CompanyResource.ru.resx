@@ -156,9 +156,6 @@
   <data name="Delete company" xml:space="preserve">
     <value>Удалить компанию</value>
   </data>
-  <data name="Description" xml:space="preserve">
-    <value>Описание</value>
-  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
@@ -192,9 +189,6 @@
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Название</value>
-  </data>
   <data name="Trekking" xml:space="preserve">
     <value>Трекинг</value>
   </data>
@@ -205,6 +199,33 @@
     <value>Права пользователя</value>
   </data>
   <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="__CmpUserGrid_Column__Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="__CmpUserGrid_Column__First name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="__CmpUserGrid_Column__Patronymic" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="__CmpUserGrid_Column__Phone number" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="__CmpUserGrid_Column__Surname" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="__CompanyGrid_Column__Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="__CompanyGrid_Column__Title" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="__CompanyGrid_Column__Trekking" xml:space="preserve">
+    <value>Трекинг</value>
+  </data>
+  <data name="__CompanyGrid_Column__Users" xml:space="preserve">
     <value>Пользователи</value>
   </data>
 </root>

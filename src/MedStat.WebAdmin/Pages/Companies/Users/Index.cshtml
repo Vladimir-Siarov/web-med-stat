@@ -8,7 +8,6 @@
 @model CompanyUsersPageModel
 
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
-@inject IHtmlLocalizer<IdentityResource> IdentityLocalizer
 @inject IHtmlLocalizer<DialogResources> DlgLocalizer
 
 @{
@@ -45,11 +44,11 @@
 		<thead>
 			<tr>
 				<th data-data="id" data-width="5%">Id</th>
-				<th data-data="Surname" data-width="15%">@IdentityLocalizer["Surname"]</th>
-				<th data-data="FirstName" data-width="15%">@IdentityLocalizer["FirstName"]</th>
-				<th data-data="Patronymic" data-width="15%">@IdentityLocalizer["Patronymic"]</th>
-				<th data-data="PhoneNumber" data-width="15%">@IdentityLocalizer["PhoneNumber"]</th>
-				<th data-data="description" data-width="30%" data-ms-max-length="100">@CmpLocalizer["Description"]</th>
+				<th data-data="Surname" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__Surname"]</th>
+				<th data-data="FirstName" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__First name"]</th>
+				<th data-data="Patronymic" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__Patronymic"]</th>
+				<th data-data="PhoneNumber" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__Phone number"]</th>
+				<th data-data="description" data-width="30%" data-ms-max-length="100">@CmpLocalizer["__CmpUserGrid_Column__Description"]</th>
 				<th data-width="5%"><!-- actions --></th>
 			</tr>
 		</thead>
