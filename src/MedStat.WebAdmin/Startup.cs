@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using MedStat.Core.DAL;
 using MedStat.Core.Identity;
 using MedStat.WebAdmin.Classes;
@@ -12,6 +14,7 @@ using MedStat.WebAdmin.Classes.Configuration;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.WebEncoders;
 
 namespace MedStat.WebAdmin
 {
@@ -54,6 +57,12 @@ namespace MedStat.WebAdmin
 				.AddViewLocalization();
 
 			services.ConfigureRequestLocalization(); // custom method: setup Web App localization
+			services.Configure<WebEncoderOptions>(options =>
+			{
+				options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.BasicLatin,
+					// Prevent encoding russian words (from Resources and DB) to Unicode codes (like as "&#x41D;") at HTML!
+					UnicodeRanges.Cyrillic);
+			});
 
 			// Setup data protection for Web farm: 
 			// (and prevent "The antiforgery token could not be decrypted" error)
