@@ -2,10 +2,13 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using MedStat.Core.BE.Company;
+using MedStat.Core.Info.Company;
 using MedStat.Core.Interfaces;
+using MedStat.WebAdmin.Classes;
 using MedStat.WebAdmin.Classes.SharedResources;
 using MedStat.WebAdmin.Models;
 
@@ -41,37 +44,40 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 
 		public async Task<JsonResult> OnGetCompanyUserListAsync()
 		{
-			/*
 			var model = DataTableHelper.ParseDataTableRequest(this.Request);
 
 			string sortByProperty;
 			switch (model.SortByColumnIndex)
 			{
 				case 0:
-					sortByProperty = nameof(CompanySearchInfo.Id);
+					sortByProperty = nameof(CompanyUser.Id);
 					break;
 
 				case 1:
-					sortByProperty = nameof(CompanySearchInfo.Name);
+					sortByProperty = nameof(CompanyUser.Login.Surname);
 					break;
 
 				case 2:
-					sortByProperty = nameof(CompanySearchInfo.Description);
+					sortByProperty = nameof(CompanyUser.Login.FirstName);
 					break;
 
 				case 3:
-					sortByProperty = nameof(CompanySearchInfo.UserCnt);
+					sortByProperty = nameof(CompanyUser.Login.Patronymic);
 					break;
 
 				case 4:
-					sortByProperty = nameof(CompanySearchInfo.TrackedPersonCnt);
+					sortByProperty = nameof(CompanyUser.Login.PhoneNumber);
+					break;
+
+				case 5:
+					sortByProperty = nameof(CompanyUser.Description);
 					break;
 
 				default:
 					throw new NotSupportedException(model.SortByColumnIndex.ToString());
 			}
 
-			var searchResult = await _cmpRepository.FindCompaniesAsync(model.SearchTerm,
+			var searchResult = await this.CmpRepository.FindCompanyUsersAsync(model.SearchTerm,
 				sortByProperty, model.IsSortByAsc,
 				model.Skip, model.Take);
 
@@ -79,15 +85,17 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 			{
 				recordsTotal = searchResult.TotalRecords,
 				recordsFiltered = searchResult.TotalRecords,
-				data = searchResult.Data.ToArray()
-			};
-			*/
-
-			var jsonResponse = new
-			{
-				recordsTotal = 0,
-				recordsFiltered = 0,
-				data = new string[0]
+				data = searchResult.Data
+					.Select(cu => new 
+						{
+							cu.Id,
+							cu.Login.Surname,
+							cu.Login.FirstName,
+							cu.Login.Patronymic,
+							cu.Login.PhoneNumber,
+							cu.Description
+						})
+					.ToArray()
 			};
 
 			return

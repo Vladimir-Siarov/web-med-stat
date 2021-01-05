@@ -1,4 +1,4 @@
-﻿@page "/Companies/{CompanyId:int}/Users/Edit/{CmpUserId:int}"
+﻿@page "/Companies/Users/Edit/{CmpUserId:int}"
 
 @using Microsoft.AspNetCore.Mvc.Localization
 @using MedStat.WebAdmin.Classes.SharedResources
@@ -50,7 +50,7 @@
 			
 					<div>
 						<label asp-for="CmpUserData.User.Login.PhoneNumber" class="form-label"></label>
-						<input asp-for="CmpUserData.User.Login.PhoneNumber" class="form-control" />
+						<input asp-for="CmpUserData.User.Login.PhoneNumber" class="form-control" readonly="readonly" />
 						<span asp-validation-for="CmpUserData.User.Login.PhoneNumber" class="text-danger"></span>
 					</div>
 				</section>

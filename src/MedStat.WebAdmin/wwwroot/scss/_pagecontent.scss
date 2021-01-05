@@ -242,6 +242,12 @@ table.dataTable{
 	caption{
 		margin-bottom: 0.5em;
 	}
+
+	/* Override bootstrap */
+	.btn{
+		line-height: 1;
+		padding: 0.2em 0.3em;
+	}
 }
 div.dataTables_info {
 	color: $table-caption-color;

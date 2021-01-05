@@ -204,6 +204,9 @@
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>
   </data>
+  <data name="__button__Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
   <data name="__CmpUserGrid_Column__Description" xml:space="preserve">
     <value>Описание</value>
   </data>

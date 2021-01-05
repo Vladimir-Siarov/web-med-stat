@@ -1,7 +1,9 @@
-﻿@using MedStat.WebAdmin.Classes
+﻿@using MedStat.WebAdmin.Models
+@using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
 @using Microsoft.Extensions.Localization
 
+@model IPopupLayoutData
 @inject IStringLocalizer<DataTableResource> DtLocalizer
 
 <!DOCTYPE html>
@@ -21,7 +23,7 @@
 	<link rel="stylesheet" href="~/css/ms.css" />
 </head>
 <body>
-	
+
 	@if (ViewData["success_message"] != null)
 	{
 		<div class="alert alert-success" role="alert">
@@ -39,7 +41,7 @@
 	<main role="main" class="ms-popup-pagecontainer">
 		@RenderBody()
 	</main>
-	
+
 	<!-- Bootstrap Bundle with Popper.js -->
 	<script async src="~/js/bootstrap.bundle.min.js"></script>
 
@@ -72,10 +74,21 @@
 
 			if (window.parent != null && window.parent.$ != null) {
 
-				window.parent.$(window.parent).trigger('ms_popup_loaded', [
+				var parentWindow = window.parent.$(window.parent);
+
+				parentWindow.trigger('ms_popup_loaded', [
 					{
 						title: '@ViewData["Title"]'
 					}]);
+
+				@if (Model.EntityWasCreated)
+				{
+					<text> parentWindow.trigger('ms_popup_entityWasCreated', []); </text>
+				}
+				@if (Model.EntityWasUpdated)
+				{
+					<text> parentWindow.trigger('ms_popup_entityWasUpdated', []); </text>
+				}
 			}
 		});
 </script>

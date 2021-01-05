@@ -92,4 +92,36 @@ namespace MedStat.WebAdmin.Models
 
 		#endregion
 	}
+
+	public abstract class CompanyUserBasePageModel : PageModel, IPopupLayoutData
+	{
+		//protected ILogger Logger { get; }
+
+		protected ICompanyRepository CmpRepository { get; }
+
+		protected IStringLocalizer<CompanyResource> CmpLocalizer { get; }
+
+
+		[BindProperty(SupportsGet = true)]
+		public int CmpUserId { get; set; }
+
+
+		private protected CompanyUserBasePageModel(//ILogger logger,
+			ICompanyRepository cmpRepository,
+			IStringLocalizer<CompanyResource> cmpLocalizer)
+		{
+			//this.Logger = logger;
+			this.CmpRepository = cmpRepository;
+			this.CmpLocalizer = cmpLocalizer;
+		}
+
+
+		#region IPopupLayoutData
+
+		public bool EntityWasUpdated { get; set; }
+
+		public bool EntityWasCreated { get; set; }
+
+		#endregion
+	}
 }

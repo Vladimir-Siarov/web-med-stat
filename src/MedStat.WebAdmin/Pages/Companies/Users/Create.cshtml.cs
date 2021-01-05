@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 using System;
 using System.Threading.Tasks;
@@ -11,18 +10,18 @@ using MedStat.WebAdmin.Models;
 
 namespace MedStat.WebAdmin.Pages.Companies.Users
 {
-	public class CompanyUserCreatePageModel : CompanyBasePageModel
+	public class CompanyUserCreatePageModel : CompanyUserBasePageModel
 	{
-		public override EnCompanySection Section => EnCompanySection.Users;
+		[BindProperty(SupportsGet = true)]
+		public int CompanyId { get; set; }
 
 		[BindProperty]
 		public CompanyUserInfo CmpUserData { get; set; }
 
 
-		public CompanyUserCreatePageModel(ILogger<CompanyCreatePageModel> logger,
-			ICompanyRepository cmpRepository,
+		public CompanyUserCreatePageModel(ICompanyRepository cmpRepository,
 			IStringLocalizer<CompanyResource> cmpLocalizer)
-			: base(logger, cmpRepository, cmpLocalizer)
+			: base(cmpRepository, cmpLocalizer)
 		{
 		}
 
@@ -47,7 +46,6 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 						RedirectToPage("./Edit", 
 							new
 							{
-								CompanyId = this.CompanyId,
 								CmpUserId = cmpUserId,
 								isCreated = true
 							});

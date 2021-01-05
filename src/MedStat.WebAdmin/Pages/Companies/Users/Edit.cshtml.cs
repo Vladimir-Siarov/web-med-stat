@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Threading.Tasks;
 
 using MedStat.Core.Info.Company;
 using MedStat.Core.Interfaces;
@@ -11,22 +11,15 @@ using MedStat.WebAdmin.Models;
 
 namespace MedStat.WebAdmin.Pages.Companies.Users
 {
-	public class CompanyUserEditPageModel : CompanyBasePageModel
+	public class CompanyUserEditPageModel : CompanyUserBasePageModel
 	{
-		public override EnCompanySection Section => EnCompanySection.Users;
-
 		[BindProperty]
 		public CompanyUserInfo CmpUserData { get; set; }
+		
 
-
-		[BindProperty(SupportsGet = true)]
-		public int CmpUserId { get; set; }
-
-
-		public CompanyUserEditPageModel(ILogger<CompanyCreatePageModel> logger,
-			ICompanyRepository cmpRepository,
+		public CompanyUserEditPageModel(ICompanyRepository cmpRepository,
 			IStringLocalizer<CompanyResource> cmpLocalizer)
-			: base(logger, cmpRepository, cmpLocalizer)
+			: base(cmpRepository, cmpLocalizer)
 		{
 		}
 
@@ -41,6 +34,8 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 
 			if (isCreated == true && this.CmpUserData != null)
 			{
+				this.EntityWasCreated = true;
+
 				ViewData["success_message"] = string.Format(
 					this.CmpLocalizer["User __CmpUserName__ was created successfully"].Value,
 					this.CmpUserData.User?.Login?.FirstName,
@@ -56,12 +51,14 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 			{
 				try
 				{
-					//int cmpUserId = await this.CmpRepository.CreateCompanyUserAsync(this.CompanyId,
-					//	this.CmpUserData.User.Description,
-					//	this.CmpUserData.User.Login,
-					//	this.CmpUserData.CanManageCompanyAccess,
-					//	this.CmpUserData.CanManageCompanyStaff);
-					//
+					await this.CmpRepository.UpdateCompanyUserAsync(this.CmpUserId,
+						this.CmpUserData.User.Description,
+						this.CmpUserData.User.Login,
+						this.CmpUserData.CanManageCompanyAccess,
+						this.CmpUserData.CanManageCompanyStaff);
+
+					this.EntityWasUpdated = true;
+
 					ViewData["success_message"] = this.CmpLocalizer["User data were updated"];
 				}
 				catch (Exception ex)

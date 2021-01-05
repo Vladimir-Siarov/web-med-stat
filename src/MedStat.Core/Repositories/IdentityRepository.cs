@@ -148,6 +148,49 @@ namespace MedStat.Core.Repositories
 			}
 		}
 
+		public async Task<IEnumerable<string>> RemoveFromRolesAsync(SystemUser user, IEnumerable<string> roles,
+			bool checkBeforeAdding = false)
+		{
+			if (user == null)
+				throw new ArgumentNullException(nameof(user));
+			if (roles == null)
+				throw new ArgumentNullException(nameof(roles));
+
+			if (checkBeforeAdding)
+			{
+				List<string> removedRoles = new List<string>();
+
+				foreach (string role in roles)
+				{
+					bool isInRole = await _userManager.IsInRoleAsync(user, role);
+					if (isInRole)
+					{
+						var result = await _userManager.RemoveFromRoleAsync(user, role);
+						if (!result.Succeeded)
+						{
+							throw GenerateIdentityResultException(result,
+								this.MessagesManager.GetString("Removing user from roles was failed"));
+						}
+
+						removedRoles.Add(role);
+					}
+				}
+
+				return removedRoles;
+			}
+			else
+			{
+				var result = await _userManager.RemoveFromRolesAsync(user, roles);
+				if (!result.Succeeded)
+				{
+					throw GenerateIdentityResultException(result,
+						this.MessagesManager.GetString("Removing user from roles was failed"));
+				}
+
+				return roles;
+			}
+		}
+
 		public async Task<IEnumerable<string>> GetUserRolesAsync(SystemUser user)
 		{
 			if (user == null)
