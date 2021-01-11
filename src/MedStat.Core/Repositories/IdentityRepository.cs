@@ -19,8 +19,8 @@ namespace MedStat.Core.Repositories
 
 
 		public IdentityRepository(UserManager<SystemUser> userManager,
-			MedStatDbContext dbContext, ILogger<IdentityRepository> logger /*, string userUid*/)
-			: base(dbContext, logger, null/*userUid*/)
+			MedStatDbContext dbContext, ILogger<IdentityRepository> logger, string userUid)
+			: base(dbContext, logger, userUid)
 		{
 			this._userManager = userManager;
 		}
@@ -56,23 +56,11 @@ namespace MedStat.Core.Repositories
 			if (string.IsNullOrEmpty(userData.PhoneNumber))
 				throw new ArgumentNullException($"{nameof(userData)}.{nameof(userData.PhoneNumber)}");
 			
-			string normalizedPhoneNumber = NormalizePhoneNumber(userData.PhoneNumber);
-
-			// Check for unique Phone Number
-			{
-				bool isPhoneNumberExist = await this.DbContext.SystemUsers
-					.AnyAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
-				
-				if (isPhoneNumberExist)
-				{
-					throw new OperationCanceledException(string.Format(
-						this.MessagesManager.GetString("Phone Number {0} is already registered in the system"),
-						normalizedPhoneNumber));
-				}
-			}
+			await CheckForUniquePhoneNumberAsync(userData.PhoneNumber);
 
 			#endregion
 
+			string normalizedPhoneNumber = NormalizePhoneNumber(userData.PhoneNumber);
 			var user = new SystemUser
 			{
 				UserName = normalizedPhoneNumber,
@@ -102,7 +90,23 @@ namespace MedStat.Core.Repositories
 			return user;
 		}
 
+		protected async Task<SystemUser> GetSystemUserOrThrowExceptionAsync(string phoneNumber)
+		{
+			var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
+			var user = await this.DbContext.SystemUsers
+				.FirstOrDefaultAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
 
+			if (user == null)
+			{
+				throw new OperationCanceledException(string.Format(
+					this.MessagesManager.GetString("User with phone number {0} is not found"),
+					phoneNumber));
+			}
+
+			return user;
+		}
+
+		
 		// Roles:
 
 		public async Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles,
@@ -211,17 +215,8 @@ namespace MedStat.Core.Repositories
 
 			try
 			{
-				var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
-				var user = await this.DbContext.SystemUsers
-					.FirstOrDefaultAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
+				var user = await this.GetSystemUserOrThrowExceptionAsync(phoneNumber);
 			
-				if (user == null)
-				{
-					throw new OperationCanceledException(string.Format(
-						this.MessagesManager.GetString("User with phone number {0} is not found"),
-						phoneNumber));
-				}
-
 				if (await _userManager.HasPasswordAsync(user))
 				{
 					var token = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -242,8 +237,8 @@ namespace MedStat.Core.Repositories
 					}
 				}
 
-				this.Logger.LogInformation("Password for SystemUser {@User} was changed",
-					new { user.Id, user.UserName });
+				this.Logger.LogInformation("Password for SystemUser {@User} was changed by {UserUid}",
+					new { user.Id, user.UserName }, this.UserUid);
 			}
 			catch (Exception ex)
 			{
@@ -259,27 +254,96 @@ namespace MedStat.Core.Repositories
 			
 			try
 			{
-				var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
-				var user = await this.DbContext.SystemUsers
-					.FirstOrDefaultAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
-
-				if (user == null)
-				{
-					throw new OperationCanceledException(string.Format(
-						this.MessagesManager.GetString("User with phone number {0} is not found"),
-						phoneNumber));
-				}
+				var user = await this.GetSystemUserOrThrowExceptionAsync(phoneNumber);
 
 				user.IsPasswordChangeRequired = isChangePasswordRequired;
 				await this.DbContext.SaveChangesAsync();
 
-				this.Logger.LogInformation("\"PasswordChangeRequired\" flag was updated for SystemUser {@User}",
-					new { user.Id, user.UserName });
+				this.Logger.LogInformation("\"PasswordChangeRequired\" flag was updated for SystemUser {@User} by {UserUid}",
+					new { user.Id, user.UserName }, this.UserUid);
 			}
 			catch (Exception ex)
 			{
 				this.Logger.LogError(ex, "SystemUser update action for \"PasswordChangeRequired\" flag was failed");
 				throw;
+			}
+		}
+
+
+		// Phone Number:
+
+		public async Task ChangeUserPhoneNumberAsync(string phoneNumber, string newPhoneNumber)
+		{
+			if (string.IsNullOrEmpty(phoneNumber))
+				throw new ArgumentNullException(nameof(phoneNumber));
+			if (string.IsNullOrEmpty(newPhoneNumber))
+				throw new ArgumentNullException(nameof(newPhoneNumber));
+
+			try
+			{
+				await this.CheckForUniquePhoneNumberAsync(newPhoneNumber);
+
+				var user = await this.GetSystemUserOrThrowExceptionAsync(phoneNumber);
+				var oldUserName = user.UserName;
+
+				string normalizedNewPhoneNumber = NormalizePhoneNumber(newPhoneNumber);
+
+				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
+				{
+					var result = await _userManager.SetPhoneNumberAsync(user, newPhoneNumber);
+					if (!result.Succeeded)
+					{
+						throw GenerateIdentityResultException(result,
+							this.MessagesManager.GetString("Phone number change operation was failed"));
+					}
+
+					result = await _userManager.RemovePasswordAsync(user);
+					if (!result.Succeeded)
+					{
+						throw GenerateIdentityResultException(result,
+							this.MessagesManager.GetString("Password reset operation was failed"));
+					}
+
+					result = await _userManager.SetUserNameAsync(user, normalizedNewPhoneNumber);
+					if (!result.Succeeded)
+					{
+						throw GenerateIdentityResultException(result,
+							this.MessagesManager.GetString("System User name change operation was failed"));
+					}
+
+					// reload user data
+					user = this.DbContext.SystemUsers.First(u => u.Id == user.Id);
+
+					user.NormalizedPhoneNumber = normalizedNewPhoneNumber;
+					user.IsPasswordChangeRequired = true;
+
+					await this.DbContext.SaveChangesAsync();
+
+					await transaction.CommitAsync();
+				}
+				
+				this.Logger.LogInformation("Phone number for SystemUser {@User} was changed to {NewNormalizedPhoneNumber} by {UserUid}",
+					new { user.Id, UserName = oldUserName }, normalizedNewPhoneNumber, this.UserUid);
+			}
+			catch (Exception ex)
+			{
+				this.Logger.LogError(ex, "SystemUser change phone number action was failed");
+				throw;
+			}
+		}
+
+		protected async Task CheckForUniquePhoneNumberAsync(string phoneNumber)
+		{
+			string normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);
+
+			bool isPhoneNumberExist = await this.DbContext.SystemUsers
+				.AnyAsync(su => su.NormalizedPhoneNumber == normalizedPhoneNumber);
+
+			if (isPhoneNumberExist)
+			{
+				throw new OperationCanceledException(string.Format(
+					this.MessagesManager.GetString("Phone Number {0} is already registered in the system"),
+					normalizedPhoneNumber));
 			}
 		}
 

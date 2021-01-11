@@ -132,6 +132,9 @@
   <data name="Password reset operation was failed" xml:space="preserve">
     <value>Не удалось сбросить пароль</value>
   </data>
+  <data name="Phone number change operation was failed" xml:space="preserve">
+    <value>Не удалось изменить номер телефона</value>
+  </data>
   <data name="Phone Number {0} is already registered in the system" xml:space="preserve">
     <value>Телефонный номер {0} уже зарегистрирован в системе</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="System User creation was failed" xml:space="preserve">
     <value>Не удалось сосдать системного пользователя</value>
+  </data>
+  <data name="System User name change operation was failed" xml:space="preserve">
+    <value>Не удалось изменить имя системного пользователя</value>
   </data>
   <data name="User with phone number {0} is not found" xml:space="preserve">
     <value>Пользователь с номером телефона {0} не найден</value>

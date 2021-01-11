@@ -204,6 +204,12 @@
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>
   </data>
+  <data name="__button__Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="__button__Change phone number" xml:space="preserve">
+    <value>Изменить номер</value>
+  </data>
   <data name="__button__Edit" xml:space="preserve">
     <value>Редактировать</value>
   </data>
@@ -239,5 +245,8 @@
   </data>
   <data name="__CompanyGrid_Column__Users" xml:space="preserve">
     <value>Пользователи</value>
+  </data>
+  <data name="__pageTitle__Change phone number" xml:space="preserve">
+    <value>Смена номера телефона</value>
   </data>
 </root>

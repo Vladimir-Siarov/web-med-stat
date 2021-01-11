@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +8,32 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 using MedStat.Core.Identity;
+using MedStat.Core.Resources;
 using MedStat.WebAdmin.Classes.SharedResources;
 using Microsoft.Net.Http.Headers;
 
 namespace MedStat.WebAdmin.Models
 {
+	public class ChangePhoneNumberModel
+	{
+		[BindProperty]
+		[Required(ErrorMessage = Localizer.DataAnnotations.RequiredErrorMessage)]
+		[Phone(ErrorMessage = Localizer.DataAnnotations.InvalidPhoneNumber)]
+		[StringLength(20)]
+		[Display(Name = "Mobile phone number")] // "Номер мобильного телефона"
+		public string PhoneNumber { get; set; }
+
+		[BindProperty]
+		[Required(ErrorMessage = Localizer.DataAnnotations.RequiredErrorMessage)]
+		[Phone(ErrorMessage = Localizer.DataAnnotations.InvalidPhoneNumber)]
+		[StringLength(20)]
+		[Display(Name = "New phone number")] // "Новый номер телефона"
+		public string NewPhoneNumber { get; set; }
+	}
+
+
+	// Page models:
+
 	public abstract class SignInBasePageModel : PageModel
 	{
 		protected ILogger Logger { get; }

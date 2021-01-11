@@ -16,7 +16,7 @@ namespace MedStat.Core.Repositories
 	{
 		#region Get
 
-		public async Task<CompanyUserInfo> GetCompanyUserAsync(int cmpUserId)
+		public async Task<CompanyUserInfo> GetCompanyUserInfoAsync(int cmpUserId)
 		{
 			CompanyUserInfo userInfo = null;
 
@@ -43,7 +43,7 @@ namespace MedStat.Core.Repositories
 
 		#endregion
 
-		#region Create
+		#region Create / Update
 
 		public async Task<int> CreateCompanyUserAsync(int companyId,
 			// Cmp User data

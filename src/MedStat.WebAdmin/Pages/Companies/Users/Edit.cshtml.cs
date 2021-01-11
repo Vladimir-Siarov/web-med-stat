@@ -26,7 +26,7 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 
 		public async Task<IActionResult> OnGet(bool? isCreated)
 		{
-			this.CmpUserData = await this.CmpRepository.GetCompanyUserAsync(this.CmpUserId);
+			this.CmpUserData = await this.CmpRepository.GetCompanyUserInfoAsync(this.CmpUserId);
 			if (this.CmpUserData == null)
 				return NotFound();
 

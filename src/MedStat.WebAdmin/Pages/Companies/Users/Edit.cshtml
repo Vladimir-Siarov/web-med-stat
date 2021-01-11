@@ -1,4 +1,4 @@
-﻿@page "/Companies/Users/Edit/{CmpUserId:int}"
+﻿@page "{CmpUserId:int}"
 
 @using Microsoft.AspNetCore.Mvc.Localization
 @using MedStat.WebAdmin.Classes.SharedResources
@@ -52,6 +52,12 @@
 						<label asp-for="CmpUserData.User.Login.PhoneNumber" class="form-label"></label>
 						<input asp-for="CmpUserData.User.Login.PhoneNumber" class="form-control" readonly="readonly" />
 						<span asp-validation-for="CmpUserData.User.Login.PhoneNumber" class="text-danger"></span>
+					</div>
+					
+					<div style="text-align: right">
+						<a class="btn btn-link" asp-page="./ChangePhoneNumber" asp-route-cmpUserId="@Model.CmpUserId">
+							@CmpLocalizer["__button__Change phone number"]
+						</a>
 					</div>
 				</section>
 

@@ -66,5 +66,14 @@ namespace MedStat.Core.Interfaces
 		/// <param name="isChangePasswordRequired"></param>
 		/// <returns></returns>
 		Task SetPasswordChangeRequiredFlagAsync(string phoneNumber, bool isChangePasswordRequired);
+
+
+		/// <summary>
+		/// Change phone number for specified user.
+		/// </summary>
+		/// <param name="phoneNumber"></param>
+		/// <param name="newPhoneNumber"></param>
+		/// <returns></returns>
+		Task ChangeUserPhoneNumberAsync(string phoneNumber, string newPhoneNumber);
 	}
 }

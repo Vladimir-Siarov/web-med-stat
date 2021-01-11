@@ -4,6 +4,7 @@ using System.Reflection;
 using MedStat.Core.BE.Company;
 using MedStat.Core.Identity;
 using MedStat.Core.Info.Company;
+using MedStat.WebAdmin.Models;
 using MedStat.WebAdmin.Pages.Account;
 using Microsoft.Extensions.Localization;
 
@@ -43,19 +44,20 @@ namespace MedStat.WebAdmin.Classes
 			{
 				// MedStat.Core types:
 
+				{ typeof(SystemUser).FullName, GetIdentityUserLocalizer },
+
 				{ typeof(Company).FullName, GetCompanyLocalizer },
 				{ typeof(CompanyMainRequisites).FullName, GetCompanyLocalizer },
 				{ typeof(CompanyBankRequisites).FullName, GetCompanyLocalizer },
 				{ typeof(CompanyUser).FullName, GetCompanyLocalizer },
 				{ typeof(CompanyUserInfo).FullName, GetCompanyLocalizer },
 
-				{ typeof(SystemUser).FullName, GetIdentityUserLocalizer },
-
 
 				// MedStat.WebAdmin types:
 
 				{ typeof(LoginPageModel).FullName, GetIdentityUserLocalizer },
-				{ typeof(ChangePasswordPageModel).FullName, GetIdentityUserLocalizer }
+				{ typeof(ChangePasswordPageModel).FullName, GetIdentityUserLocalizer },
+				{ typeof(ChangePhoneNumberModel).FullName, GetIdentityUserLocalizer }
 			};
 
 

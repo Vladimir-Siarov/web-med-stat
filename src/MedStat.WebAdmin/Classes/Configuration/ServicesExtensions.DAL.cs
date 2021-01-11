@@ -26,7 +26,8 @@ namespace MedStat.WebAdmin.Classes.Configuration
 					.AddScoped<IIdentityRepository>(sp => new IdentityRepository(
 						sp.GetRequiredService<UserManager<SystemUser>>(),
 						sp.GetRequiredService<MedStatDbContext>(),
-						sp.GetRequiredService<ILogger<IdentityRepository>>()))
+						sp.GetRequiredService<ILogger<IdentityRepository>>(),
+						sp.GetService<IHttpContextAccessor>()?.HttpContext?.User?.Identity.Name))
 					
 					.AddScoped<ISecurityRepository>(sp => new SecurityRepository(
 						sp.GetRequiredService<IIdentityRepository>(),

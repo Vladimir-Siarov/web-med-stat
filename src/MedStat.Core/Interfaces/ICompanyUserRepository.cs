@@ -16,7 +16,7 @@ namespace MedStat.Core.Interfaces
 		/// </summary>
 		/// <param name="cmpUserId"></param>
 		/// <returns></returns>
-		Task<CompanyUserInfo> GetCompanyUserAsync(int cmpUserId);
+		Task<CompanyUserInfo> GetCompanyUserInfoAsync(int cmpUserId);
 
 
 		/// <summary>

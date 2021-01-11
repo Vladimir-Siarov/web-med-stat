@@ -135,6 +135,9 @@
   <data name="New password" xml:space="preserve">
     <value>Новый пароль</value>
   </data>
+  <data name="New phone number" xml:space="preserve">
+    <value>Новый номер телефона</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
