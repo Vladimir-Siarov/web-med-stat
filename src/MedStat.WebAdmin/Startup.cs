@@ -64,6 +64,13 @@ namespace MedStat.WebAdmin
 					UnicodeRanges.Cyrillic);
 			});
 
+			services.AddAuthorization(options =>
+			{
+				options.AddPolicy(AccessPolicies.CompanyUserManageRights, policy =>
+					policy.RequireRole(AccessPolicies.Roles[AccessPolicies.CompanyUserManageRights]));
+			});
+		
+
 			// Setup data protection for Web farm: 
 			// (and prevent "The antiforgery token could not be decrypted" error)
 			// https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-2.1#data-protection-2

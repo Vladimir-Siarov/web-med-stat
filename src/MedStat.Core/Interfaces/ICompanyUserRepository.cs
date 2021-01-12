@@ -53,6 +53,13 @@ namespace MedStat.Core.Interfaces
 			// user rights
 			bool canManageCompanyAccess, bool canManageCompanyStaff);
 
+		/// <summary>
+		/// Delete specified CompanyUser.
+		/// </summary>
+		/// <param name="cmpUserId"></param>
+		/// <returns></returns>
+		Task DeleteCompanyUserAsync(int cmpUserId);
+
 
 		/// <summary>
 		/// Finds company Users and sorts results by specified params.

@@ -1,14 +1,16 @@
 ﻿@page "/Companies/{CompanyId:int}/Users/"
 
+@using MedStat.Core.Identity
 @using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
 @using MedStat.WebAdmin.Models
 @using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
 
 @model CompanyUsersPageModel
 
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
-@inject IHtmlLocalizer<DialogResources> DlgLocalizer
+@inject IStringLocalizer<DialogResources> DlgLocalizer
 
 @{
 	Layout = "_CompanyLayout";
@@ -22,7 +24,7 @@
 
 	<div class="ms-section-header">
 		<div>
-			<button id="btnCreateNewCmpUser" class="btn btn-success btn-sm">
+			<button id="btnCreateNewCmpUser" class="btn btn-success btn-sm" data-action="create">
 				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
 				</svg>@CmpLocalizer["Create user"]
@@ -48,45 +50,56 @@
 				<th data-data="firstName" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__First name"]</th>
 				<th data-data="patronymic" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__Patronymic"]</th>
 				<th data-data="phoneNumber" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__Phone number"]</th>
-				<th data-data="description" data-width="30%" data-ms-max-length="100">@CmpLocalizer["__CmpUserGrid_Column__Description"]</th>
-				<th data-ms-html-template="#tblCmpUsers_linkTemplate" data-orderable="false" data-width="5%"><!-- actions --></th>
+				<th data-data="description" data-width="auto" data-ms-max-length="50">@CmpLocalizer["__CmpUserGrid_Column__Description"]</th>
+				<th data-orderable="false" data-width="5%" data-class-name="buttons" data-ms-html-template="#tblCmpUsers_linkTemplate">
+					<!-- buttons -->
+				</th>
 			</tr>
 		</thead>
 	</table>
 
 	<div id="tblCmpUsers_linkTemplate" style="display: none">
-		<button type="button" class="btn btn-link" title="@CmpLocalizer["__button__Edit"]" data-user-id="{id}">
-			<svg width="1rem" height="1rem" viewBox="0 0 16 16" fill="currentColor" class="bi bi-pencil-square" xmlns="http://www.w3.org/2000/svg">
+		<button type="button" class="btn btn-link" title="@CmpLocalizer["__button__Edit"]"
+						data-action="edit" data-user-id="{id}">
+			<svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" class="bi bi-pencil-square" xmlns="http://www.w3.org/2000/svg">
 				<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
 				<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
 			</svg>
 			<span class="visually-hidden">@CmpLocalizer["__button__Edit"]</span>
 		</button>
+
+		<button type="button" class="btn btn-link" title="@CmpLocalizer["__button__Delete"]"
+						data-action="delete" data-user-id="{id}">
+			<svg width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+				<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+				<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+			</svg>
+			<span class="visually-hidden">@CmpLocalizer["__button__Delete"]</span>
+		</button>
 	</div>
 
 
-	@* Modal Popup *@
-	<div id="modalUser" class="modal fade" tabindex="-1" aria-labelledby="modalUser_label" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="modalUser_label"></h3>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@DlgLocalizer["Close"]"></button>
-				</div>
-				<div class="modal-body">
+	@* CompanyUser Popup *@
+	@{
+		var userDialogModel = new PopupDialogModel(DlgLocalizer)
+		{
+			ControlId = "dlgUser",
+			IsLarge = true
+		};
 
-					<iframe id="modalUser_iframe" src="about:blank" style="width: 100%; height: 100%; border:none"></iframe>
+		<partial name="_PopupDialogPartial" model="@userDialogModel" />
+	}
 
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-						@DlgLocalizer["Close"]
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	@* Delete confirmation popup *@
+	@{
+		var userDeleteDialogModel = new PopupDialogModel(DlgLocalizer)
+		{
+			ControlId = "dlgUserDelete",
+			IsDangerAction = true
+		};
 
+		<partial name="_PopupDialogPartial" model="@userDeleteDialogModel" />
+	}
 </div>
 
 
@@ -98,63 +111,62 @@
 
 			// Popup functionality:
 
-			var userModal = null;
+			var userDialog = new window.ms.PopupDialogClass(@(Html.Raw(Json.Serialize(userDialogModel)))).init();
+			var userDeleteDialog = new window.ms.PopupDialogClass(@(Html.Raw(Json.Serialize(userDeleteDialogModel)))).init();
 
 			var openCmpUserPopup = function(userId) {
 
-				$('#modalUser_iframe').get(0).contentDocument.body.innerHTML = '@DlgLocalizer["Loading..."]';
+				var contentUrl = userId
+					? '@Url.Page("/Companies/Users/Edit", new {CmpUserId = -1})'.replace('-1', userId)
+					: '@Url.Page("./Create", new {Model.CompanyId})';
 
-				if (userModal == null) {
+				userDialog.show(contentUrl);
+			};
+			var openCmpUserDeletePopup = function(userId) {
 
-					userModal = new bootstrap.Modal(document.getElementById('modalUser'), { focus: true });
-				}
+				var contentUrl = '@Url.Page("/Companies/Users/Delete", new {CmpUserId = -1})'.replace('-1', userId);
 
-				userModal.show();
-
-				if (userId) {
-
-					var editUrl = '@Url.Page("/Companies/Users/Edit", new {CmpUserId = -1})';
-
-					$('#modalUser_iframe').get(0).src = editUrl.replace('-1', userId);
-				}
-				else {
-
-					$('#modalUser_iframe').get(0).src = '@Url.Page("./Create", new {Model.CompanyId})';
-				}
+				userDeleteDialog.show(contentUrl);
 			};
 
+			$(window).bind('ms_popup_entityWasCreated ms_popup_entityWasUpdated ms_popup_entityWasDeleted',
+				function(e, popupParams) {
 
-			$('#modalUser_iframe').get(0).addEventListener("load",
-				function(e) {
-
-					$(this).height($(this.contentDocument.body).height());
+					$('#tblCmpUsers').DataTable().draw('full-hold');
 				});
-
-			$(window).bind('ms_popup_loaded', function(e, popupParams) {
-
-				if (popupParams != null) {
-					$('#modalUser_label').html(popupParams.title);
-				}
-			}).bind('ms_popup_entityWasCreated ms_popup_entityWasUpdated', function (e, popupParams) {
-
-				$('#tblCmpUsers').DataTable().draw('full-hold');
-			});
 
 
 			// Init Grid buttons:
 
-			$('#btnCreateNewCmpUser').click(function() {
+			var onUserActionBtnClick = function() {
 
-				openCmpUserPopup();
-			});
+				var userId = $(this).attr('data-user-id');
+				var action = $(this).attr('data-action');
 
-			$('#tblCmpUsers').DataTable().on('draw', function () {
-				
-				$('#tblCmpUsers button').click(function(e) {
+				switch (action) {
 
-					var userId = $(this).attr('data-user-id');
-					openCmpUserPopup(userId);
-				});
+					case 'create':
+						openCmpUserPopup(null);
+						break;
+
+					case 'edit':
+						openCmpUserPopup(userId);
+						break;
+
+					case 'delete':
+						openCmpUserDeletePopup(userId);
+						break;
+
+					default:
+						throw 'unsupported user action button: ' + action;
+				}
+			};
+
+			$('#btnCreateNewCmpUser').click(onUserActionBtnClick);
+
+			$('#tblCmpUsers').DataTable().on('draw', function() {
+
+				$('#tblCmpUsers button').click(onUserActionBtnClick);
 			});
 		};
 

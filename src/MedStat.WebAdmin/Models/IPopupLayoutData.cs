@@ -6,5 +6,7 @@ namespace MedStat.WebAdmin.Models
 		bool EntityWasUpdated { get; set; }
 
 		bool EntityWasCreated { get; set; }
+
+		bool EntityWasDeleted { get; set; }
 	}
 }

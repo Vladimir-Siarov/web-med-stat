@@ -144,8 +144,14 @@
   <data name="System User creation was failed" xml:space="preserve">
     <value>Не удалось сосдать системного пользователя</value>
   </data>
+  <data name="System user delete action was failed" xml:space="preserve">
+    <value>Не удалось удалить системного пользователя</value>
+  </data>
   <data name="System User name change operation was failed" xml:space="preserve">
     <value>Не удалось изменить имя системного пользователя</value>
+  </data>
+  <data name="System user with Id = {0} is not found" xml:space="preserve">
+    <value>Системный пользователь с Id = {0} не найден</value>
   </data>
   <data name="User with phone number {0} is not found" xml:space="preserve">
     <value>Пользователь с номером телефона {0} не найден</value>

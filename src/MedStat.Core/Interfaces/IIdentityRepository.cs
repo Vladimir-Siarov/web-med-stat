@@ -23,6 +23,13 @@ namespace MedStat.Core.Interfaces
 		Task<SystemUser> CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(SystemUser userData,
 			IEnumerable<string> userRoles);
 
+		/// <summary>
+		/// Delete specified SystemUser.
+		/// </summary>
+		/// <param name="systemUserId"></param>
+		/// <returns></returns>
+		Task DeleteSystemUserAsync_UnderOuterTransaction(int systemUserId);
+
 
 		/// <summary>
 		/// Adds specified user to the specified roles.

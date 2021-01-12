@@ -90,6 +90,24 @@ namespace MedStat.Core.Repositories
 			return user;
 		}
 
+		public async Task DeleteSystemUserAsync_UnderOuterTransaction(int systemUserId)
+		{
+			var user = await this.DbContext.SystemUsers.FirstOrDefaultAsync(su => su.Id == systemUserId);
+			if (user == null)
+			{
+				throw new OperationCanceledException(string.Format(
+					this.MessagesManager.GetString("System user with Id = {0} is not found"),
+					systemUserId));
+			}
+
+			var result = await _userManager.DeleteAsync(user);
+			if (!result.Succeeded)
+			{
+				throw GenerateIdentityResultException(result,
+					this.MessagesManager.GetString("System user delete action was failed"));
+			}
+		}
+
 		protected async Task<SystemUser> GetSystemUserOrThrowExceptionAsync(string phoneNumber)
 		{
 			var normalizedPhoneNumber = NormalizePhoneNumber(phoneNumber);

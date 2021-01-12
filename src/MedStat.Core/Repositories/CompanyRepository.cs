@@ -96,7 +96,7 @@ namespace MedStat.Core.Repositories
 
 		#endregion
 
-		#region Update
+		#region Update / Delete
 
 		public async Task UpdateCompanyMainDataAsync(int companyId, string name, string description)
 		{

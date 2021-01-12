@@ -230,23 +230,25 @@ $lg-grid-breakpoint: map-get($grid-breakpoints, "lg"); // 960px
 }
 
 /* override DataTable.net styles */
-table.dataTable{
-
+table.dataTable {
 	/*margin-top: 1rem!important;*/
-	margin-top: 0px!important;
+	margin-top: 0px !important;
 
-	th{
+	th {
 		font-size: 0.9em;
 	}
 
-	caption{
+	caption {
 		margin-bottom: 0.5em;
 	}
 
-	/* Override bootstrap */
-	.btn{
-		line-height: 1;
-		padding: 0.2em 0.3em;
+	.buttons {
+		white-space: nowrap;
+		/* Override bootstrap */
+		.btn {
+			line-height: 1;
+			padding: 0 0.3em 0.2em 0.3em;
+		}
 	}
 }
 div.dataTables_info {

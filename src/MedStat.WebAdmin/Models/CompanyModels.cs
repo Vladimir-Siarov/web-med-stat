@@ -122,6 +122,8 @@ namespace MedStat.WebAdmin.Models
 
 		public bool EntityWasCreated { get; set; }
 
+		public bool EntityWasDeleted { get; set; }
+
 		#endregion
 	}
 }

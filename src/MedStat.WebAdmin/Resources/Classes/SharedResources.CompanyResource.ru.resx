@@ -198,6 +198,12 @@
   <data name="User data were updated" xml:space="preserve">
     <value>Данные пользователя были обновлены</value>
   </data>
+  <data name="User was deleted successfully" xml:space="preserve">
+    <value>Пользователь был успешно удалён</value>
+  </data>
+  <data name="User will be deleted permanently. Are you sure?" xml:space="preserve">
+    <value>Пользователь будет удален  без возможности восстановления. Вы уверены?</value>
+  </data>
   <data name="User __CmpUserName__ was created successfully" xml:space="preserve">
     <value>Пользователь {1} {0} был успешно создан</value>
   </data>
@@ -209,6 +215,9 @@
   </data>
   <data name="__button__Change phone number" xml:space="preserve">
     <value>Изменить номер</value>
+  </data>
+  <data name="__button__Delete" xml:space="preserve">
+    <value>Удалить</value>
   </data>
   <data name="__button__Edit" xml:space="preserve">
     <value>Редактировать</value>
@@ -248,5 +257,8 @@
   </data>
   <data name="__pageTitle__Change phone number" xml:space="preserve">
     <value>Смена номера телефона</value>
+  </data>
+  <data name="__pageTitle__Delete user" xml:space="preserve">
+    <value>Удаление пользователя</value>
   </data>
 </root>

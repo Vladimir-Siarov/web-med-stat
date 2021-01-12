@@ -89,6 +89,10 @@
 				{
 					<text> parentWindow.trigger('ms_popup_entityWasUpdated', []); </text>
 				}
+				@if (Model.EntityWasDeleted)
+				{
+					<text> parentWindow.trigger('ms_popup_entityWasDeleted', []); </text>
+				}
 			}
 		});
 </script>

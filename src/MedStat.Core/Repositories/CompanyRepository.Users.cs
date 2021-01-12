@@ -34,7 +34,7 @@ namespace MedStat.Core.Repositories
 
 				var roles = await this._identityRepository.GetUserRolesAsync(cmpUser.Login);
 
-				userInfo.CanManageCompanyAccess = roles != null && roles.Contains(UserRoles.CompanyAccessManager);
+				userInfo.CanManageCompanyAccess = roles != null && roles.Contains(UserRoles.CompanyUserManager);
 				userInfo.CanManageCompanyStaff = roles != null && roles.Contains(UserRoles.CompanyStaffManager);
 			}
 
@@ -43,7 +43,7 @@ namespace MedStat.Core.Repositories
 
 		#endregion
 
-		#region Create / Update
+		#region Create / Update / Delete
 
 		public async Task<int> CreateCompanyUserAsync(int companyId,
 			// Cmp User data
@@ -69,7 +69,7 @@ namespace MedStat.Core.Repositories
 				var userRoles = new List<string>();
 				{
 					if (canManageCompanyAccess)
-						userRoles.Add(UserRoles.CompanyAccessManager);
+						userRoles.Add(UserRoles.CompanyUserManager);
 					
 					if (canManageCompanyStaff)
 						userRoles.Add(UserRoles.CompanyStaffManager);
@@ -156,11 +156,11 @@ namespace MedStat.Core.Repositories
 
 					if (canManageCompanyAccess)
 					{
-						await _identityRepository.AddToRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyAccessManager }, true);
+						await _identityRepository.AddToRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyUserManager }, true);
 					}
 					else
 					{
-						await _identityRepository.RemoveFromRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyAccessManager }, true);
+						await _identityRepository.RemoveFromRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyUserManager }, true);
 					}
 
 					if (canManageCompanyStaff)
@@ -184,6 +184,44 @@ namespace MedStat.Core.Repositories
 			catch (Exception ex)
 			{
 				this.Logger.LogError(ex, "CompanyUser update action was failed");
+				throw;
+			}
+		}
+
+		public async Task DeleteCompanyUserAsync(int cmpUserId)
+		{
+			try
+			{
+				var dbCmpUser = await this.DbContext.CompanyUsers
+					.Include(c => c.Login)
+					.FirstOrDefaultAsync(c => c.Id == cmpUserId);
+
+				if (dbCmpUser == null)
+				{
+					throw new OperationCanceledException(string.Format(
+						this.MessagesManager.GetString("Company user with ID = {0} is not found"),
+						cmpUserId));
+				}
+				
+				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
+				{
+					var cmpUserInfo = new {dbCmpUser.Id, dbCmpUser.SystemUserId, dbCmpUser.Login.UserName};
+					int systemUserId = dbCmpUser.SystemUserId;
+
+					this.DbContext.CompanyUsers.Remove(dbCmpUser);
+					await this.DbContext.SaveChangesAsync();
+
+					await this._identityRepository.DeleteSystemUserAsync_UnderOuterTransaction(systemUserId);
+
+					await transaction.CommitAsync();
+
+					this.Logger.LogInformation("CompanyUser {@cmpUser} was deleted by {UserUid}",
+						cmpUserInfo, this.UserUid);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.Logger.LogError(ex, "CompanyUser delete action was failed");
 				throw;
 			}
 		}

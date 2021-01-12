@@ -144,8 +144,14 @@
   <data name="System User creation was failed" xml:space="preserve">
     <value>System User creation was failed</value>
   </data>
+  <data name="System user delete action was failed" xml:space="preserve">
+    <value>System user delete action was failed</value>
+  </data>
   <data name="System User name change operation was failed" xml:space="preserve">
     <value>System User name change operation was failed</value>
+  </data>
+  <data name="System user with Id = {0} is not found" xml:space="preserve">
+    <value>System user with Id = {0} is not found</value>
   </data>
   <data name="User with phone number {0} is not found" xml:space="preserve">
     <value>User with phone number {0} is not found</value>
