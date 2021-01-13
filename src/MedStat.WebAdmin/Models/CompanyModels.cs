@@ -39,11 +39,6 @@ namespace MedStat.WebAdmin.Models
 		string CompanyName { get; set; }
 
 		EnCompanySection Section { get; }
-
-
-		// Properties for common actions:
-
-		string ConfirmCommand { get; set; }
 	}
 
 
@@ -86,9 +81,6 @@ namespace MedStat.WebAdmin.Models
 		public string CompanyName { get; set; }
 
 		public abstract EnCompanySection Section { get; }
-
-		[BindProperty]
-		public string ConfirmCommand { get; set; }
 
 		#endregion
 	}

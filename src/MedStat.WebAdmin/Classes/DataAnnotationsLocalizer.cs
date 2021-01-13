@@ -6,6 +6,7 @@ using MedStat.Core.Identity;
 using MedStat.Core.Info.Company;
 using MedStat.WebAdmin.Models;
 using MedStat.WebAdmin.Pages.Account;
+using MedStat.WebAdmin.Pages.Companies;
 using Microsoft.Extensions.Localization;
 
 namespace MedStat.WebAdmin.Classes
@@ -57,7 +58,9 @@ namespace MedStat.WebAdmin.Classes
 
 				{ typeof(LoginPageModel).FullName, GetIdentityUserLocalizer },
 				{ typeof(ChangePasswordPageModel).FullName, GetIdentityUserLocalizer },
-				{ typeof(ChangePhoneNumberModel).FullName, GetIdentityUserLocalizer }
+				{ typeof(ChangePhoneNumberModel).FullName, GetIdentityUserLocalizer },
+
+				{ typeof(CompanyDeletePageModel).FullName, GetCompanyLocalizer }
 			};
 
 

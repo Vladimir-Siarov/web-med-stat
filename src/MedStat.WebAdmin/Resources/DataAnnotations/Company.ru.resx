@@ -132,6 +132,9 @@
   <data name="Company staff management" xml:space="preserve">
     <value>Управление сотрудниками компании</value>
   </data>
+  <data name="Confirm command" xml:space="preserve">
+    <value>Команда подтверждения</value>
+  </data>
   <data name="Corr. acc." xml:space="preserve">
     <value>К/С</value>
   </data>

@@ -1,10 +1,13 @@
 ﻿@using MedStat.WebAdmin.Models
 @using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization
 
 @model IPopupLayoutData
+
 @inject IStringLocalizer<DataTableResource> DtLocalizer
+@inject IHtmlLocalizer<DialogResources> DlgLocalizer
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +45,11 @@
 		@RenderBody()
 	</main>
 
+	<div id="popupOverlay" class="ms-popup-overlay" style="display: none">
+		<span class="spinner-border" role="status"></span>
+		<span class="visually-hidden">@DlgLocalizer["Processing..."]</span>
+	</div>
+
 	<!-- Bootstrap Bundle with Popper.js -->
 	<script async src="~/js/bootstrap.bundle.min.js"></script>
 
@@ -71,15 +79,12 @@
 
 <script type="text/javascript">
 		window.addEventListener('load', (event) => {
-
+			
 			if (window.parent != null && window.parent.$ != null) {
 
 				var parentWindow = window.parent.$(window.parent);
 
-				parentWindow.trigger('ms_popup_loaded', [
-					{
-						title: '@ViewData["Title"]'
-					}]);
+				parentWindow.trigger('ms_popup_loaded', [{ title: '@ViewData["Title"]' }]);
 
 				@if (Model.EntityWasCreated)
 				{
@@ -94,6 +99,11 @@
 					<text> parentWindow.trigger('ms_popup_entityWasDeleted', []); </text>
 				}
 			}
+		});
+
+		window.addEventListener('unload', (event) => {
+
+			$('#popupOverlay').show();
 		});
 </script>
 

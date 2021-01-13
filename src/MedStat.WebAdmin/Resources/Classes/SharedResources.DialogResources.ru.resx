@@ -117,26 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Access denied" xml:space="preserve">
-    <value>Доступ запрещен</value>
-  </data>
   <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
-  </data>
-  <data name="Confirm" xml:space="preserve">
-    <value>Подтвердить</value>
-  </data>
-  <data name="Confirm command" xml:space="preserve">
-    <value>Комманда подтверждения</value>
-  </data>
-  <data name="Delete confirmation" xml:space="preserve">
-    <value>Подтверждение удаления</value>
-  </data>
-  <data name="For confirm remove action type &quot;delete&quot; word in text box below and press &quot;Confirm&quot; button." xml:space="preserve">
-    <value>Для подтверждения, напечатайте слово "delete" в текстовом поле ниже и нажмите на кнопку «Подтвердить».</value>
-  </data>
-  <data name="Invalid confirm value" xml:space="preserve">
-    <value>Неверное значение подтверждения</value>
   </data>
   <data name="Loading..." xml:space="preserve">
     <value>Загрузка...</value>

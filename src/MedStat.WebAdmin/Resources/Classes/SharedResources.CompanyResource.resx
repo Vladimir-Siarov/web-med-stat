@@ -126,6 +126,9 @@
   <data name="__button__Change phone number" xml:space="preserve">
     <value>Change phone number</value>
   </data>
+  <data name="__button__Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
   <data name="__button__Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="__pageTitle__Change phone number" xml:space="preserve">
     <value>Change number</value>
+  </data>
+  <data name="__pageTitle__Delete company" xml:space="preserve">
+    <value>Delete company</value>
   </data>
   <data name="__pageTitle__Delete user" xml:space="preserve">
     <value>Delete user</value>

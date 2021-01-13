@@ -159,6 +159,12 @@
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
+  <data name="For confirm remove action type &quot;delete&quot; word in text box below and press &quot;Confirm&quot; button." xml:space="preserve">
+    <value>Для подтверждения, напечатайте слово "delete" в текстовом поле ниже и нажмите на кнопку «Подтвердить».</value>
+  </data>
+  <data name="Invalid confirm value" xml:space="preserve">
+    <value>Неверное значение подтверждения</value>
+  </data>
   <data name="List" xml:space="preserve">
     <value>Список</value>
   </data>
@@ -216,6 +222,9 @@
   <data name="__button__Change phone number" xml:space="preserve">
     <value>Изменить номер</value>
   </data>
+  <data name="__button__Confirm" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
   <data name="__button__Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
@@ -257,6 +266,9 @@
   </data>
   <data name="__pageTitle__Change phone number" xml:space="preserve">
     <value>Смена номера телефона</value>
+  </data>
+  <data name="__pageTitle__Delete company" xml:space="preserve">
+    <value>Удаление компании</value>
   </data>
   <data name="__pageTitle__Delete user" xml:space="preserve">
     <value>Удаление пользователя</value>

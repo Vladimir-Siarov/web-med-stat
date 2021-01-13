@@ -289,13 +289,24 @@ div.dataTables_wrapper div.dataTables_paginate {
 		overflow-x: hidden; /* cut negative x-margins of Grid rows */
 	}
 }
-
+.ms-popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1040;
+	width: 100vw;
+	height: 100vh;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 
 /* -- Login Page -- */
-.ms-login-container{
-	display:flex;
-	justify-content:normal;
+.ms-login-container {
+	display: flex;
+	justify-content: normal;
 	flex-wrap: wrap;
 }
 .ms-login-container-left {

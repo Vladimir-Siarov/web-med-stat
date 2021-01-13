@@ -1,6 +1,5 @@
 ﻿@page "/Companies/{CompanyId:int}/Users/"
 
-@using MedStat.Core.Identity
 @using MedStat.WebAdmin.Classes
 @using MedStat.WebAdmin.Classes.SharedResources
 @using MedStat.WebAdmin.Models
@@ -18,6 +17,17 @@
 	ViewData.SetDataTablePageFlag();
 
 	var userSearchPanelModel = new DataTableSearchPanelModel("tblCmpUsers");
+
+	var userDialogModel = new PopupDialogModel(DlgLocalizer)
+	{
+		ControlId = "dlgUser",
+		IsLarge = true
+	};
+	var userDeleteDialogModel = new PopupDialogModel(DlgLocalizer)
+	{
+		ControlId = "dlgUserDelete",
+		IsDangerAction = true
+	};
 }
 
 <div class="ms-pagecontent">
@@ -80,26 +90,11 @@
 
 
 	@* CompanyUser Popup *@
-	@{
-		var userDialogModel = new PopupDialogModel(DlgLocalizer)
-		{
-			ControlId = "dlgUser",
-			IsLarge = true
-		};
-
-		<partial name="_PopupDialogPartial" model="@userDialogModel" />
-	}
+	<partial name="_PopupDialogPartial" model="@userDialogModel" />
 
 	@* Delete confirmation popup *@
-	@{
-		var userDeleteDialogModel = new PopupDialogModel(DlgLocalizer)
-		{
-			ControlId = "dlgUserDelete",
-			IsDangerAction = true
-		};
+	<partial name="_PopupDialogPartial" model="@userDeleteDialogModel" />
 
-		<partial name="_PopupDialogPartial" model="@userDeleteDialogModel" />
-	}
 </div>
 
 
