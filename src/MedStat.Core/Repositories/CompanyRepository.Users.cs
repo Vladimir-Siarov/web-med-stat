@@ -93,7 +93,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "CompanyUser creation was failed");
+				this.Logger.LogError(ex, "CompanyUser creation was failed. {@params}",
+					new { companyId, description, login, isPowerUser });
 				throw;
 			}
 		}
@@ -162,7 +163,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "CompanyUser update action was failed");
+				this.Logger.LogError(ex, "CompanyUser update action was failed. {@params}",
+					new { cmpUserId, description, login, isPowerUser });
 				throw;
 			}
 		}
@@ -200,7 +202,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "CompanyUser delete action was failed");
+				this.Logger.LogError(ex, "CompanyUser delete action was failed. {@params}",
+					new { cmpUserId });
 				throw;
 			}
 		}

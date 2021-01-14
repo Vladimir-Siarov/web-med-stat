@@ -89,7 +89,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "Company creation was failed");
+				this.Logger.LogError(ex, "Company creation was failed. {@params}", 
+					new { name, description });
 				throw;
 			}
 		}
@@ -126,7 +127,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "Company Main data update action was failed");
+				this.Logger.LogError(ex, "Company Main data update action was failed. {@params}",
+					new { companyId, name, description });
 				throw;
 			}
 		}
@@ -169,7 +171,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "Company Requisites update action was failed");
+				this.Logger.LogError(ex, "Company Requisites update action was failed. {@params}",
+					new { companyId, mainReqData, bankReqData });
 				throw;
 			}
 		}
@@ -216,7 +219,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "Company delete action was failed");
+				this.Logger.LogError(ex, "Company delete action was failed. {@params}", 
+					new { companyId });
 				throw;
 			}
 		}

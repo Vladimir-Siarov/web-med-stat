@@ -260,7 +260,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "SystemUser change password action was failed");
+				this.Logger.LogError(ex, "SystemUser change password action was failed. {@params}",
+					new { phoneNumber });
 				throw;
 			}
 		}
@@ -282,7 +283,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "SystemUser update action for \"PasswordChangeRequired\" flag was failed");
+				this.Logger.LogError(ex, "SystemUser update action for \"PasswordChangeRequired\" flag was failed. {@params}",
+					new { phoneNumber, isChangePasswordRequired });
 				throw;
 			}
 		}
@@ -345,7 +347,8 @@ namespace MedStat.Core.Repositories
 			}
 			catch (Exception ex)
 			{
-				this.Logger.LogError(ex, "SystemUser change phone number action was failed");
+				this.Logger.LogError(ex, "SystemUser change phone number action was failed. {@params}",
+					new { phoneNumber, newPhoneNumber });
 				throw;
 			}
 		}
