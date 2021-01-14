@@ -40,6 +40,7 @@ namespace MedStat.WebAdmin
 			});
 
 			services
+				// TODO: "AddDefaultIdentity" replace with "AddIdentity<SystemUser, IdentityRole<Int32>>"
 				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddRoles<IdentityRole<Int32>>()
 				.AddEntityFrameworkStores<MedStatDbContext>()
