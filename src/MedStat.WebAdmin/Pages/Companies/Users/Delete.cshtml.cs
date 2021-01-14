@@ -2,10 +2,8 @@
 using System.Threading.Tasks;
 using MedStat.Core.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 
-using MedStat.Core.Info.Company;
 using MedStat.Core.Interfaces;
 using MedStat.WebAdmin.Classes.SharedResources;
 using MedStat.WebAdmin.Models;

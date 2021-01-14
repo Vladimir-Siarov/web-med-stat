@@ -34,8 +34,7 @@ namespace MedStat.Core.Repositories
 
 				var roles = await this._identityRepository.GetUserRolesAsync(cmpUser.Login);
 
-				userInfo.CanManageCompanyAccess = roles != null && roles.Contains(UserRoles.CompanyUserManager);
-				userInfo.CanManageCompanyStaff = roles != null && roles.Contains(UserRoles.CompanyStaffManager);
+				userInfo.IsPowerUser = roles != null && roles.Contains(UserRoles.CompanyPowerUser);
 			}
 
 			return userInfo;
@@ -51,7 +50,7 @@ namespace MedStat.Core.Repositories
 			// Login data
 			SystemUser login,
 			// user rights
-			bool canManageCompanyAccess, bool canManageCompanyStaff)
+			bool isPowerUser)
 		{
 			if (login == null)
 				throw new ArgumentNullException(nameof(login));
@@ -66,14 +65,7 @@ namespace MedStat.Core.Repositories
 
 			try
 			{
-				var userRoles = new List<string>();
-				{
-					if (canManageCompanyAccess)
-						userRoles.Add(UserRoles.CompanyUserManager);
-					
-					if (canManageCompanyStaff)
-						userRoles.Add(UserRoles.CompanyStaffManager);
-				}
+				var userRoles = FormatCompanyUserRoles(isPowerUser);
 
 				var newCmpUser = new CompanyUser
 				{
@@ -112,7 +104,7 @@ namespace MedStat.Core.Repositories
 			// Login data
 			SystemUser login,
 			// user rights
-			bool canManageCompanyAccess, bool canManageCompanyStaff)
+			bool isPowerUser)
 		{
 			#region Validation
 
@@ -154,23 +146,10 @@ namespace MedStat.Core.Repositories
 
 					#region Update Roles
 
-					if (canManageCompanyAccess)
-					{
-						await _identityRepository.AddToRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyUserManager }, true);
-					}
-					else
-					{
-						await _identityRepository.RemoveFromRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyUserManager }, true);
-					}
+					await _identityRepository.RemoveFromRolesAsync(dbCmpUser.Login, GetAllCompanyUserRoles(), true);
 
-					if (canManageCompanyStaff)
-					{
-						await _identityRepository.AddToRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyStaffManager }, true);
-					}
-					else
-					{
-						await _identityRepository.RemoveFromRolesAsync(dbCmpUser.Login, new[] { UserRoles.CompanyStaffManager }, true);
-					}
+					var userRoles = FormatCompanyUserRoles(isPowerUser);
+					await _identityRepository.AddToRolesAsync(dbCmpUser.Login, userRoles, true);
 					
 					#endregion
 
@@ -294,5 +273,27 @@ namespace MedStat.Core.Repositories
 		}
 
 		#endregion
+
+
+		private static List<string> FormatCompanyUserRoles(bool isPowerUser)
+		{
+			var userRoles = new List<string>
+			{
+				isPowerUser ? UserRoles.CompanyPowerUser : UserRoles.CompanyUser
+			};
+
+			return userRoles;
+		}
+
+		private static string[] GetAllCompanyUserRoles()
+		{
+			var userRoles = new string[]
+			{
+				UserRoles.CompanyPowerUser,
+				UserRoles.CompanyUser
+			};
+
+			return userRoles;
+		}
 	}
 }

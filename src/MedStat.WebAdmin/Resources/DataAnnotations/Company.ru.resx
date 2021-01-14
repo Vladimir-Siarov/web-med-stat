@@ -126,12 +126,6 @@
   <data name="BIC" xml:space="preserve">
     <value>БИК</value>
   </data>
-  <data name="Company access control" xml:space="preserve">
-    <value>Управление доступом к компании</value>
-  </data>
-  <data name="Company staff management" xml:space="preserve">
-    <value>Управление сотрудниками компании</value>
-  </data>
   <data name="Confirm command" xml:space="preserve">
     <value>Команда подтверждения</value>
   </data>
@@ -164,6 +158,9 @@
   </data>
   <data name="Postal Address" xml:space="preserve">
     <value>Почтовый адрес</value>
+  </data>
+  <data name="Power user" xml:space="preserve">
+    <value>Привилегированный пользователь</value>
   </data>
   <data name="Short Name" xml:space="preserve">
     <value>Сокращенное наименование</value>

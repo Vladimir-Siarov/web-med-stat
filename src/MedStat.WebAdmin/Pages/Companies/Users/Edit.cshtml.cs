@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 
 using MedStat.Core.Info.Company;
@@ -54,8 +53,7 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 					await this.CmpRepository.UpdateCompanyUserAsync(this.CmpUserId,
 						this.CmpUserData.User.Description,
 						this.CmpUserData.User.Login,
-						this.CmpUserData.CanManageCompanyAccess,
-						this.CmpUserData.CanManageCompanyStaff);
+						this.CmpUserData.IsPowerUser);
 
 					this.EntityWasUpdated = true;
 

@@ -10,10 +10,7 @@ namespace MedStat.Core.Info.Company
 
 		// Rights:
 
-		[Display(Name = "Company access control")] // "Управление доступом к компании"
-		public bool CanManageCompanyAccess { get; set; }
-
-		[Display(Name = "Company staff management")] // "Управление сотрудниками компании"
-		public bool CanManageCompanyStaff { get; set; }
+		[Display(Name = "Power user")] // "Привилегированный пользователь"
+		public bool IsPowerUser { get; set; }
 	}
 }

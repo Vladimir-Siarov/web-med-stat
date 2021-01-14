@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MedStat.Core.Identity
 {
@@ -8,9 +7,9 @@ namespace MedStat.Core.Identity
 	{
 		public const string SystemAdmin = "system_admin";
 
-		// Company data management:
-		public const string CompanyUserManager = "company_user_manager";
-		public const string CompanyStaffManager = "company_staff_manager";
+		// Company users:
+		public const string CompanyUser = "company_user";
+		public const string CompanyPowerUser = "company_power_user";
 
 
 		internal static string[] GetAllRoles()
@@ -20,8 +19,8 @@ namespace MedStat.Core.Identity
 				{
 					SystemAdmin,
 
-					CompanyUserManager,
-					CompanyStaffManager
+					CompanyUser,
+					CompanyPowerUser
 				};
 		}
 	}
@@ -29,12 +28,15 @@ namespace MedStat.Core.Identity
 
 	public class AccessPolicies
 	{
+		/// <summary>
+		/// Define right group for manage Company Users.
+		/// </summary>
 		public const string CompanyUserManageRights = "CompanyUserManageRights";
 
 
 		public static Dictionary<string, string[]> Roles = new Dictionary<string, string[]>
 		{
-			{ CompanyUserManageRights,  new []{ UserRoles.SystemAdmin, UserRoles.CompanyUserManager }}
+			{ CompanyUserManageRights,  new []{ UserRoles.SystemAdmin, UserRoles.CompanyPowerUser }}
 		};
 	}
 }

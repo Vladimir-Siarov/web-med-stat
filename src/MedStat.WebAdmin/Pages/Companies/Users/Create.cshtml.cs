@@ -39,8 +39,7 @@ namespace MedStat.WebAdmin.Pages.Companies.Users
 					int cmpUserId = await this.CmpRepository.CreateCompanyUserAsync(this.CompanyId,
 						this.CmpUserData.User.Description,
 						this.CmpUserData.User.Login,
-						this.CmpUserData.CanManageCompanyAccess,
-						this.CmpUserData.CanManageCompanyStaff);
+						this.CmpUserData.IsPowerUser);
 					
 					return 
 						RedirectToPage("./Edit", 

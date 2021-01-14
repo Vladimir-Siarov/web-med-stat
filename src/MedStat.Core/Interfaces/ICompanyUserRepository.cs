@@ -25,8 +25,7 @@ namespace MedStat.Core.Interfaces
 		/// <param name="companyId"></param>
 		/// <param name="description"></param>
 		/// <param name="login"></param>
-		/// <param name="canManageCompanyAccess"></param>
-		/// <param name="canManageCompanyStaff"></param>
+		/// <param name="isPowerUser"></param>
 		/// <returns></returns>
 		Task<int> CreateCompanyUserAsync(int companyId,
 			// Cmp User data
@@ -34,7 +33,7 @@ namespace MedStat.Core.Interfaces
 			// Login data
 			SystemUser login,
 			// user rights
-			bool canManageCompanyAccess, bool canManageCompanyStaff);
+			bool isPowerUser);
 
 		/// <summary>
 		/// Update data of specified CompanyUser.
@@ -42,8 +41,7 @@ namespace MedStat.Core.Interfaces
 		/// <param name="cmpUserId"></param>
 		/// <param name="description"></param>
 		/// <param name="login"></param>
-		/// <param name="canManageCompanyAccess"></param>
-		/// <param name="canManageCompanyStaff"></param>
+		/// <param name="isPowerUser"></param>
 		/// <returns></returns>
 		Task UpdateCompanyUserAsync(int cmpUserId,
 			// Cmp User data
@@ -51,7 +49,7 @@ namespace MedStat.Core.Interfaces
 			// Login data
 			SystemUser login,
 			// user rights
-			bool canManageCompanyAccess, bool canManageCompanyStaff);
+			bool isPowerUser);
 
 		/// <summary>
 		/// Delete specified CompanyUser.
