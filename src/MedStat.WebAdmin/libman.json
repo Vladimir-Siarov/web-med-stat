@@ -89,5 +89,14 @@
 				"dist/js/bootstrap.bundle.min.js"
 			]
 		}
+	,
+{
+  "library": "datatables.net@1.10.23",
+  "destination": "wwwroot/lib/datatables.net/",
+	"files": [
+		"js/jquery.dataTables.js",
+		"js/jquery.dataTables.min.js"
 	]
+}
+]
 }

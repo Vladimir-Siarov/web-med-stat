@@ -28,15 +28,6 @@ $(function() {
 
 	});
 
-	// Auto Init DataTables
-	window.setTimeout(function () {
-
-		var tables = $("table[ms-datatable]");
-		if (tables.length > 0)
-			tables.msDataTable();
-
-	}, 50);
-
 	// Page init
 	if (window.pageInit != null && $.isFunction(window.pageInit)) {
 		window.setTimeout(window.pageInit, 50);
