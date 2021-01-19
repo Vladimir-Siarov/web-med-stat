@@ -40,10 +40,16 @@ namespace MedStat.Core.DAL
 		}
 
 
-		public MedStatDbContext(string connectionString) 
+		public MedStatDbContext(string connectionString)
 		{
 			this.ConnectionString = connectionString;
 			Console.WriteLine("MedStatDbContext ctr call"); // TODO: For dev only
+		}
+
+		// For tests setup
+		public MedStatDbContext(DbContextOptions<MedStatDbContext> options)
+			: base(options)
+		{
 		}
 
 

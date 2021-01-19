@@ -22,7 +22,7 @@ namespace MedStat.Core.DAL
 			//			optionsBuilder.UseSqlServer(connectionString);
 			//
 			//			return new MedStatDbContext(optionsBuilder.Options);
-			return new MedStatDbContext(null);
+			return new MedStatDbContext((string)null);
 		}
   }
 }
