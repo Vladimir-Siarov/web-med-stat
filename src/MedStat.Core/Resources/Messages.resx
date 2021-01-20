@@ -123,6 +123,9 @@
   <data name="Company user with ID = {0} is not found" xml:space="preserve">
     <value>Company user with ID = {0} is not found</value>
   </data>
+  <data name="Company with ID = {0} contains users and cannot be deleted" xml:space="preserve">
+    <value>Company with ID = {0} contains users and cannot be deleted</value>
+  </data>
   <data name="Company with ID = {0} is not found" xml:space="preserve">
     <value>Company with ID = {0} is not found</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="Removing user from roles was failed" xml:space="preserve">
     <value>Removing user from roles was failed</value>
+  </data>
+  <data name="Requisites for Company with ID = {0} does not exist" xml:space="preserve">
+    <value>Requisites for Company with ID = {0} does not exist</value>
   </data>
   <data name="System User creation was failed" xml:space="preserve">
     <value>System User creation was failed</value>

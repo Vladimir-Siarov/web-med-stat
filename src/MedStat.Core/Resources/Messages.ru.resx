@@ -123,6 +123,9 @@
   <data name="Company user with ID = {0} is not found" xml:space="preserve">
     <value>Пользователь компания с ID = {0} не найдена</value>
   </data>
+  <data name="Company with ID = {0} contains users and cannot be deleted" xml:space="preserve">
+    <value>Компания с ID = {0} содержит пользователей и не может быть удалена</value>
+  </data>
   <data name="Company with ID = {0} is not found" xml:space="preserve">
     <value>Компания с ID = {0} не найдена</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="Removing user from roles was failed" xml:space="preserve">
     <value>Не удалось удалить роли у пользователя</value>
+  </data>
+  <data name="Requisites for Company with ID = {0} does not exist" xml:space="preserve">
+    <value>Реквизиты для компании с ID = {0} не существуют</value>
   </data>
   <data name="System User creation was failed" xml:space="preserve">
     <value>Не удалось сосдать системного пользователя</value>

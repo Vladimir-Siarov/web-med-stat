@@ -156,6 +156,12 @@ namespace MedStat.Core.Repositories
 						this.MessagesManager.GetString("Company with ID = {0} is not found"),
 						companyId));
 				}
+				if (dbCompany.Requisites == null)
+				{
+					throw new OperationCanceledException(string.Format(
+						this.MessagesManager.GetString("Requisites for Company with ID = {0} does not exist"),
+						companyId));
+				}
 
 				dbCompany.Requisites.MainRequisites = mainReqData.CreateCopy();
 				if (bankReqData != null)
@@ -192,7 +198,15 @@ namespace MedStat.Core.Repositories
 
 				// Check that company doesn't have sub-data (except Requisites)
 				{
-					// TODO: ...
+					bool isCmpUserExist = this.DbContext.CompanyUsers.Any(cu => cu.CompanyId == companyId);
+					if(isCmpUserExist)
+					{ 
+						throw new OperationCanceledException(string.Format(
+							this.MessagesManager.GetString("Company with ID = {0} contains users and cannot be deleted"),
+							companyId));
+					}
+
+					// TODO: Staff, Devices and etc ...
 				}
 
 				await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
