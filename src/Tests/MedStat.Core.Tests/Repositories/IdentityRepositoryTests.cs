@@ -17,25 +17,20 @@ using MedStat.Core.DAL;
 using MedStat.Core.Helpers;
 using MedStat.Core.Identity;
 using MedStat.Core.Interfaces;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace MedStat.Core.Tests.Repositories
 {
 	public class IdentityRepositoryTests : BaseRepositoryTests, IClassFixture<DatabaseFixture>
 	{
 		private static long _phoneNumValue = 1111111;
-		private DatabaseFixture _fixture;
 		
 
-		public IdentityRepositoryTests(DatabaseFixture fixture, ITestOutputHelper outputHelper)
-			: base(outputHelper)
+		public IdentityRepositoryTests(ITestOutputHelper outputHelper, DatabaseFixture fixture)
+			: base(outputHelper, fixture)
 		{
-			this._fixture = fixture;
-
 			// Some tests require initialized Roles
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
-			{
-				Task.Run(() => this.InitRolesAsync(dbContext)).Wait();
-			}
+			this.InitRolesIfRequired();
 		}
 
 
@@ -56,7 +51,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Act:
 
 			SystemUser user;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var identityRepository = sp.GetRequiredService<IIdentityRepository>();
@@ -88,7 +83,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Act:
 
 			int? userId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
@@ -113,7 +108,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			userId.Should().NotBeNull();
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var dbUser = dbContext.SystemUsers.FirstOrDefault(su => su.Id == userId.Value);
 
@@ -139,7 +134,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Act:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
@@ -150,7 +145,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Assert:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				bool isUserExist = dbContext.SystemUsers.Any(su => su.Id == userId);
 				isUserExist.Should().BeFalse();
@@ -178,7 +173,7 @@ namespace MedStat.Core.Tests.Repositories
 			
 			
 			// Act + Assert
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext, userManager);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
@@ -206,7 +201,7 @@ namespace MedStat.Core.Tests.Repositories
 			
 			// Act:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
@@ -245,7 +240,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Act:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
@@ -283,7 +278,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Act:
 
 			IEnumerable<string> testedRoles;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
@@ -300,6 +295,67 @@ namespace MedStat.Core.Tests.Repositories
 			foreach (string testedRole in testedRoles)
 			{
 				Assert.Contains(testedRole, userRoles);
+			}
+		}
+
+		#endregion
+
+
+		#region Phone number
+
+		[Theory]
+		[MemberData(nameof(ChangeUserPhoneNumberAsync_Data))]
+		public async void ChangeUserPhoneNumberAsync(SystemUser[] userDataArray,
+			string phoneNumber, string newPhoneNumber,
+			Type exceptionType)
+		{
+			// Arrange:
+
+			if (userDataArray != null)
+			{
+				foreach (var userData in userDataArray)
+				{
+					await this.AddSystemUserToDbAsync(userData);
+				}
+			}
+
+
+			// Act:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
+				
+				if (exceptionType == null)
+				{
+					await identityRepo.ChangeUserPhoneNumberAsync(phoneNumber, newPhoneNumber);
+				}
+				else
+				{
+					// act + assert
+					await Assert.ThrowsAsync(exceptionType, () =>
+						identityRepo.ChangeUserPhoneNumberAsync(phoneNumber, newPhoneNumber));
+
+					return;
+				}
+			}
+
+
+			// Assert:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var user = dbContext.SystemUsers.FirstOrDefault(u => u.PhoneNumber == newPhoneNumber);
+
+				user.Should().NotBeNull();
+
+				var normalizedNewPhoneNumber = PhoneHelper.NormalizePhoneNumber(newPhoneNumber);
+				user.NormalizedPhoneNumber.Should().BeEquivalentTo(normalizedNewPhoneNumber);
+
+				// check custom business logic
+				user.UserName.Should().BeEquivalentTo(normalizedNewPhoneNumber);
+				user.IsPasswordChangeRequired.Should().BeTrue();
 			}
 		}
 
@@ -437,6 +493,40 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 
+		public static IEnumerable<object[]> ChangeUserPhoneNumberAsync_Data
+		{
+			get
+			{
+				var userData1 = GetSystemUserNewData();
+				var userData2 = GetSystemUserNewData();
+				var userData3_1 = GetSystemUserNewData();
+				var userData3_2 = GetSystemUserNewData();
+
+				return
+					new List<object[]>
+					{
+						// userDataArray, phoneNumber, newPhoneNumber, exceptionType
+
+						// Valid:
+						new object[] { new[] { userData1 }, userData1.PhoneNumber, userData1.PhoneNumber.Replace("+7", "+6"), null },
+						
+						// Invalid:
+						// Invalid phone numbers arguments
+						new object[] { null, "", "+5 911 111-11-11", typeof(ArgumentNullException) },
+						new object[] { null, "+5 911 111-11-11", "", typeof(ArgumentNullException) },
+						// User with specified phone number doesn't exist
+						new object[] { null, "+1 911 111-11-11", "+1 911 222-22-22", typeof(OperationCanceledException) },
+						// Phone number the same (is not unique)
+						new object[] { new[] { userData2 }, userData2.PhoneNumber, userData2.PhoneNumber, 
+							typeof(OperationCanceledException) },
+						// Phone number is not unique
+						new object[] { new[] { userData3_1, userData3_2 }, userData3_2.PhoneNumber, userData3_1.PhoneNumber, 
+							typeof(OperationCanceledException) }
+					};
+			}
+		}
+
+
 		// Helpers:
 
 		public static SystemUser GetSystemUserNewData()
@@ -465,7 +555,7 @@ namespace MedStat.Core.Tests.Repositories
 		private void CheckUserRoles(int userId, IEnumerable<string> expectedUserRoles,
 			bool checkIsNotInExpectedRoles = false)
 		{
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var dbUser = dbContext.SystemUsers.FirstOrDefault(su => su.Id == userId);
 
@@ -497,7 +587,7 @@ namespace MedStat.Core.Tests.Repositories
 		public async Task<int> AddSystemUserToDbAsync(SystemUser userData, 
 			IEnumerable<string> userRoles = null)
 		{
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var userManager = sp.GetRequiredService<UserManager<SystemUser>>();

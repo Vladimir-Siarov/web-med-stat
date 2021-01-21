@@ -14,6 +14,8 @@ namespace MedStat.Core.Tests
 
 		public DbContextOptions<MedStatDbContext> ContextOptions { get; }
 
+		public bool IsRolesInitialized { get; set; }
+
 
 		public DatabaseFixture()
 		{

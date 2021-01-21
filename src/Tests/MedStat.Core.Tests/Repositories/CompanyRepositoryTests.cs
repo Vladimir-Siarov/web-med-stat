@@ -17,13 +17,9 @@ namespace MedStat.Core.Tests.Repositories
 {
 	public class CompanyRepositoryTests : BaseRepositoryTests, IClassFixture<DatabaseFixture>
 	{
-		private DatabaseFixture _fixture;
-
-
-		public CompanyRepositoryTests(DatabaseFixture fixture, ITestOutputHelper outputHelper)
-			: base(outputHelper)
+		public CompanyRepositoryTests(ITestOutputHelper outputHelper, DatabaseFixture fixture)
+			: base(outputHelper, fixture)
 		{
-			this._fixture = fixture;
 		}
 
 
@@ -42,7 +38,7 @@ namespace MedStat.Core.Tests.Repositories
 				UpdatedUtc = DateTime.UtcNow
 			};
 
-			using (var context = new MedStatDbContext(_fixture.ContextOptions))
+			using (var context = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				context.Companies.Add(expectedCompany);
 				context.SaveChanges();
@@ -52,7 +48,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Act:
 
 			Company company;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -87,7 +83,7 @@ namespace MedStat.Core.Tests.Repositories
 			};
 
 
-			using (var context = new MedStatDbContext(_fixture.ContextOptions))
+			using (var context = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				context.Companies.Add(expectedCompany);
 				context.SaveChanges();
@@ -98,7 +94,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Act:
 
 			Company company;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -142,7 +138,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Act:
 
 			int companyId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -153,7 +149,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Assert:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var company = dbContext.Companies
 					.Include(c => c.Requisites)
@@ -184,7 +180,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Act & Assert:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -207,7 +203,7 @@ namespace MedStat.Core.Tests.Repositories
 			#region Arrange:
 
 			int companyId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var guid = Guid.NewGuid();
 				var companyData = new Company
@@ -235,7 +231,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Act:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -246,7 +242,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Assert:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var company = dbContext.Companies.FirstOrDefault(c => c.Id == companyId);
 
@@ -267,7 +263,7 @@ namespace MedStat.Core.Tests.Repositories
 			#region Arrange:
 
 			int companyId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				dbContext.Companies.Add(existedCompanyData);
 				dbContext.SaveChanges();
@@ -308,7 +304,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Act:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -332,7 +328,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Assert:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var company = dbContext.Companies
 					.Include(c => c.Requisites)
@@ -358,7 +354,7 @@ namespace MedStat.Core.Tests.Repositories
 			// Arrange:
 
 			int companyId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				dbContext.Companies.Add(existedCompanyData);
 				dbContext.SaveChanges();
@@ -371,7 +367,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Act:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
@@ -393,7 +389,7 @@ namespace MedStat.Core.Tests.Repositories
 
 			// Assert:
 
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				bool isCompanyExist = dbContext.Companies.Any(c => c.Id == companyId);
 				isCompanyExist.Should().BeFalse();

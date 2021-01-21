@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,10 +19,13 @@ namespace MedStat.Core.Tests.Repositories
 
 		protected ITestOutputHelper OutputHelper { get; }
 
+		protected DatabaseFixture Fixture { get; }
 
-		protected BaseRepositoryTests(ITestOutputHelper outputHelper)
+
+		protected BaseRepositoryTests(ITestOutputHelper outputHelper, DatabaseFixture fixture)
 		{
 			this.OutputHelper = outputHelper;
+			this.Fixture = fixture;
 		}
 
 
@@ -71,13 +73,31 @@ namespace MedStat.Core.Tests.Repositories
 			return serviceProvider;
 		}
 
-		public async Task InitRolesAsync(MedStatDbContext dbContext)
+
+		public void InitRolesIfRequired()
+		{
+			if (!this.Fixture.IsRolesInitialized)
+			{
+				using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+				{
+					Task.Run(() => this.InitRolesAsync(dbContext)).Wait();
+				}
+			}
+		}
+
+		private async Task InitRolesAsync(MedStatDbContext dbContext)
 		{
 			var sp = this.GetServiceProvider(dbContext);
 			var securityRepository = sp.GetRequiredService<ISecurityRepository>();
 			var roleManager = sp.GetRequiredService<RoleManager<IdentityRole<Int32>>>();
 
-			await securityRepository.SetupRolesAsync(roleManager);
+			this.OutputHelper.WriteLine("--- start init Roles for tests ---");
+			{
+				await securityRepository.SetupRolesAsync(roleManager);
+
+				this.Fixture.IsRolesInitialized = true;
+			}
+			this.OutputHelper.WriteLine("--- end of Roles init for tests ---\n");
 		}
 	}
 }

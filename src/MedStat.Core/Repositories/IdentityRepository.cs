@@ -317,12 +317,14 @@ namespace MedStat.Core.Repositories
 							this.MessagesManager.GetString("Phone number change operation was failed"));
 					}
 
+					/*
 					result = await _userManager.RemovePasswordAsync(user);
 					if (!result.Succeeded)
 					{
 						throw new IdentityResultException(result,
 							this.MessagesManager.GetString("Password reset operation was failed"));
 					}
+					*/
 
 					result = await _userManager.SetUserNameAsync(user, normalizedNewPhoneNumber);
 					if (!result.Succeeded)
