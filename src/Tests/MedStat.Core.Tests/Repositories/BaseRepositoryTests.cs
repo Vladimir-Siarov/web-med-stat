@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,7 +15,7 @@ namespace MedStat.Core.Tests.Repositories
 {
 	public abstract class BaseRepositoryTests
 	{
-		private const string TestUserUid = "repository_tests";
+		public const string TestUserUid = "repository_tests";
 
 
 		protected ITestOutputHelper OutputHelper { get; }
@@ -25,7 +27,8 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 
-		public ServiceProvider GetServiceProvider(MedStatDbContext dbContext)
+		public ServiceProvider GetServiceProvider(MedStatDbContext dbContext,
+			UserManager<SystemUser> customUserManager = null)
 		{
 			var services = new ServiceCollection();
 			{
@@ -44,11 +47,11 @@ namespace MedStat.Core.Tests.Repositories
 				// Register Repositories
 				services
 					.AddScoped<IIdentityRepository>(sp => new IdentityRepository(
-						sp.GetRequiredService<UserManager<SystemUser>>(),
+						customUserManager ?? sp.GetRequiredService<UserManager<SystemUser>>(),
 						sp.GetRequiredService<MedStatDbContext>(),
 						sp.GetRequiredService<ILogger<IdentityRepository>>(),
 						TestUserUid))
-
+					
 					.AddScoped<ISecurityRepository>(sp => new SecurityRepository(
 						sp.GetRequiredService<IIdentityRepository>(),
 						sp.GetRequiredService<MedStatDbContext>(),
@@ -66,6 +69,15 @@ namespace MedStat.Core.Tests.Repositories
 			var serviceProvider = services.BuildServiceProvider();
 
 			return serviceProvider;
+		}
+
+		public async Task InitRolesAsync(MedStatDbContext dbContext)
+		{
+			var sp = this.GetServiceProvider(dbContext);
+			var securityRepository = sp.GetRequiredService<ISecurityRepository>();
+			var roleManager = sp.GetRequiredService<RoleManager<IdentityRole<Int32>>>();
+
+			await securityRepository.SetupRolesAsync(roleManager);
 		}
 	}
 }

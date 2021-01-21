@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MedStat.Core.DAL;
-using MedStat.Core.Identity;
-using MedStat.Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
+using MedStat.Core.DAL;
+using MedStat.Core.Helpers;
+using MedStat.Core.Identity;
+using MedStat.Core.Interfaces;
 
 namespace MedStat.Core.Repositories
 {
@@ -78,7 +78,7 @@ namespace MedStat.Core.Repositories
 			var result = await _userManager.CreateAsync(user);
 			if (!result.Succeeded)
 			{ 
-				throw GenerateIdentityResultException(result,
+				throw new IdentityResultException(result,
 					this.MessagesManager.GetString("System User creation was failed"));
 			}
 
@@ -103,7 +103,7 @@ namespace MedStat.Core.Repositories
 			var result = await _userManager.DeleteAsync(user);
 			if (!result.Succeeded)
 			{
-				throw GenerateIdentityResultException(result,
+				throw new IdentityResultException(result,
 					this.MessagesManager.GetString("System user delete action was failed"));
 			}
 		}
@@ -147,7 +147,7 @@ namespace MedStat.Core.Repositories
 						var result = await _userManager.AddToRoleAsync(user, role);
 						if (!result.Succeeded)
 						{
-							throw GenerateIdentityResultException(result,
+							throw new IdentityResultException(result,
 								this.MessagesManager.GetString("Adding user to roles was failed"));
 						}
 
@@ -162,7 +162,7 @@ namespace MedStat.Core.Repositories
 				var result = await _userManager.AddToRolesAsync(user, roles);
 				if (!result.Succeeded)
 				{
-					throw GenerateIdentityResultException(result,
+					throw new IdentityResultException(result,
 						this.MessagesManager.GetString("Adding user to roles was failed"));
 				}
 
@@ -190,7 +190,7 @@ namespace MedStat.Core.Repositories
 						var result = await _userManager.RemoveFromRoleAsync(user, role);
 						if (!result.Succeeded)
 						{
-							throw GenerateIdentityResultException(result,
+							throw new IdentityResultException(result,
 								this.MessagesManager.GetString("Removing user from roles was failed"));
 						}
 
@@ -205,7 +205,7 @@ namespace MedStat.Core.Repositories
 				var result = await _userManager.RemoveFromRolesAsync(user, roles);
 				if (!result.Succeeded)
 				{
-					throw GenerateIdentityResultException(result,
+					throw new IdentityResultException(result,
 						this.MessagesManager.GetString("Removing user from roles was failed"));
 				}
 
@@ -241,7 +241,7 @@ namespace MedStat.Core.Repositories
 					var result = await _userManager.ResetPasswordAsync(user, token, password);
 					if (!result.Succeeded)
 					{
-						throw GenerateIdentityResultException(result,
+						throw new IdentityResultException(result,
 							this.MessagesManager.GetString("Password reset operation was failed"));
 					}
 				}
@@ -250,7 +250,7 @@ namespace MedStat.Core.Repositories
 					var result = await _userManager.AddPasswordAsync(user, password);
 					if (!result.Succeeded)
 					{
-						throw GenerateIdentityResultException(result, 
+						throw new IdentityResultException(result, 
 							this.MessagesManager.GetString("Password add operation was failed"));
 					}
 				}
@@ -313,21 +313,21 @@ namespace MedStat.Core.Repositories
 					var result = await _userManager.SetPhoneNumberAsync(user, newPhoneNumber);
 					if (!result.Succeeded)
 					{
-						throw GenerateIdentityResultException(result,
+						throw new IdentityResultException(result,
 							this.MessagesManager.GetString("Phone number change operation was failed"));
 					}
 
 					result = await _userManager.RemovePasswordAsync(user);
 					if (!result.Succeeded)
 					{
-						throw GenerateIdentityResultException(result,
+						throw new IdentityResultException(result,
 							this.MessagesManager.GetString("Password reset operation was failed"));
 					}
 
 					result = await _userManager.SetUserNameAsync(user, normalizedNewPhoneNumber);
 					if (!result.Succeeded)
 					{
-						throw GenerateIdentityResultException(result,
+						throw new IdentityResultException(result,
 							this.MessagesManager.GetString("System User name change operation was failed"));
 					}
 
@@ -369,27 +369,6 @@ namespace MedStat.Core.Repositories
 		}
 
 
-		private static string NormalizePhoneNumber(string number)
-		{
-			number = Regex.Replace(number, @"[^\d|\+]", "");
-
-			// TODO: It's valid for Russia only! 
-			// 89112299153 -> +79112299153
-			if (number.Length == 11 && number.StartsWith('8'))
-			{
-				number = "+7" + number.Substring(1);
-			}
-
-			return number;
-		}
-
-		private static Exception GenerateIdentityResultException(IdentityResult result, string mainExMessage)
-		{
-			var innerException = result?.Errors?.FirstOrDefault() != null
-				? new Exception(result.Errors.FirstOrDefault().Description)
-				: null;
-
-			return new Exception(mainExMessage, innerException);
-		}
+		private static string NormalizePhoneNumber(string number) => PhoneHelper.NormalizePhoneNumber(number);
 	}
 }

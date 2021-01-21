@@ -508,33 +508,16 @@ namespace MedStat.Core.Tests.Repositories
 		// M.b. move this method to the "IdentityRepositoryTests" class
 		public static List<CompanyUser> GetCompanyUsersData()
 		{
-			var phoneNumber1 = "+7 111 11-11-11";
-			var phoneNumber2 = "+7 222 22-22-22";
-
 			return
 				new List<CompanyUser>
 				{
 					new CompanyUser
 					{
-						Login = new SystemUser
-						{
-							UserName = phoneNumber1,
-							PhoneNumber = phoneNumber1,
-							NormalizedPhoneNumber = phoneNumber1,
-							FirstName = "First 1",
-							Surname = "Surname 1"
-						}
+						Login = IdentityRepositoryTests.GetSystemUserNewData()
 					},
 					new CompanyUser
 					{
-						Login = new SystemUser
-						{
-							UserName = phoneNumber2,
-							PhoneNumber = phoneNumber2,
-							NormalizedPhoneNumber = phoneNumber2,
-							FirstName = "First 1",
-							Surname = "Surname 1"
-						}
+						Login = IdentityRepositoryTests.GetSystemUserNewData()
 					}
 				};
 		}
