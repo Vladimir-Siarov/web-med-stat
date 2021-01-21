@@ -171,14 +171,14 @@ namespace MedStat.Core.Repositories
 		}
 
 		public async Task<IEnumerable<string>> RemoveFromRolesAsync(SystemUser user, IEnumerable<string> roles,
-			bool checkBeforeAdding = false)
+			bool checkBeforeRemoving = false)
 		{
 			if (user == null)
 				throw new ArgumentNullException(nameof(user));
 			if (roles == null)
 				throw new ArgumentNullException(nameof(roles));
 
-			if (checkBeforeAdding)
+			if (checkBeforeRemoving)
 			{
 				List<string> removedRoles = new List<string>();
 

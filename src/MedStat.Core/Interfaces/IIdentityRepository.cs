@@ -38,17 +38,18 @@ namespace MedStat.Core.Interfaces
 		/// <param name="roles"></param>
 		/// <param name="checkBeforeAdding"></param>
 		/// <returns></returns>
-		Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles, bool checkBeforeAdding = false);
+		Task<IEnumerable<string>> AddToRolesAsync(SystemUser user, IEnumerable<string> roles, 
+			bool checkBeforeAdding = false);
 
 		/// <summary>
 		/// Removes specified user from specified roles.
 		/// </summary>
 		/// <param name="user"></param>
 		/// <param name="roles"></param>
-		/// <param name="checkBeforeAdding"></param>
+		/// <param name="checkBeforeRemoving"></param>
 		/// <returns></returns>
 		Task<IEnumerable<string>> RemoveFromRolesAsync(SystemUser user, IEnumerable<string> roles,
-			bool checkBeforeAdding = false);
+			bool checkBeforeRemoving = false);
 
 		/// <summary>
 		/// Get Roles assigned to the specified user.

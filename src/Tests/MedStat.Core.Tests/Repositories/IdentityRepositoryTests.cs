@@ -42,19 +42,15 @@ namespace MedStat.Core.Tests.Repositories
 		#region SystemUser
 		
 		[Fact]
-		public void FindByPhoneNumberAsync()
+		public async void FindByPhoneNumberAsync()
 		{
 			// Arrange:
 
 			var expectedUser = GetSystemUserNewData();
-
-			using (var context = new MedStatDbContext(_fixture.ContextOptions))
-			{
-				context.SystemUsers.Add(expectedUser);
-				context.SystemUsers.Add(GetSystemUserNewData());
-				context.SystemUsers.Add(GetSystemUserNewData());
-				context.SaveChanges();
-			}
+			
+			await this.AddSystemUserToDbAsync(expectedUser);
+			await this.AddSystemUserToDbAsync(GetSystemUserNewData());
+			await this.AddSystemUserToDbAsync(GetSystemUserNewData());
 
 
 			// Act:
@@ -105,7 +101,7 @@ namespace MedStat.Core.Tests.Repositories
 				else
 				{
 					// act + assert
-					_ = await Assert.ThrowsAsync(exceptionType, () =>
+					await Assert.ThrowsAsync(exceptionType, () =>
 						identityRepo.CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction(userData, userRoles));
 
 					return;
@@ -138,17 +134,8 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			int userId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
-			{
-				var userData = GetSystemUserNewData();
-
-				dbContext.SystemUsers.Add(userData);
-				dbContext.SaveChanges();
-
-				userId = userData.Id;
-			}
-
+			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData());
+			
 
 			// Act:
 
@@ -171,7 +158,7 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 		// Comment: It's an example how we can test cases with "IdentityResult.Failed" results.
-		// But we more interesting in testing business logic.
+		// But we more interesting in testing business logic and in integration tests.
 		[Fact]
 		public async void DeleteSystemUserAsync_UnderOuterTransaction_IdentityResultException()
 		{
@@ -183,29 +170,136 @@ namespace MedStat.Core.Tests.Repositories
 				.Returns(() => Task.FromResult(
 					IdentityResult.Failed(new IdentityError { Description = "Some delete SystemUser error" })));
 
-			var userManager = new UserManager<SystemUser>(storeMock.Object, null, null, null, null, null, null, null, null);
+			var userManager = new UserManager<SystemUser>(storeMock.Object, 
+				null, null, null, null, null, null, null, null);
 
-			int userId;
-			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
-			{
-				var userData = GetSystemUserNewData();
-
-				dbContext.SystemUsers.Add(userData);
-				dbContext.SaveChanges();
-
-				userId = userData.Id;
-			}
-
+			// add new user to DB by using standard UserManger
+			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData());
 			
+			
+			// Act + Assert
 			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
 			{
-				// Act:
 				var sp = this.GetServiceProvider(dbContext, userManager);
 				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
 
-				// Assert:
-				await Assert.ThrowsAsync<IdentityResultException>(async () => 
-					await identityRepo.DeleteSystemUserAsync_UnderOuterTransaction(userId));
+				await Assert.ThrowsAsync<IdentityResultException>(() => 
+					identityRepo.DeleteSystemUserAsync_UnderOuterTransaction(userId));
+			}
+		}
+
+		#endregion
+
+
+		#region Roles
+
+		[Theory]
+		[MemberData(nameof(AddToRolesAsync_Data))]
+		public async void AddToRolesAsync(IEnumerable<string> userRoles,
+			IEnumerable<string> newRoles, bool checkBeforeAdding, 
+			Type exceptionType)
+		{
+			// Arrange:
+
+			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData(), userRoles);
+			
+			
+			// Act:
+
+			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
+				var user = dbContext.SystemUsers.First(u => u.Id == userId);
+
+				if (exceptionType == null)
+				{
+					await identityRepo.AddToRolesAsync(user, newRoles, checkBeforeAdding);
+				}
+				else
+				{
+					// act + assert
+					await Assert.ThrowsAsync(exceptionType, () =>
+						identityRepo.AddToRolesAsync(user, newRoles, checkBeforeAdding));
+
+					return;
+				}
+			}
+
+
+			// Assert:
+
+			this.CheckUserRoles(userId, newRoles);
+		}
+
+		[Theory]
+		[MemberData(nameof(RemoveFromRolesAsync_Data))]
+		public async void RemoveFromRolesAsync(IEnumerable<string> userRoles,
+			IEnumerable<string> rolesForRemove, bool checkBeforeRemoving,
+			Type exceptionType)
+		{
+			// Arrange:
+
+			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData(), userRoles);
+
+
+			// Act:
+
+			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
+				var user = dbContext.SystemUsers.First(u => u.Id == userId);
+
+				if (exceptionType == null)
+				{
+					await identityRepo.RemoveFromRolesAsync(user, rolesForRemove, checkBeforeRemoving);
+				}
+				else
+				{
+					// act + assert
+					await Assert.ThrowsAsync(exceptionType, () =>
+						identityRepo.RemoveFromRolesAsync(user, rolesForRemove, checkBeforeRemoving));
+
+					return;
+				}
+			}
+
+
+			// Assert:
+
+			this.CheckUserRoles(userId, rolesForRemove, checkIsNotInExpectedRoles: true);
+		}
+
+		[Theory]
+		[MemberData(nameof(GetUserRolesAsync_Data))]
+		public async void GetUserRolesAsync(IEnumerable<string> userRoles)
+		{
+			// Arrange:
+
+			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData(), userRoles);
+
+
+			// Act:
+
+			IEnumerable<string> testedRoles;
+			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
+				var user = dbContext.SystemUsers.First(u => u.Id == userId);
+
+				testedRoles = await identityRepo.GetUserRolesAsync(user);
+			}
+
+
+			// Assert:
+
+			testedRoles.Should().NotBeNull();
+			Assert.True(testedRoles.Count() == userRoles.Count());
+			foreach (string testedRole in testedRoles)
+			{
+				Assert.Contains(testedRole, userRoles);
 			}
 		}
 
@@ -234,6 +328,7 @@ namespace MedStat.Core.Tests.Repositories
 				var userData2 = GetSystemUserNewData();
 				var userRights2 = new string[] { UserRoles.CompanyPowerUser };
 
+				// User with duplicated phone number
 				var invalidUserData4 = GetSystemUserNewData();
 				invalidUserData4.PhoneNumber = userData2.PhoneNumber;
 				invalidUserData4.NormalizedPhoneNumber = null;
@@ -258,6 +353,90 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 
+		public static IEnumerable<object[]> AddToRolesAsync_Data
+		{
+			get
+			{
+				return
+					new List<object[]>
+					{
+						// userRoles, newRoles, checkBeforeAdding, exceptionType
+
+						// Valid data:
+
+						new object[] { null, new string[0], false, null },
+						new object[] { null, new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, false, null },
+						// intersect roles but checking before adding
+						new object[] { new[] { UserRoles.CompanyUser }, 
+							new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, true, null },
+
+
+						// Invalid data:
+
+						// invalid (nullable) new roles
+						new object[] { null, null, false, typeof(ArgumentNullException) },
+						// try to add non-existent role (checking before adding doesn't help)
+						new object[] { null, new[] { "Some non-existent role" }, true, typeof(InvalidOperationException) },
+						// intersect roles without checking before adding
+						new object[] { new[] { UserRoles.CompanyUser },
+							new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, false, typeof(IdentityResultException) },
+					};
+			}
+		}
+
+		public static IEnumerable<object[]> GetUserRolesAsync_Data
+		{
+			get
+			{
+				return
+					new List<object[]>
+					{
+						// userRoles
+
+						// Valid data:
+
+						new object[] { new string[0] },
+						new object[] { new[] { UserRoles.CompanyUser } },
+						new object[] { new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser, UserRoles.SystemAdmin } }
+					};
+			}
+		}
+
+		public static IEnumerable<object[]> RemoveFromRolesAsync_Data
+		{
+			get
+			{
+				return
+					new List<object[]>
+					{
+						// userRoles, rolesForRemove, checkBeforeRemoving, exceptionType
+
+						// Valid data:
+
+						new object[] { null, new string[0], false, null },
+						new object[] { new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser },
+							new[] { UserRoles.CompanyPowerUser }, false, null },
+						// try to remove non-existent role, but check it before deleting
+						new object[] { null, new[] { "Some non-existent role" }, true, null },
+						// try to remove roles which is not assigned to the user, but check it before deleting
+						new object[] { new[] { UserRoles.CompanyUser },
+							new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, true, null },
+
+
+						// Invalid data:
+
+						// invalid (nullable) roles for remove
+						new object[] { null, null, false, typeof(ArgumentNullException) },
+						// try to remove non-existent role, without check it before deleting
+						new object[] { null, new[] { "Some non-existent role" }, false, typeof(IdentityResultException) },
+						// try to remove roles which is not assigned to the user, without check it before deleting
+						new object[] { new[] { UserRoles.CompanyUser },
+							new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, false, typeof(IdentityResultException) },
+					};
+			}
+		}
+
+
 		// Helpers:
 
 		public static SystemUser GetSystemUserNewData()
@@ -265,13 +444,15 @@ namespace MedStat.Core.Tests.Repositories
 			_phoneNumValue += 1;
 
 			var phoneNumber = $"+7 911 {_phoneNumValue:###-##-##}";
+			var normalizedPhoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber);
 			var guid = Guid.NewGuid();
 
 			var user = new SystemUser
 			{
-				UserName = phoneNumber,
+				UserName = normalizedPhoneNumber,
+				//NormalizedUserName = normalizedPhoneNumber,
 				PhoneNumber = phoneNumber,
-				NormalizedPhoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber),
+				NormalizedPhoneNumber = normalizedPhoneNumber,
 				FirstName = $"FirstName {guid}",
 				Surname = $"Surname {guid}",
 				Patronymic = $"Patronymic {guid}"
@@ -281,7 +462,8 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 
-		private void CheckUserRoles(int userId, IEnumerable<string> expectedUserRoles)
+		private void CheckUserRoles(int userId, IEnumerable<string> expectedUserRoles,
+			bool checkIsNotInExpectedRoles = false)
 		{
 			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
 			{
@@ -294,11 +476,45 @@ namespace MedStat.Core.Tests.Repositories
 
 				var dbUserRoles = userManager.GetRolesAsync(dbUser).Result;
 
-				Assert.True(dbUserRoles.Count == expectedUserRoles.Count());
-				foreach (string role in expectedUserRoles)
+				if (checkIsNotInExpectedRoles) // check that user NOT IN expected roles
 				{
-					Assert.True(dbUserRoles.Contains(role));
+					foreach (string expectedRole in expectedUserRoles)
+					{
+						Assert.DoesNotContain(expectedRole, dbUserRoles);
+					}
 				}
+				else // check that user IN expected roles
+				{
+					Assert.True(dbUserRoles.Count == expectedUserRoles.Count());
+					foreach (string expectedRole in expectedUserRoles)
+					{
+						Assert.Contains(expectedRole, dbUserRoles);
+					}
+				}
+			}
+		}
+
+		public async Task<int> AddSystemUserToDbAsync(SystemUser userData, 
+			IEnumerable<string> userRoles = null)
+		{
+			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var userManager = sp.GetRequiredService<UserManager<SystemUser>>();
+				
+				var createUserResult = await userManager.CreateAsync(userData);
+				if (!createUserResult.Succeeded)
+					throw new Exception("Test arrange is failed. Cannot add SystemUser entity to DB.");
+
+				if (userRoles != null)
+				{
+					var addToRolesResult = await userManager.AddToRolesAsync(userData, userRoles);
+					if (!addToRolesResult.Succeeded)
+						throw new Exception("Test arrange is failed. Cannot add SystemUser to roles.");
+				}
+
+				return 
+					userData.Id;
 			}
 		}
 	}

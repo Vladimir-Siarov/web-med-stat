@@ -173,6 +173,30 @@ namespace MedStat.Core.Tests.Repositories
 			}
 		}
 
+		[Fact]
+		public async void CreateCompanyAsync_Exception()
+		{
+			// Arrange:
+
+			var cmpData1 = new Company {Name = null};
+			var cmpData2 = new Company { Name = "" };
+			
+
+			// Act & Assert:
+
+			using (var dbContext = new MedStatDbContext(_fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var cmpRepository = sp.GetRequiredService<ICompanyRepository>();
+
+				await Assert.ThrowsAsync<ArgumentNullException>(() => 
+					cmpRepository.CreateCompanyAsync(cmpData1.Name, null));
+
+				await Assert.ThrowsAsync<ArgumentNullException>(() =>
+					cmpRepository.CreateCompanyAsync(cmpData2.Name, null));
+			}
+		}
+
 		#endregion
 
 		#region Update / Delete
@@ -297,8 +321,8 @@ namespace MedStat.Core.Tests.Repositories
 				else
 				{
 					// act + assert
-					var ex = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-						await cmpRepository.UpdateCompanyRequisitesAsync(companyId,
+					var ex = await Assert.ThrowsAsync<OperationCanceledException>(() =>
+						cmpRepository.UpdateCompanyRequisitesAsync(companyId, 
 							expectedData.MainRequisites, expectedData.BankRequisites));
 
 					return;
@@ -359,8 +383,8 @@ namespace MedStat.Core.Tests.Repositories
 				else
 				{
 					// act + assert
-					var ex = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-						await cmpRepository.DeleteCompanyAsync(companyId));
+					var ex = await Assert.ThrowsAsync<OperationCanceledException>(() =>
+						cmpRepository.DeleteCompanyAsync(companyId));
 
 					return;
 				}
