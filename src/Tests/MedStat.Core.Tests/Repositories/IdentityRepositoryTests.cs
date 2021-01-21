@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +15,6 @@ using MedStat.Core.DAL;
 using MedStat.Core.Helpers;
 using MedStat.Core.Identity;
 using MedStat.Core.Interfaces;
-using OperationCanceledException = System.OperationCanceledException;
 
 namespace MedStat.Core.Tests.Repositories
 {
@@ -362,6 +359,109 @@ namespace MedStat.Core.Tests.Repositories
 		#endregion
 
 
+		#region Password
+
+		[Theory]
+		[MemberData(nameof(SetPasswordChangeRequiredFlagAsync_Data))]
+		public async void SetPasswordChangeRequiredFlagAsync(SystemUser userData,
+			string phoneNumber, bool isChangePasswordRequired,
+			Type exceptionType)
+		{
+			// Arrange:
+
+			if (userData != null)
+			{
+				await this.AddSystemUserToDbAsync(userData);
+			}
+
+
+			// Act:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
+
+				if (exceptionType == null)
+				{
+					await identityRepo.SetPasswordChangeRequiredFlagAsync(phoneNumber, isChangePasswordRequired);
+				}
+				else
+				{
+					// act + assert
+					await Assert.ThrowsAsync(exceptionType, () =>
+						identityRepo.SetPasswordChangeRequiredFlagAsync(phoneNumber, isChangePasswordRequired));
+
+					return;
+				}
+			}
+
+
+			// Assert:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var user = dbContext.SystemUsers.FirstOrDefault(u => u.PhoneNumber == phoneNumber);
+
+				user.Should().NotBeNull();
+				user.IsPasswordChangeRequired.Should().Be(isChangePasswordRequired);
+			}
+		}
+
+		[Theory]
+		[MemberData(nameof(ChangeUserPasswordAsync_Data))]
+		public async void ChangeUserPasswordAsync(SystemUser userData, string userPassword,
+			string phoneNumber, string newPassword,
+			Type exceptionType)
+		{
+			// Arrange:
+
+			if (userData != null)
+			{
+				await this.AddSystemUserToDbAsync(userData, null, userPassword);
+			}
+
+
+			// Act:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var identityRepo = sp.GetRequiredService<IIdentityRepository>();
+
+				if (exceptionType == null)
+				{
+					await identityRepo.ChangeUserPasswordAsync(phoneNumber, newPassword);
+				}
+				else
+				{
+					// act + assert
+					await Assert.ThrowsAsync(exceptionType, () =>
+						identityRepo.ChangeUserPasswordAsync(phoneNumber, newPassword));
+
+					return;
+				}
+			}
+
+
+			// Assert:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var userManager = sp.GetRequiredService<UserManager<SystemUser>>();
+
+				var user = dbContext.SystemUsers.FirstOrDefault(u => u.PhoneNumber == phoneNumber);
+				user.Should().NotBeNull();
+
+				bool passwordWasChanged = await userManager.CheckPasswordAsync(user, newPassword);
+				passwordWasChanged.Should().BeTrue();
+			}
+		}
+
+		#endregion
+
+
 		// Data for Test methods:
 
 		public static IEnumerable<object[]> CreateSystemUserByPhoneNumberAsync_UnderOuterTransaction_Data
@@ -527,6 +627,71 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 
+		public static IEnumerable<object[]> SetPasswordChangeRequiredFlagAsync_Data
+		{
+			get
+			{
+				var userData1 = GetSystemUserNewData();
+				userData1.IsPasswordChangeRequired = false;
+
+				var userData2 = GetSystemUserNewData();
+				userData2.IsPasswordChangeRequired = true;
+
+				return
+					new List<object[]>
+					{
+						// userData, phoneNumber, isChangePasswordRequired, exceptionType
+
+						// Valid:
+						new object[] { userData1, userData1.PhoneNumber, !userData1.IsPasswordChangeRequired, null },
+						new object[] { userData2, userData2.PhoneNumber, !userData2.IsPasswordChangeRequired, null },
+
+						// Invalid:
+						// Invalid phone number argument
+						new object[] { null, "", true, typeof(ArgumentNullException) },
+						// User with specified phone number doesn't exist
+						new object[] { null, "+1 911 111-11-11", true, typeof(OperationCanceledException) }
+					};
+			}
+		}
+
+		public static IEnumerable<object[]> ChangeUserPasswordAsync_Data
+		{
+			get
+			{
+				var userData1 = GetSystemUserNewData();
+				var userData2 = GetSystemUserNewData();
+				var userData3 = GetSystemUserNewData();
+
+				return
+					new List<object[]>
+					{
+						// userData, userPassword,
+						//	phoneNumber, newPassword, exceptionType
+
+						// Valid:
+						// User without password
+						new object[] { userData1, null,
+							userData1.PhoneNumber, GenerateUserPassword(), null },
+						// User with existed password
+						new object[] { userData2, GenerateUserPassword(),
+							userData2.PhoneNumber, GenerateUserPassword(), null },
+
+						// Invalid:
+						// Invalid phone number argument
+						new object[] { null, null,
+							"", GenerateUserPassword(), typeof(ArgumentNullException) },
+						// Invalid new password argument
+						new object[] { userData3, null,
+							userData3.PhoneNumber, "", typeof(ArgumentNullException) },
+						// User with specified phone number doesn't exist
+						new object[] { null, null,
+							"+1 911 111-11-11", GenerateUserPassword(), typeof(OperationCanceledException) }
+					};
+			}
+		}
+
+
 		// Helpers:
 
 		public static SystemUser GetSystemUserNewData()
@@ -549,6 +714,12 @@ namespace MedStat.Core.Tests.Repositories
 			};
 
 			return user;
+		}
+
+		private static string GenerateUserPassword()
+		{
+			return 
+				$"{Guid.NewGuid().ToString("N")}_A";
 		}
 
 
@@ -585,14 +756,16 @@ namespace MedStat.Core.Tests.Repositories
 		}
 
 		public async Task<int> AddSystemUserToDbAsync(SystemUser userData, 
-			IEnumerable<string> userRoles = null)
+			IEnumerable<string> userRoles = null, string password = null)
 		{
 			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				var sp = this.GetServiceProvider(dbContext);
 				var userManager = sp.GetRequiredService<UserManager<SystemUser>>();
 				
-				var createUserResult = await userManager.CreateAsync(userData);
+				var createUserResult = password != null
+					? await userManager.CreateAsync(userData, password)
+					: await userManager.CreateAsync(userData);
 				if (!createUserResult.Succeeded)
 					throw new Exception("Test arrange is failed. Cannot add SystemUser entity to DB.");
 

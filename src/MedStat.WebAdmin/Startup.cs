@@ -40,7 +40,9 @@ namespace MedStat.WebAdmin
 			});
 
 			services
-				// TODO: "AddDefaultIdentity" replace with "AddIdentity<SystemUser, IdentityRole<Int32>>"
+				// TODO: "AddDefaultIdentity" replace with "AddIdentity<SystemUser, IdentityRole<Int32>>".
+				// TODO: Check change password functionality for user with existed password.
+				//       M.b. we have to add following ".AddDefaultTokenProviders()".
 				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
 				.AddRoles<IdentityRole<Int32>>()
 				.AddEntityFrameworkStores<MedStatDbContext>()

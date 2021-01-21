@@ -44,7 +44,8 @@ namespace MedStat.Core.Tests.Repositories
 				services
 					.AddIdentity<SystemUser, IdentityRole<Int32>>() //(options => options.SignIn.RequireConfirmedAccount = true)
 					.AddRoles<IdentityRole<Int32>>()
-					.AddEntityFrameworkStores<MedStatDbContext>();
+					.AddEntityFrameworkStores<MedStatDbContext>()
+					.AddDefaultTokenProviders();
 
 				// Register Repositories
 				services
