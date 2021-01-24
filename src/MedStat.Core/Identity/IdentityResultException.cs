@@ -11,6 +11,9 @@ namespace MedStat.Core.Identity
 		{
 			if(result == null)
 				throw new ArgumentNullException(nameof(result));
+
+			if(result.Succeeded)
+				throw new OperationCanceledException("Cannot create exception instance for succeeded identity result.");
 		}
 
 
