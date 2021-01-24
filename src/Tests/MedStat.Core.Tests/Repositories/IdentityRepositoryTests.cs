@@ -20,9 +20,6 @@ namespace MedStat.Core.Tests.Repositories
 {
 	public class IdentityRepositoryTests : BaseRepositoryTests, IClassFixture<DatabaseFixture>
 	{
-		private static long _phoneNumValue = 1111111;
-		
-
 		public IdentityRepositoryTests(ITestOutputHelper outputHelper, DatabaseFixture fixture)
 			: base(outputHelper, fixture)
 		{
@@ -38,11 +35,11 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			var expectedUser = GetSystemUserNewData();
+			var expectedUser = DataHelper.GetSystemUserNewData();
 			
 			await this.AddSystemUserToDbAsync(expectedUser);
-			await this.AddSystemUserToDbAsync(GetSystemUserNewData());
-			await this.AddSystemUserToDbAsync(GetSystemUserNewData());
+			await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData());
+			await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData());
 
 
 			// Act:
@@ -126,7 +123,7 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData());
+			int userId = await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData());
 			
 
 			// Act:
@@ -166,7 +163,7 @@ namespace MedStat.Core.Tests.Repositories
 				null, null, null, null, null, null, null, null);
 
 			// add new user to DB by using standard UserManger
-			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData());
+			int userId = await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData());
 			
 			
 			// Act + Assert
@@ -193,7 +190,7 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData(), userRoles);
+			int userId = await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData(), userRoles);
 			
 			
 			// Act:
@@ -232,7 +229,7 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData(), userRoles);
+			int userId = await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData(), userRoles);
 
 
 			// Act:
@@ -269,7 +266,7 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			int userId = await this.AddSystemUserToDbAsync(GetSystemUserNewData(), userRoles);
+			int userId = await this.AddSystemUserToDbAsync(DataHelper.GetSystemUserNewData(), userRoles);
 
 
 			// Act:
@@ -468,24 +465,24 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			get
 			{
-				var invalidUserData1 = GetSystemUserNewData();
+				var invalidUserData1 = DataHelper.GetSystemUserNewData();
 				invalidUserData1.PhoneNumber = null;
 
-				var invalidUserData2 = GetSystemUserNewData();
+				var invalidUserData2 = DataHelper.GetSystemUserNewData();
 				invalidUserData2.FirstName = null;
 
-				var invalidUserData3 = GetSystemUserNewData();
+				var invalidUserData3 = DataHelper.GetSystemUserNewData();
 				invalidUserData3.Surname = null;
 
-				var userData1 = GetSystemUserNewData();
+				var userData1 = DataHelper.GetSystemUserNewData();
 				userData1.NormalizedPhoneNumber = null;
 				var userRights1 = new string[] { UserRoles.CompanyUser };
 
-				var userData2 = GetSystemUserNewData();
+				var userData2 = DataHelper.GetSystemUserNewData();
 				var userRights2 = new string[] { UserRoles.CompanyPowerUser };
 
 				// User with duplicated phone number
-				var invalidUserData4 = GetSystemUserNewData();
+				var invalidUserData4 = DataHelper.GetSystemUserNewData();
 				invalidUserData4.PhoneNumber = userData2.PhoneNumber;
 				invalidUserData4.NormalizedPhoneNumber = null;
 
@@ -498,7 +495,7 @@ namespace MedStat.Core.Tests.Repositories
 						new object[] { invalidUserData2, null, false, typeof(ArgumentNullException) },
 						new object[] { invalidUserData3, null, false, typeof(ArgumentNullException) },
 
-						new object[] { GetSystemUserNewData(), null, true, null },
+						new object[] { DataHelper.GetSystemUserNewData(), null, true, null },
 
 						new object[] { userData1, userRights1, true, null },
 						new object[] { userData2, userRights2, true, null },
@@ -535,7 +532,7 @@ namespace MedStat.Core.Tests.Repositories
 						new object[] { null, new[] { "Some non-existent role" }, true, typeof(InvalidOperationException) },
 						// intersect roles without checking before adding
 						new object[] { new[] { UserRoles.CompanyUser },
-							new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, false, typeof(IdentityResultException) },
+							new[] { UserRoles.CompanyUser, UserRoles.CompanyPowerUser }, false, typeof(IdentityResultException) }
 					};
 			}
 		}
@@ -597,10 +594,10 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			get
 			{
-				var userData1 = GetSystemUserNewData();
-				var userData2 = GetSystemUserNewData();
-				var userData3_1 = GetSystemUserNewData();
-				var userData3_2 = GetSystemUserNewData();
+				var userData1 = DataHelper.GetSystemUserNewData();
+				var userData2 = DataHelper.GetSystemUserNewData();
+				var userData3_1 = DataHelper.GetSystemUserNewData();
+				var userData3_2 = DataHelper.GetSystemUserNewData();
 
 				return
 					new List<object[]>
@@ -631,10 +628,10 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			get
 			{
-				var userData1 = GetSystemUserNewData();
+				var userData1 = DataHelper.GetSystemUserNewData();
 				userData1.IsPasswordChangeRequired = false;
 
-				var userData2 = GetSystemUserNewData();
+				var userData2 = DataHelper.GetSystemUserNewData();
 				userData2.IsPasswordChangeRequired = true;
 
 				return
@@ -659,9 +656,9 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			get
 			{
-				var userData1 = GetSystemUserNewData();
-				var userData2 = GetSystemUserNewData();
-				var userData3 = GetSystemUserNewData();
+				var userData1 = DataHelper.GetSystemUserNewData();
+				var userData2 = DataHelper.GetSystemUserNewData();
+				var userData3 = DataHelper.GetSystemUserNewData();
 
 				return
 					new List<object[]>
@@ -672,113 +669,26 @@ namespace MedStat.Core.Tests.Repositories
 						// Valid:
 						// User without password
 						new object[] { userData1, null,
-							userData1.PhoneNumber, GenerateUserPassword(), null },
+							userData1.PhoneNumber, DataHelper.GenerateUserPassword(), null },
 						// User with existed password
-						new object[] { userData2, GenerateUserPassword(),
-							userData2.PhoneNumber, GenerateUserPassword(), null },
+						new object[] { userData2, DataHelper.GenerateUserPassword(),
+							userData2.PhoneNumber, DataHelper.GenerateUserPassword(), null },
 
 						// Invalid:
 						// Invalid phone number argument
 						new object[] { null, null,
-							"", GenerateUserPassword(), typeof(ArgumentNullException) },
+							"", DataHelper.GenerateUserPassword(), typeof(ArgumentNullException) },
 						// Invalid new password argument
 						new object[] { userData3, null,
 							userData3.PhoneNumber, "", typeof(ArgumentNullException) },
 						// User with specified phone number doesn't exist
 						new object[] { null, null,
-							"+1 911 111-11-11", GenerateUserPassword(), typeof(OperationCanceledException) }
+							"+1 911 111-11-11", DataHelper.GenerateUserPassword(), typeof(OperationCanceledException) }
 					};
 			}
 		}
 
 
 		// Helpers:
-
-		public static SystemUser GetSystemUserNewData()
-		{
-			_phoneNumValue += 1;
-
-			var phoneNumber = $"+7 911 {_phoneNumValue:###-##-##}";
-			var normalizedPhoneNumber = PhoneHelper.NormalizePhoneNumber(phoneNumber);
-			var guid = Guid.NewGuid();
-
-			var user = new SystemUser
-			{
-				UserName = normalizedPhoneNumber,
-				//NormalizedUserName = normalizedPhoneNumber,
-				PhoneNumber = phoneNumber,
-				NormalizedPhoneNumber = normalizedPhoneNumber,
-				FirstName = $"FirstName {guid}",
-				Surname = $"Surname {guid}",
-				Patronymic = $"Patronymic {guid}"
-			};
-
-			return user;
-		}
-
-		private static string GenerateUserPassword()
-		{
-			return 
-				$"{Guid.NewGuid().ToString("N")}_A";
-		}
-
-
-		private void CheckUserRoles(int userId, IEnumerable<string> expectedUserRoles,
-			bool checkIsNotInExpectedRoles = false)
-		{
-			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
-			{
-				var dbUser = dbContext.SystemUsers.FirstOrDefault(su => su.Id == userId);
-
-				dbUser.Should().NotBeNull();
-
-				var sp = this.GetServiceProvider(dbContext);
-				var userManager = sp.GetRequiredService<UserManager<SystemUser>>();
-
-				var dbUserRoles = userManager.GetRolesAsync(dbUser).Result;
-
-				if (checkIsNotInExpectedRoles) // check that user NOT IN expected roles
-				{
-					foreach (string expectedRole in expectedUserRoles)
-					{
-						Assert.DoesNotContain(expectedRole, dbUserRoles);
-					}
-				}
-				else // check that user IN expected roles
-				{
-					Assert.True(dbUserRoles.Count == expectedUserRoles.Count());
-					foreach (string expectedRole in expectedUserRoles)
-					{
-						Assert.Contains(expectedRole, dbUserRoles);
-					}
-				}
-			}
-		}
-
-		public async Task<int> AddSystemUserToDbAsync(SystemUser userData, 
-			IEnumerable<string> userRoles = null, string password = null)
-		{
-			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
-			{
-				var sp = this.GetServiceProvider(dbContext);
-				var userManager = sp.GetRequiredService<UserManager<SystemUser>>();
-				
-				var createUserResult = password != null
-					? await userManager.CreateAsync(userData, password)
-					: await userManager.CreateAsync(userData);
-				if (!createUserResult.Succeeded)
-					throw new Exception("Test arrange is failed. Cannot add SystemUser entity to DB.");
-
-				if (userRoles != null)
-				{
-					var addToRolesResult = await userManager.AddToRolesAsync(userData, userRoles);
-					if (!addToRolesResult.Succeeded)
-						throw new Exception("Test arrange is failed. Cannot add SystemUser to roles.");
-				}
-
-				return 
-					userData.Id;
-			}
-		}
 	}
 }

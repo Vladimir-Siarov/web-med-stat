@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MedStat.Core.BE.Company;
 using MedStat.Core.DAL;
-using MedStat.Core.Identity;
 using MedStat.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,14 +29,9 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			// Arrange:
 
-			var expectedCompany = new Company
-			{
-				Name = "Test company 1",
-				Description = "Test company description",
-				CreatedUtc = DateTime.UtcNow.AddDays(-1),
-				UpdatedUtc = DateTime.UtcNow
-			};
-
+			var expectedCompany = DataHelper.GetCompanyData();
+			expectedCompany.UpdatedUtc = DateTime.UtcNow.AddHours(-1); // set different date than "CreatedUtc"
+			
 			using (var context = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				context.Companies.Add(expectedCompany);
@@ -71,18 +65,9 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			#region Arrange:
 
-			var guid = Guid.NewGuid();
-			var expectedCompany = new Company
-			{
-				Name = guid.ToString(),
-				Description = $"{guid} description",
-				CreatedUtc = DateTime.UtcNow.AddDays(-1),
-				UpdatedUtc = DateTime.UtcNow.AddDays(-1),
-
-				Requisites = GetCompanyRequisitesFullData()
-			};
-
-
+			var expectedCompany = DataHelper.GetCompanyData();
+			expectedCompany.Requisites = DataHelper.GetCompanyRequisitesFullData();
+			
 			using (var context = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
 				context.Companies.Add(expectedCompany);
@@ -205,14 +190,7 @@ namespace MedStat.Core.Tests.Repositories
 			int companyId;
 			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
 			{
-				var guid = Guid.NewGuid();
-				var companyData = new Company
-				{
-					Name = guid.ToString(),
-					Description = $"{guid} description",
-					CreatedUtc = DateTime.UtcNow.AddDays(-1),
-					UpdatedUtc = DateTime.UtcNow.AddDays(-1)
-				};
+				var companyData = DataHelper.GetCompanyData();
 
 				dbContext.Companies.Add(companyData);
 				dbContext.SaveChanges();
@@ -441,7 +419,7 @@ namespace MedStat.Core.Tests.Repositories
 					Name = $"Company with full Requisites {Guid.NewGuid()}",
 					CreatedUtc = DateTime.UtcNow.AddDays(-1),
 
-					Requisites = GetCompanyRequisitesFullData()
+					Requisites = DataHelper.GetCompanyRequisitesFullData()
 				};
 
 				return
@@ -469,7 +447,7 @@ namespace MedStat.Core.Tests.Repositories
 					Name = $"Company with Requisites {Guid.NewGuid()}",
 					CreatedUtc = DateTime.UtcNow.AddDays(-1),
 
-					Requisites = GetCompanyRequisitesFullData()
+					Requisites = DataHelper.GetCompanyRequisitesFullData()
 				};
 
 				var companyWithCmpUsers = new Company
@@ -477,7 +455,7 @@ namespace MedStat.Core.Tests.Repositories
 					Name = $"Company with CompanyUsers {Guid.NewGuid()}",
 					CreatedUtc = DateTime.UtcNow.AddDays(-1),
 
-					Users = GetCompanyUsersData()
+					Users = new List<CompanyUser> { DataHelper.GetCompanyUserData(true) }
 				};
 
 				return 
@@ -492,56 +470,6 @@ namespace MedStat.Core.Tests.Repositories
 
 
 		// Helpers:
-
-		public static CompanyRequisites GetCompanyRequisitesFullData()
-		{
-			return
-				new CompanyRequisites
-				{
-					UpdatedUtc = DateTime.UtcNow.AddDays(-1),
-
-					MainRequisites = new CompanyMainRequisites
-					{
-						Name = "test_Name",
-						FullName = "test_FullName",
-
-						PostalAddress = "test_PostalAddress",
-						LegalAddress = "test_LegalAddress",
-
-						OKATO = "test_OKATO",
-						INN = "test_INN",
-						OGRN = "test_OGRN",
-						OKPO = "test_OKPO",
-						KPP = "test_KPP"
-					},
-
-					BankRequisites = new CompanyBankRequisites
-					{
-						AccountNumber = "test_AccountNumber",
-						CorrespondentAccount = "test_CorrespondentAccount",
-						BIC = "test_BIC",
-						Bank = "test_Bank"
-					}
-				};
-		}
-
-		// M.b. move this method to the "IdentityRepositoryTests" class
-		public static List<CompanyUser> GetCompanyUsersData()
-		{
-			return
-				new List<CompanyUser>
-				{
-					new CompanyUser
-					{
-						Login = IdentityRepositoryTests.GetSystemUserNewData()
-					},
-					new CompanyUser
-					{
-						Login = IdentityRepositoryTests.GetSystemUserNewData()
-					}
-				};
-		}
-
 
 		private static void CompareMainRequisites(CompanyMainRequisites requisites, 
 			CompanyMainRequisites expectedRequisites)
