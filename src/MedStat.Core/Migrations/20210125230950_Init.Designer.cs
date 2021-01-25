@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedStat.Core.Migrations
 {
     [DbContext(typeof(MedStatDbContext))]
-    [Migration("20201224120016_updated_SystemUser3")]
-    partial class updated_SystemUser3
+    [Migration("20210125230950_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -135,6 +135,7 @@ namespace MedStat.Core.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedPhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
