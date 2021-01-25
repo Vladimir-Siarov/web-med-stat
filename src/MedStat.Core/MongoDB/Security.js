@@ -15,7 +15,7 @@ Re-start the MongoDB instance with access control.
 
 // Authenticate after Connection
 use admin
-db.auth("myUserAdmin", passwordPrompt()) // or cleartext password
+db.auth("admin", passwordPrompt()) // or cleartext password
 
 // Create Logger user for MedStat.WebAdmin project
 use medStat-webAdmin-log

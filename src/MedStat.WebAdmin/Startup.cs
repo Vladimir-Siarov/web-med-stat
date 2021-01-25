@@ -34,7 +34,11 @@ namespace MedStat.WebAdmin
 
 			services.AddScoped(sp => 
 			{
-				string connectionString = this.Configuration.GetConnectionString("MedStatConnectionString");
+				string connectionString = this.Configuration
+					.GetConnectionString("MedStat.WebAdmin.ConnectionString")
+					// read password from secrets or env.
+					.Replace("{userPassword}", this.Configuration["Passwords:MedStat.WebAdmin.ConnectionString:UserPassword"]);
+
 				return 
 					new MedStatDbContext(connectionString);
 			});

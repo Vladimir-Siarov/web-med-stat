@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,7 +50,8 @@ namespace MedStat.WebAdmin.Classes.Configuration
 		/// Override default Serilog Logger with following Serilog.Sinks:
 		/// <para>
 		/// - Serilog.Sinks.Console <br/>
-		/// - Serilog.Sinks.File
+		/// - Serilog.Sinks.File <br/>
+		/// - Serilog.Sinks.MongoDB
 		/// </para>
 		/// </summary>
 		/// <param name="host"></param>
@@ -62,6 +64,8 @@ namespace MedStat.WebAdmin.Classes.Configuration
 				{
 					var configuration = services.GetRequiredService<IConfiguration>();
 
+					SetPasswordForMongoDb(configuration);
+
 					// Override default Serilog configuration
 					Log.Logger = new LoggerConfiguration()
 						.ReadFrom.Configuration(configuration)
@@ -72,6 +76,21 @@ namespace MedStat.WebAdmin.Classes.Configuration
 					var logger = services.GetRequiredService<ILogger<Program>>();
 					logger.LogError(ex, "An error occurred at Serilog setup.");
 				}
+			}
+		}
+
+
+		private static void SetPasswordForMongoDb(IConfiguration configuration)
+		{
+			var serilogSettings = configuration.GetSection("Serilog").AsEnumerable();
+			var databaseUrlSettings = serilogSettings
+				.FirstOrDefault(s => s.Value != null && s.Value.StartsWith("mongodb://"));
+
+			if (!string.IsNullOrEmpty(databaseUrlSettings.Value))
+			{
+				// Override user password for MongoDB
+				configuration[databaseUrlSettings.Key] = databaseUrlSettings.Value.Replace("{userPassword}",
+					configuration["Passwords:Serilog:MongoDB:UserPassword"]);
 			}
 		}
 	}

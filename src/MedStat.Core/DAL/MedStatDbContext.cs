@@ -59,7 +59,7 @@ namespace MedStat.Core.DAL
 
 			if (!optionsBuilder.IsConfigured)
 			{
-				//optionsBuilder.UseSqlServer("name=MedStatConnectionString"); - doesn't work
+				//optionsBuilder.UseSqlServer("name=MedStat.WebAdmin.ConnectionString"); - doesn't work
 
 				if (!string.IsNullOrEmpty(this.ConnectionString))
 				{
@@ -141,10 +141,16 @@ namespace MedStat.Core.DAL
 			IConfigurationRoot configuration = new ConfigurationBuilder()
 					.SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
 					.AddJsonFile("appsettings.json")
+					.AddUserSecrets<MedStatDbContext>()
 					.Build();
 
-			return
-				configuration.GetConnectionString("MedStatConnectionString");
+			string connectionString = configuration
+				.GetConnectionString("MedStat.WebAdmin.ConnectionString")
+				// read password from secrets or env.
+				.Replace("{userPassword}", configuration["Passwords:MedStat.WebAdmin.ConnectionString:UserPassword"]);
+
+			return 
+				connectionString;
 		}
 	}
 }
