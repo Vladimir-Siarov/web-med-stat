@@ -1,0 +1,38 @@
+﻿@page
+
+@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model LogoutPageModel
+
+@inject IHtmlLocalizer<IdentityResource> IdentityLocalizer
+
+@{
+	var title = IdentityLocalizer["__pageTitle__Log out"].Value;
+
+	ViewData["Title"] = title;
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Account);
+}
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Account" page-title="@title"></breadcrumb>
+	</nav>
+
+	@if (ViewData["error_message"] != null)
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewData["error_message"]
+		</div>
+	}
+
+	<h1 class="ms-pageheader-pagetitle">@title</h1>
+}
+
+<div class="ms-pagecontent">
+
+	<p>@IdentityLocalizer["You have successfully logged out of the application."]</p>
+
+</div>

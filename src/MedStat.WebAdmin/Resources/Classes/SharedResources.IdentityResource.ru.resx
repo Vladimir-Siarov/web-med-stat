@@ -150,6 +150,9 @@
   <data name="Sign in to the system" xml:space="preserve">
     <value>Авторизация в системе</value>
   </data>
+  <data name="You have successfully logged out of the application." xml:space="preserve">
+    <value>Вы успешно вышли из приложения.</value>
+  </data>
   <data name="__button__Back" xml:space="preserve">
     <value>Назад</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="__pageTitle__Create password" xml:space="preserve">
     <value>Создание пароля</value>
+  </data>
+  <data name="__pageTitle__Log out" xml:space="preserve">
+    <value>Выход</value>
   </data>
   <data name="__pageTitle__Sign in" xml:space="preserve">
     <value>Авторизация</value>

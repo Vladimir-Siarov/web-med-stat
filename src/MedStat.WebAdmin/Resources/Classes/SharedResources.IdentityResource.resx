@@ -138,6 +138,9 @@
   <data name="__pageTitle__Create password" xml:space="preserve">
     <value>Create password</value>
   </data>
+  <data name="__pageTitle__Log out" xml:space="preserve">
+    <value>Log out</value>
+  </data>
   <data name="__pageTitle__Sign in" xml:space="preserve">
     <value>Sign in</value>
   </data>
