@@ -27,10 +27,8 @@ namespace MedStat.WebAdmin.Pages.Account
 		}
 
 
-		public IActionResult OnGet()
+		public void OnGet()
 		{
-			return 
-				BadRequest("GET request is not supported");
 		}
 
 		public async Task<IActionResult> OnPost(string returnUrl = null)
@@ -46,6 +44,10 @@ namespace MedStat.WebAdmin.Pages.Account
 				if (returnUrl != null)
 				{
 					return LocalRedirect(returnUrl);
+				}
+				else
+				{
+					return RedirectToPage();
 				}
 			}
 			catch (Exception ex)

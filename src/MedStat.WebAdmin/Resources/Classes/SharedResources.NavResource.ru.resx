@@ -120,16 +120,25 @@
   <data name="Account" xml:space="preserve">
     <value>Аккаунт</value>
   </data>
+  <data name="Collapse menu" xml:space="preserve">
+    <value>Свернуть меню</value>
+  </data>
   <data name="Companies" xml:space="preserve">
     <value>Компании</value>
   </data>
+  <data name="Expand menu" xml:space="preserve">
+    <value>Развернуть меню</value>
+  </data>
   <data name="Home" xml:space="preserve">
-    <value>Главная</value>
+    <value>Домашняя</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Вход</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Выход</value>
+  </data>
+  <data name="MedStat.Admin" xml:space="preserve">
+    <value>МедСтат.Админ</value>
   </data>
 </root>

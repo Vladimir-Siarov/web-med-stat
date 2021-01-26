@@ -1,32 +1,37 @@
 ﻿@using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
+@using MedStat.WebAdmin.Classes.SharedResources
 
 @inject IOptions<RequestLocalizationOptions> LocOptions
+@inject IHtmlLocalizer<NavResource> NavLocalizer
 
 @{
 	// получаем сервис IRequestCultureFeature
 	var requestCulture = Context.Features.Get<IRequestCultureFeature>().RequestCulture;
 	bool isRuCulture = requestCulture.UICulture.Name.Equals("ru-ru", StringComparison.OrdinalIgnoreCase);
 
+	/*
 	// получаем список поддерживаемых культур
 	var cultureItems = LocOptions.Value.SupportedUICultures
 		.Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName })
 		.ToList();
+	*/
 }
 
 <footer class="ms-footer">
-	
+
 	<div class="ms-footer-language">
 		<div class="form-check form-switch">
 			<label class="form-check-label" for="cbxRuLanguage">ENG</label>
 			<input class="form-check-input" type="checkbox" id="cbxRuLanguage" @(isRuCulture ? "checked" : null)
-			       data-cookie-name="@CookieRequestCultureProvider.DefaultCookieName" />
+						 data-cookie-name="@CookieRequestCultureProvider.DefaultCookieName" />
 			<label class="form-check-label" for="cbxRuLanguage">РУС</label>
 		</div>
 	</div>
 
 	<div>
-		&copy; 2020 - MedStat.Admin - <a asp-area="" asp-page="/Privacy">Privacy</a>
+		&copy; @(DateTime.Now.Year) - @NavLocalizer["MedStat.Admin"] - <a asp-area="" asp-page="/Privacy">Privacy</a>
 	</div>
 </footer>

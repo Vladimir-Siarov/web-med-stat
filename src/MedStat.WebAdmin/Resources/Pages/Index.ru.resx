@@ -124,9 +124,9 @@
     <value>Вход в систему</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Начальная</value>
+    <value>Домашняя</value>
   </data>
   <data name="Home page" xml:space="preserve">
-    <value>Начальная страница</value>
+    <value>Домашняя страница</value>
   </data>
 </root>

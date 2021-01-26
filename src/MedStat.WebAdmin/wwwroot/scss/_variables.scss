@@ -1,9 +1,10 @@
 ﻿$ms-body-bgcolor: #f5f8fb;
 
-$sitenav-aside-expanded-width: 200px !default;
-$sitenav-aside-collapsed-width: 60px !default;
-$sitenav-aside-toggle-transition-time: .1s;
+$ms-sitenav-aside-expanded-width: 200px !default;
+// 1 (aside menu left marging) + .5 (nav-link left padding) + 1.3 (svg size) + 1 (svg right margin) rems
+$ms-sitenav-aside-collapsed-width: 3.8rem; //60px !default;
+$ms-sitenav-aside-toggle-transition-time: .1s;
 
-$content-xpadding: 1rem;
+$ms-content-xpadding: 1rem;
 
-$sitenav-header-height: 4rem;
+$ms-sitenav-header-height: 4rem;

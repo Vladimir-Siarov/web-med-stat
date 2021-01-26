@@ -2,10 +2,10 @@
 /*@import './_variables.scss';*/
 
 @mixin shiftedcontent {
-	margin-left: $sitenav-aside-collapsed-width;
-	transition: margin $sitenav-aside-toggle-transition-time linear;
-	padding-left: $content-xpadding;
-	padding-right: $content-xpadding;
+	margin-left: $ms-sitenav-aside-collapsed-width;
+	transition: margin $ms-sitenav-aside-toggle-transition-time linear;
+	padding-left: $ms-content-xpadding;
+	padding-right: $ms-content-xpadding;
 }
 
 
@@ -49,7 +49,7 @@
 .ms-sitenav-expanded {
 	.ms-pagecontainer, 
 	.ms-footer {
-		margin-left: $sitenav-aside-expanded-width;
+		margin-left: $ms-sitenav-aside-expanded-width;
 	}
 }
 

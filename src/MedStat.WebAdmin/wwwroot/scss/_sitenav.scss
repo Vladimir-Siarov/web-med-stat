@@ -1,9 +1,30 @@
 ﻿@import '../lib/bootstrap/scss/_variables';
 /*@import './_variables';*/
 
+@mixin ms-sitenav-svgicon-container {
+	display: inline-block;
+	width: 1.3rem;
+	height: 1.3rem;
+	line-height: 1;
+}
+@mixin ms-sitenav-hover-sensitive($hove-background: initial, $hovered: false) {
+	@if($hovered) {
+		background: $hove-background;
+		opacity: 1;
+	}
+	@else {
+		opacity: .8;
+
+		&:hover {
+			opacity: 1;
+			background: $hove-background;
+		}
+	}
+}
+
 /* --- ASIDE ---------- */
 .ms-sitenav-aside {
-	$sitenav-aside-bg: #262b40; /*#39354c;*/	
+	$sitenav-aside-bg: #262b40; /*#39354c;*/
 	$sitenav-aside-color: #fff;
 	$sitenav-aside-xpadding: 1rem;
 
@@ -11,34 +32,31 @@
 	top: 0px;
 	bottom: 0px;
 	left: 0px;
-	width: $sitenav-aside-collapsed-width;
+	width: $ms-sitenav-aside-collapsed-width;
 	overflow: hidden;
 	box-sizing: border-box;
 	background-color: $sitenav-aside-bg;
 	color: $sitenav-aside-color;
-	transition: width $sitenav-aside-toggle-transition-time linear;
+	transition: width $ms-sitenav-aside-toggle-transition-time linear;
 
 	.ms-sitenav-header {
-		height: $sitenav-header-height;
+		height: $ms-sitenav-header-height;
 		/* default collapse stile */
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		box-sizing: content-box;
+		border-bottom: 2px solid #2e3650;
 
 		.ms-togglebtn {
+			@include ms-sitenav-svgicon-container;
+			@include ms-sitenav-hover-sensitive;
+
 			color: $sitenav-aside-color;
 			border: none;
 			background: transparent;
 			padding: 0px;
 			margin: 0px;
-			display: inline-block;
-			width: 1.5rem;
-			height: 1.5rem;
-			opacity: .8;
-
-			&:hover {
-				opacity: 1;
-			}
 		}
 
 		.ms-btncollapse {
@@ -57,16 +75,56 @@
 	}
 
 	.ms-sitenav-menu {
-		width: $sitenav-aside-expanded-width;
+		width: $ms-sitenav-aside-expanded-width;
 		overflow-x: hidden;
 		overflow-y: auto;
+		margin-top: 2.25rem;
+		/* Ovveride Bootstrap */
+		& > .nav {
+			margin: 0 1rem;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.nav-item {
+			$ms-navlink-active-bg: #2e3650;
+
+			.nav-link {
+				@include ms-sitenav-hover-sensitive($ms-navlink-active-bg);
+
+				color: $sitenav-aside-color;
+				line-height: 1;
+				padding: .55rem .5rem;
+				border-radius: .25rem;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: flex-end;
+				margin-bottom: .2rem;
+				cursor: pointer;
+			}
+
+			&.active > .nav-link {
+				@include ms-sitenav-hover-sensitive($ms-navlink-active-bg, true);
+			}
+
+			.nav-link-icon {
+				@include ms-sitenav-svgicon-container;
+				margin-right: 1rem
+			}
+
+			.nav-link-text {
+				font-size: 1.1rem;
+			}
+		}
 	}
 }
 
-/* expanded sitenav */
+
+/* ASIDE at expanded sitenav */
 .ms-sitenav-expanded {
 	.ms-sitenav-aside {
-		width: $sitenav-aside-expanded-width;
+		width: $ms-sitenav-aside-expanded-width;
 
 		.ms-sitenav-header {
 			justify-content: space-between;
@@ -89,10 +147,10 @@
 
 /* --- TOPPANEL ---------- */
 .ms-sitenav-toppanel {
-	height: $sitenav-header-height;
-	margin-left: $sitenav-aside-collapsed-width;
-	transition: margin $sitenav-aside-toggle-transition-time linear;
-	padding: 0 $content-xpadding;
+	height: $ms-sitenav-header-height;
+	margin-left: $ms-sitenav-aside-collapsed-width;
+	transition: margin $ms-sitenav-aside-toggle-transition-time linear;
+	padding: 0 $ms-content-xpadding;
 	display: flex;
 	flex-direction: row;
 	justify-content: end; /* temporary */
@@ -157,9 +215,10 @@
 	}
 }
 
-/* expanded header */
+
+/* TOPPANEL at expanded sitenav */
 .ms-sitenav-expanded {
 	.ms-sitenav-toppanel {
-		margin-left: $sitenav-aside-expanded-width;
+		margin-left: $ms-sitenav-aside-expanded-width;
 	}
 }
