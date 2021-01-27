@@ -1,20 +1,20 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using MedStat.Core.DAL;
-using MedStat.Core.Identity;
-using MedStat.WebAdmin.Classes;
-using MedStat.WebAdmin.Classes.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.WebEncoders;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+using MedStat.Core.DAL;
+using MedStat.Core.Identity;
+using MedStat.WebAdmin.Classes;
+using MedStat.WebAdmin.Classes.Configuration;
 
 namespace MedStat.WebAdmin
 {
@@ -37,6 +37,7 @@ namespace MedStat.WebAdmin
 				string connectionString = this.Configuration
 					.GetConnectionString("MedStat.WebAdmin.ConnectionString")
 					// read password from secrets or env.
+					// NOTE: Be careful, under IIS profile the "secrets.json" file is looked in other place
 					.Replace("{userPassword}", this.Configuration["Passwords:MedStat.WebAdmin.ConnectionString:UserPassword"]);
 
 				return 
@@ -44,10 +45,8 @@ namespace MedStat.WebAdmin
 			});
 
 			services
-				// TODO: "AddDefaultIdentity" replace with "AddIdentity<SystemUser, IdentityRole<Int32>>".
-				// TODO: Check change password functionality for user with existed password.
-				//       M.b. we have to add following ".AddDefaultTokenProviders()".
-				.AddDefaultIdentity<SystemUser>()//(options => options.SignIn.RequireConfirmedAccount = true)
+				.AddIdentity<SystemUser, IdentityRole<Int32>>()//(options => options.SignIn.RequireConfirmedAccount = true)
+				.AddDefaultTokenProviders()
 				.AddRoles<IdentityRole<Int32>>()
 				.AddEntityFrameworkStores<MedStatDbContext>()
 				.AddClaimsPrincipalFactory<SystemUserClaimsPrincipalFactory>(); // custom factory: adds custom claims
@@ -59,7 +58,7 @@ namespace MedStat.WebAdmin
 
 			services
 				.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Companies"); })
-				//.AddRazorRuntimeCompilation();
+				//.AddRazorRuntimeCompilation(); - disable runtime compilation on PROD (on IIS)
 				.AddCustomDataAnnotationsLocalization() // custom method: add DA localization for "Core" BEs and project's ViewModels
 				.AddViewLocalization();
 
@@ -85,7 +84,7 @@ namespace MedStat.WebAdmin
 			// NOTE: Switch off "Load User Profile" for app pool.
 			var currDirPath =  System.IO.Directory.GetCurrentDirectory();
 			services.AddDataProtection()
-				.PersistKeysToFileSystem(new System.IO.DirectoryInfo($"{currDirPath}\\..\\PersistKeys"));
+				.PersistKeysToFileSystem(new System.IO.DirectoryInfo($"{currDirPath}\\PersistKeys"));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

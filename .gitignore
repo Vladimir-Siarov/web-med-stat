@@ -351,4 +351,6 @@ MigrationBackup/
 
 # ASP.NET Data Protection files
 PersistKeys/
+
+# Development only files
 /src/MedStat.WebAdmin/wwwroot/lib/bootstrap/scss/bootstrap-grid.css

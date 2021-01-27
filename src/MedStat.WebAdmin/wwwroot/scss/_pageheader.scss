@@ -38,9 +38,11 @@
 
 $md-grid-breakpoint: map-get($grid-breakpoints, "md");
 @media only screen and (max-width: $md-grid-breakpoint) {
+	/* For dev. purpose only:
 	body {
 		background-color: red !important;
 	}
+	*/
 
 	.ms-pageheader-titlepanel {
 		flex-direction: column;

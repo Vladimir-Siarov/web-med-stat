@@ -278,11 +278,14 @@ div.dataTables_wrapper div.dataTables_paginate {
 }
 
 /* -- Popup layout --- */
+.ms-popup-body {
+	background-color: #fff;
+}
 .ms-popup-pagecontainer {
 
 	.ms-pagecontent {
 		padding: 0rem 0rem;
-		background-color: #fff;
+		background-color: initial;
 	}
 
 	.ms-form-container {
