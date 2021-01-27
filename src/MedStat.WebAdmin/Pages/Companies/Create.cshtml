@@ -1,0 +1,24 @@
+﻿@page
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model CompanyCreatePageModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "_CompanyLayout";
+}
+
+<div class="ms-pagecontent">
+
+	<form method="post" class="ms-form-container">
+
+		@Html.EditorFor(m => m.MainData, "~/Pages/Companies/_MainTab.cshtml")
+
+		<button class="btn btn-primary" type="submit">@CmpLocalizer["Create"]</button>
+
+	</form>
+
+</div>

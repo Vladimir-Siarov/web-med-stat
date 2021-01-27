@@ -1,0 +1,47 @@
+﻿@page "{CompanyId:int}"
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model CompanyDeletePageModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "_PopupLayout";
+
+	ViewData["Title"] = $"{CmpLocalizer["__pageTitle__Delete company"].Value} - {this.Model.CompanyName}";
+}
+
+<div class="ms-pagecontent">
+	@if (!Model.EntityWasDeleted)
+	{
+		<form method="post" class="ms-form-container">
+
+			<p>
+				@CmpLocalizer["Company will be deleted permanently. Are you sure?"] <br />
+				<br />
+				@CmpLocalizer["For confirm remove action type \"delete\" word in text box below and press \"Confirm\" button."]
+			</p>
+
+			<div class="row gx-5">
+
+				<div class="col-sm-6">
+					<label asp-for="ConfirmCommand" class="visually-hidden"></label>
+					<input asp-for="ConfirmCommand" type="text" class="form-control"
+								 placeholder="type 'delete' here" autocomplete="off" />
+					<span asp-validation-for="ConfirmCommand" class="text-danger"></span>
+				</div>
+				
+			</div>
+
+			<button type="submit" class="btn btn-danger">@CmpLocalizer["__button__Confirm"]</button>
+
+			<input type="hidden" asp-for="CompanyName" />
+		</form>
+	}
+	else
+	{
+		<br /> @* emulate some content for prevent popup scrolling *@
+	}
+</div>

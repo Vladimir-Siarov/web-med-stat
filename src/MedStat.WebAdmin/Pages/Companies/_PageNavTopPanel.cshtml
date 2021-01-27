@@ -1,0 +1,53 @@
+﻿@using MedStat.WebAdmin.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model MedStat.WebAdmin.Models.CompanyPageNavModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+
+<nav class="ms-pagenav-toppanel" aria-label="Company menu">
+	<ul class="nav nav-pills">
+
+		@if (Model.CompanyId > 0)
+		{
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Main ? "active" : null)"
+				   asp-page="/Companies/Main"
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Main"]</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Requisites ? "active" : null)"
+				   asp-page="/Companies/Requisites"
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Requisites"]</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Users ? "active" : null)"
+				   asp-page="/Companies/Users/Index"
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Users"]</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link @(Model.Section == EnCompanySection.Trekking ? "active" : null)"
+				   asp-page="/Companies/Trekking"
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Trekking"]</a>
+			</li>
+		}
+		else
+		{
+			<li class="nav-item">
+				<a class="nav-link active" href="#">@CmpLocalizer["Main"]</a>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">@CmpLocalizer["Requisites"]</span>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">@CmpLocalizer["Users"]</span>
+			</li>
+			<li class="nav-item">
+				<span class="nav-link disabled">@CmpLocalizer["Trekking"]</span>
+			</li>
+		}
+
+	</ul>
+</nav>

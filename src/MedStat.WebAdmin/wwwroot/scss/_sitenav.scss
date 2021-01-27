@@ -1,0 +1,224 @@
+﻿@import '../lib/bootstrap/scss/_variables';
+/*@import './_variables';*/
+
+@mixin ms-sitenav-svgicon-container {
+	display: inline-block;
+	width: 1.3rem;
+	height: 1.3rem;
+	line-height: 1;
+}
+@mixin ms-sitenav-hover-sensitive($hove-background: initial, $hovered: false) {
+	@if($hovered) {
+		background: $hove-background;
+		opacity: 1;
+	}
+	@else {
+		opacity: .8;
+
+		&:hover {
+			opacity: 1;
+			background: $hove-background;
+		}
+	}
+}
+
+/* --- ASIDE ---------- */
+.ms-sitenav-aside {
+	$sitenav-aside-bg: #262b40; /*#39354c;*/
+	$sitenav-aside-color: #fff;
+	$sitenav-aside-xpadding: 1rem;
+
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: $ms-sitenav-aside-collapsed-width;
+	overflow: hidden;
+	box-sizing: border-box;
+	background-color: $sitenav-aside-bg;
+	color: $sitenav-aside-color;
+	transition: width $ms-sitenav-aside-toggle-transition-time linear;
+
+	.ms-sitenav-header {
+		height: $ms-sitenav-header-height;
+		/* default collapse stile */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-sizing: content-box;
+		border-bottom: 2px solid #2e3650;
+
+		.ms-togglebtn {
+			@include ms-sitenav-svgicon-container;
+			@include ms-sitenav-hover-sensitive;
+
+			color: $sitenav-aside-color;
+			border: none;
+			background: transparent;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		.ms-btncollapse {
+			/* default collapse stile */
+			display: none;
+			margin-right: $sitenav-aside-xpadding;
+		}
+
+		.ms-brand {
+			font-weight: 600;
+			text-transform: uppercase;
+			margin-left: $sitenav-aside-xpadding;
+			/* default collapse stile */
+			display: none;
+		}
+	}
+
+	.ms-sitenav-menu {
+		width: $ms-sitenav-aside-expanded-width;
+		overflow-x: hidden;
+		overflow-y: auto;
+		margin-top: 2.25rem;
+		/* Ovveride Bootstrap */
+		& > .nav {
+			margin: 0 1rem;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.nav-item {
+			$ms-navlink-active-bg: #2e3650;
+
+			.nav-link {
+				@include ms-sitenav-hover-sensitive($ms-navlink-active-bg);
+
+				color: $sitenav-aside-color;
+				line-height: 1;
+				padding: .55rem .5rem;
+				border-radius: .25rem;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-start;
+				align-items: flex-end;
+				margin-bottom: .2rem;
+				cursor: pointer;
+			}
+
+			&.active > .nav-link {
+				@include ms-sitenav-hover-sensitive($ms-navlink-active-bg, true);
+			}
+
+			.nav-link-icon {
+				@include ms-sitenav-svgicon-container;
+				margin-right: 1rem
+			}
+
+			.nav-link-text {
+				font-size: 1.1rem;
+			}
+		}
+	}
+}
+
+
+/* ASIDE at expanded sitenav */
+.ms-sitenav-expanded {
+	.ms-sitenav-aside {
+		width: $ms-sitenav-aside-expanded-width;
+
+		.ms-sitenav-header {
+			justify-content: space-between;
+
+			.ms-btncollapse {
+				display: inline-block;
+			}
+
+			.ms-brand {
+				display: block;
+			}
+
+			.ms-btnexpand {
+				display: none;
+			}
+		}
+	}
+}
+
+
+/* --- TOPPANEL ---------- */
+.ms-sitenav-toppanel {
+	height: $ms-sitenav-header-height;
+	margin-left: $ms-sitenav-aside-collapsed-width;
+	transition: margin $ms-sitenav-aside-toggle-transition-time linear;
+	padding: 0 $ms-content-xpadding;
+	display: flex;
+	flex-direction: row;
+	justify-content: end; /* temporary */
+	align-items: center;
+
+	.ms-nav-link {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover,
+		&:focus {
+			color: $link-hover-color;
+		}
+
+		svg {
+			display: inline-block;
+			margin: 0px 0.5em .15em 0px;
+		}
+	}
+
+	.ms-usermenu {
+		.ms-usermenu-profile {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			font-size: .875rem;
+			font-weight: 600;
+			opacity: .85;
+
+			&:after {
+				/* override bootstrap dropdawn style */
+				display: none;
+			}
+			/* emulate nav-link behavior */
+			&:hover {
+				color: $link-hover-color;
+			}
+
+			.ms-avatar {
+				width: 2.5rem;
+				height: 2.5rem;
+				border-radius: 50%;
+				background-color: $gray-100;
+				display: inline-block;
+				text-align: center;
+				margin-right: 0.5rem;
+
+				svg {
+					width: 2rem;
+					height: 2rem;
+					margin-top: .25rem;
+				}
+
+				img {
+					display: inline-block;
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+				}
+			}
+		}
+	}
+}
+
+
+/* TOPPANEL at expanded sitenav */
+.ms-sitenav-expanded {
+	.ms-sitenav-toppanel {
+		margin-left: $ms-sitenav-aside-expanded-width;
+	}
+}

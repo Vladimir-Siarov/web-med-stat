@@ -1,0 +1,85 @@
+﻿@using MedStat.WebAdmin.Models
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+
+@model IPopupLayoutData
+
+@inject IStringLocalizer<DataTableResource> DtLocalizer
+@inject IHtmlLocalizer<DialogResources> DlgLocalizer
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - МедСтат.Админ</title>
+
+	@{
+		var cssResModel = new LayoutStaticResourcesModel(LayoutStaticResourcesModel.EnResourcesType.CssFiles, true);
+	}
+	<partial name="_LayoutStaticResourcesPartial" model="@cssResModel" />
+</head>
+<body class="ms-popup-body">
+
+	@if (ViewData["success_message"] != null)
+	{
+		<div class="alert alert-success" role="alert">
+			@ViewData["success_message"]
+		</div>
+	}
+
+	@if (ViewData["error_message"] != null)
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewData["error_message"]
+		</div>
+	}
+
+	<main role="main" class="ms-popup-pagecontainer">
+		@RenderBody()
+	</main>
+
+	<div id="popupOverlay" class="ms-popup-overlay" style="display: none">
+		<span class="spinner-border" role="status"></span>
+		<span class="visually-hidden">@DlgLocalizer["Processing..."]</span>
+	</div>
+	
+	@{
+		var scriptsResModel = new LayoutStaticResourcesModel(LayoutStaticResourcesModel.EnResourcesType.Scripts, true);
+	}
+	<partial name="_LayoutStaticResourcesPartial" model="@scriptsResModel" />
+
+	<script type="text/javascript">
+		window.addEventListener('load', (event) => {
+
+			if (window.parent != null && window.parent.$ != null) {
+
+				var parentWindow = window.parent.$(window.parent);
+
+				parentWindow.trigger('ms_popup_loaded', [{ title: '@ViewData["Title"]' }]);
+
+				@if (Model.EntityWasCreated)
+				{
+					<text> parentWindow.trigger('ms_popup_entityWasCreated', []); </text>
+				}
+				@if (Model.EntityWasUpdated)
+				{
+					<text> parentWindow.trigger('ms_popup_entityWasUpdated', []); </text>
+				}
+				@if (Model.EntityWasDeleted)
+				{
+					<text> parentWindow.trigger('ms_popup_entityWasDeleted', []); </text>
+				}
+			}
+		});
+
+		window.addEventListener('unload', (event) => {
+
+			$('#popupOverlay').show();
+		});
+	</script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

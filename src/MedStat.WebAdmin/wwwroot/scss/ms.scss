@@ -1,0 +1,17 @@
+﻿@import '../lib/bootstrap/scss/_functions.scss';
+
+/*!
+ * MedStat v1.0.0-betta
+ * Copyright 2020-2020 Vladimir Siarov
+ * Copyright 2020-2020 MedStat, Inc.
+ */
+@import './variables';
+
+body {
+	background-color: $ms-body-bgcolor;
+}
+
+@import './_sitenav';
+@import './_pagecontent';
+@import './_breadcrumb';
+@import './_pageheader';

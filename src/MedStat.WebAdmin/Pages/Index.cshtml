@@ -1,0 +1,31 @@
+﻿@page
+@using MedStat.WebAdmin.Classes
+@using Microsoft.AspNetCore.Mvc.Localization
+@model IndexModel
+
+@inject IViewLocalizer Localizer
+
+@{
+	ViewData["Title"] = @Localizer["Home page"];
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Home);
+}
+
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="null"
+		            page-title="@Localizer["Home"].Value"></breadcrumb>
+	</nav>
+
+	<h1 class="ms-pageheader-pagetitle">@Localizer["Home"]</h1>
+}
+
+<div class="ms-pagecontent">
+
+	<h4>@Localizer["<strong>\"MedStat\"</strong> system control panel"]</h4>
+	<p style="margin-top: 2rem">
+		<a class="btn btn-primary" asp-area="" asp-page="/Account/Login">@Localizer["Enter to system"]</a>
+	</p>
+
+</div>

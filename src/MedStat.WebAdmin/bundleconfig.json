@@ -1,0 +1,32 @@
+[
+  {
+    "outputFileName": "wwwroot/js/ms.bundle.js",
+    "inputFiles": [
+      "wwwroot/js/ms/msPopupDialog.js",
+      "wwwroot/js/ms/msSite.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/bootstrap.bundle.min.js",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false,
+      "includeInProject": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/ms.datatable.bundle.js",
+    "inputFiles": [
+      "wwwroot/lib/datatables.net/js/jquery.dataTables.js",
+      "wwwroot/lib/datatables.net/js/dataTables.bootstrap5.js",
+      "wwwroot/js/ms/msDataTable.js"
+    ]
+  }
+]

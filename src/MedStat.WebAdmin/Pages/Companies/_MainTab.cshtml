@@ -1,0 +1,38 @@
+﻿@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MedStat.Core.BE.Company.Company
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@*<h4>@CmpLocalizer["Main"]</h4>*@
+
+@if (Model != null)
+{
+	<dl class="ms-datelist">
+		<dt title="@CmpLocalizer["Update date"]">
+			@Model.UpdatedUtc.ToLocalTime().ToShortDateString() @Model.UpdatedUtc.ToLocalTime().ToShortTimeString()
+		</dt>
+		<dd>@CmpLocalizer["Update date"]</dd>
+		<dt title="@CmpLocalizer["Create date"]">
+			@Model.CreatedUtc.ToLocalTime().ToShortDateString() @Model.CreatedUtc.ToLocalTime().ToShortTimeString()
+		</dt>
+		<dd>@CmpLocalizer["Create date"]</dd>
+	</dl>
+}
+
+<div class="row">
+	<div class="col-md-6">
+
+		<div>
+			<label asp-for="Name" class="form-label"></label>
+			<input asp-for="Name" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="Description" class="form-label"></label>
+			<textarea asp-for="Description" class="form-control"></textarea>
+			<span asp-validation-for="Description" class="text-danger"></span>
+		</div>
+
+	</div>
+</div>

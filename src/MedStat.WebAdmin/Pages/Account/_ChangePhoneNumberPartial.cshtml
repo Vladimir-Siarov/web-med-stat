@@ -1,0 +1,14 @@
+﻿
+@model MedStat.WebAdmin.Models.ChangePhoneNumberModel
+
+<div>
+	<label asp-for="PhoneNumber" class="form-label"></label>
+	<input asp-for="PhoneNumber" class="form-control" readonly="readonly" />
+	<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+</div>
+
+<div>
+	<label asp-for="NewPhoneNumber" class="form-label"></label>
+	<input asp-for="NewPhoneNumber" class="form-control" />
+	<span asp-validation-for="NewPhoneNumber" class="text-danger"></span>
+</div>

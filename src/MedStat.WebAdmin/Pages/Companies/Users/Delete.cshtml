@@ -1,0 +1,34 @@
+﻿@page "{CmpUserId:int}"
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model CompanyUserDeletePageModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "_PopupLayout";
+
+	ViewData["Title"] = $"{CmpLocalizer["__pageTitle__Delete user"].Value} - {this.Model.CmpUserName}";
+}
+
+<div class="ms-pagecontent">
+	@if (!Model.EntityWasDeleted)
+	{
+		<form method="post" class="ms-form-container">
+
+			<p>
+				@CmpLocalizer["User will be deleted permanently. Are you sure?"]
+			</p>
+
+			<button class="btn btn-danger" type="submit">@CmpLocalizer["__button__Delete"]</button>
+
+			<input type="hidden" asp-for="CmpUserName" />
+		</form>
+	}
+	else
+	{
+		<br/> @* emulate some content for prevent popup scrolling *@
+	}
+</div>

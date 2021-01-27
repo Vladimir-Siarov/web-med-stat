@@ -1,0 +1,61 @@
+﻿@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using MedStat.WebAdmin.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model ICompanyLayoutData
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+
+	var pageTitle = Model.CompanyId > 0
+		? Model.CompanyName
+		: CmpLocalizer["New company"].Value;
+
+	var browserPageTitle = Model.CompanyId > 0
+		? $"{CmpLocalizer[Model.Section.ToString()].Value} - {Model.CompanyName}"
+		: CmpLocalizer["New company creation"].Value;
+
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
+	ViewData["Title"] = browserPageTitle;
+}
+
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Company" page-title="@pageTitle"></breadcrumb>
+	</nav>
+
+	@if (ViewData["success_message"] != null)
+	{
+		<div class="alert alert-success" role="alert">
+			@ViewData["success_message"]
+		</div>
+	}
+
+	@if (ViewData["error_message"] != null)
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewData["error_message"]
+		</div>
+	}
+
+	<div class="ms-pageheader-titlepanel">
+		<h1>@pageTitle</h1>
+		
+		<partial name="_PageNavTopPanel"
+						 model="@(new CompanyPageNavModel { CompanyId = Model.CompanyId, Section = Model.Section })" />
+	</div>
+}
+
+
+@RenderBody()
+
+
+@section Scripts
+{
+	@* Redefine Sections from Master Layout *@
+	@await RenderSectionAsync("Scripts", required: false)
+}

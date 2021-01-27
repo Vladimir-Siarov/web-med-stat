@@ -1,0 +1,170 @@
+﻿@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IHtmlLocalizer<NavResource> NavLocalizer
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - @NavLocalizer["MedStat.Admin"]</title>
+
+	<style type="text/css">
+		body {
+			margin: 0;
+			font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+			font-size: 1rem;
+			font-weight: 400;
+			line-height: 1.5;
+			color: #262b40;
+			background-color: #f5f8fb;
+		}
+
+		.ms-sitenav-toppanel {
+			height: 4rem;
+			margin-left: 3.8rem; /*60px; */
+			padding: 0 1rem;
+			display: flex;
+			flex-direction: row;
+			justify-content: start;
+			align-items: center;
+		}
+
+		.ms-sitenav-toppanel .ms-brand {
+			font-weight: 600;
+			text-transform: uppercase;
+		}
+
+		.ms-sitenav-aside {
+			position: fixed;
+			top: 0px;
+			bottom: 0px;
+			left: 0px;
+			width: 3.8rem; /*60px; */
+			overflow: hidden;
+			box-sizing: border-box;
+			background-color: #262b40;
+			color: #fff;
+		}
+
+			.ms-sitenav-aside .ms-sitenav-header {
+				height: 4rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+				.ms-sitenav-aside .ms-sitenav-header a {
+					color: #fff;
+					opacity: .8;
+				}
+
+					.ms-sitenav-aside .ms-sitenav-header a:hover {
+						opacity: 1;
+					}
+
+		.ms-pagecontainer {
+			margin-left: 3.8rem; /*60px; */
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+
+		.ms-footer {
+			margin-left: 3.8rem; /*60px; */
+			padding-left: 1rem;
+			padding-right: 1rem;
+			text-align: center;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			color: #4a5073;
+		}
+
+		.ms-errorcodepane {
+			margin: 1.8rem 0;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+			font-weight: 500;
+			line-height: 1.2;
+		}
+
+		h1 {
+			font-size: calc(1.375rem + 1.5vw);
+		}
+
+		h2 {
+			font-size: calc(1.325rem + 0.9vw);
+		}
+
+		p {
+			margin-top: 0;
+			margin-bottom: 1rem;
+		}
+
+		pre, code, kbd, samp {
+			font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-size: 1em;
+		}
+
+		code {
+			font-size: 0.875em;
+			color: #d63384;
+			word-wrap: break-word;
+		}
+
+		.text-danger {
+			color: #dc3545 !important;
+		}
+
+		.alert {
+			position: relative;
+			padding: 1rem 1rem;
+			margin-bottom: 1rem;
+			border: 1px solid transparent;
+			border-top-color: transparent;
+			border-right-color: transparent;
+			border-bottom-color: transparent;
+			border-left-color: transparent;
+			border-radius: 0.25rem;
+		}
+
+		.alert-danger {
+			color: #842029;
+			background-color: #f8d7da;
+			border-color: #f5c2c7;
+		}
+	</style>
+</head>
+<body>
+
+	<header class="ms-sitenav-toppanel">
+		<div class="ms-brand">@NavLocalizer["MedStat.Admin"]</div>
+	</header>
+
+	<aside class="ms-sitenav-aside">
+		<div class="ms-sitenav-header">
+			<a asp-area="" asp-page="/Index" title="@(NavLocalizer["Home"])">
+				<svg width="1.6em" height="1.6em" viewBox="0 0 16 16" class="bi bi-house-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M8 3.293l6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"></path>
+					<path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"></path>
+				</svg>
+			</a>
+		</div>
+	</aside>
+
+	<main role="main" class="ms-pagecontainer">
+
+		@RenderBody()
+
+	</main>
+
+	<footer class="ms-footer">
+		<div>
+			&copy; @(DateTime.Now.Year) - @NavLocalizer["MedStat.Admin"]
+		</div>
+	</footer>
+</body>
+</html>

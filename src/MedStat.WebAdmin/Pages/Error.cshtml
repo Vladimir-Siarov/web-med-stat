@@ -1,0 +1,44 @@
+﻿@page "{httpCode?}"
+
+@using Microsoft.Extensions.Localization
+@model ErrorModel
+
+@inject IStringLocalizer<ErrorModel> Localizer
+
+@{
+	Layout = "_LayoutError";
+	ViewData["Title"] = Localizer["Error"];
+}
+
+
+<h1 class="text-danger">@Localizer["Error"]</h1>
+<h2 class="text-danger">@Localizer["An error occurred while processing your request."]</h2>
+
+<div class="ms-errorcodepane">
+	@if (Model.ResponseStatusCode.HasValue)
+	{
+		<text>
+			Status Code: <code>@Model.ResponseStatusCode</code><br />
+		</text>
+	}
+	@if (!string.IsNullOrEmpty(Model.RequestId))
+	{
+		<text>
+			Request ID: <code>@Model.RequestId</code>
+		</text>
+	}
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+	<p class="alert alert-danger" role="alert">
+		@Model.ErrorMessage
+	</p>
+}
+
+@if (!string.IsNullOrEmpty(Model.LogErrorMessage))
+{
+	<p class="text-danger">
+		@Localizer["Log error:"] @Model.LogErrorMessage
+	</p>
+}

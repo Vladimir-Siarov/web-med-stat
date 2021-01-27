@@ -1,0 +1,21 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/ms.css",
+    "inputFile": "wwwroot/scss/ms.scss",
+    "sourceMap": true
+  },
+  {
+    "outputFile": "wwwroot/css/bootstrap.css",
+    "inputFile": "wwwroot/scss/bootstrap.scss",
+    "sourceMap": true
+  },
+  {
+    "outputFile": "wwwroot/lib/bootstrap/scss/bootstrap-grid.css",
+    "inputFile": "wwwroot/lib/bootstrap/scss/bootstrap-grid.scss",
+    "minify": {
+      "enabled": false,
+      "includeInProject": false,
+      "sourceMap": false
+    }
+  }
+]

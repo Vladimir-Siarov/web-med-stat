@@ -1,0 +1,23 @@
+﻿@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model MedStat.WebAdmin.Models.DataTableSearchPanelModel
+
+@inject IHtmlLocalizer<DataTableResource> DtLocalizer
+
+
+<div class="ms-datatable-searchpanel">
+			
+	<label for="@Model.SearchControlId">@DtLocalizer["Search:"]</label>
+	<input type="search" id="@Model.SearchControlId" class="form-control form-control-sm" 
+	       aria-controls="@Model.TableId" placeholder="" />
+			
+	<label for="@Model.PageLengthControlId" class="visually-hidden">@DtLocalizer["Show entries:"]</label>
+	<select id="@Model.PageLengthControlId" class="form-select form-select-sm"
+	        aria-controls="@Model.TableId">
+		<option value="10">10</option>
+		<option value="25">25</option>
+		<option value="50">50</option>
+	</select>
+			
+</div>

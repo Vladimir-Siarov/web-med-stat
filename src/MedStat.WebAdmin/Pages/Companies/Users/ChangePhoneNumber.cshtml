@@ -1,0 +1,44 @@
+﻿@page "{CmpUserId:int}"
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model ChangePhoneNumberPageModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "_PopupLayout";
+
+	ViewData["Title"] = $"{CmpLocalizer["__pageTitle__Change phone number"].Value} - {this.Model.CmpUserName}";
+}
+
+<div class="ms-pagecontent">
+
+	<form method="post" class="ms-form-container">
+
+		<div class="row">
+			
+			<div class="col-md-6">
+				@Html.EditorFor(m => m.ChangeNumberModel, "~/Pages/Account/_ChangePhoneNumberPartial.cshtml")
+			</div>
+
+		</div>
+
+		<div class="row">
+			
+			<div class="col">
+				<button class="btn btn-primary" type="submit">@CmpLocalizer["Save"]</button>
+			</div>
+			<div class="col-auto">
+				<a class="btn btn-link" asp-page="./Edit" asp-route-cmpUserId="@Model.CmpUserId">
+					@CmpLocalizer["__button__Back"].Value
+				</a>
+			</div>
+
+		</div>
+		
+		<input type="hidden" asp-for="CmpUserName" />
+	</form>
+
+</div>

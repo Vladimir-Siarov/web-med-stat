@@ -1,0 +1,23 @@
+﻿@page "/Companies/{CompanyId:int}/Requisites"
+
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model CompanyRequisitesPageModel
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "_CompanyLayout";
+}
+
+<div class="ms-pagecontent">
+
+	<form method="post" class="ms-form-container">
+
+		@Html.EditorFor(m => m.Requisites, "~/Pages/Companies/_RequisitesTab.cshtml")
+
+		<button class="btn btn-primary" type="submit">@CmpLocalizer["Save"]</button>
+
+	</form>
+
+</div>

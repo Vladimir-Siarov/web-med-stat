@@ -1,0 +1,60 @@
+﻿$ms-component-active-bg2: #3c425d; /*#262b40; - menu bg color*/
+
+$body-color: #262b40;
+$component-active-bg: $ms-component-active-bg2;
+@import '../lib/bootstrap/scss/bootstrap-reboot';
+
+/*@import '../lib/bootstrap/scss/bootstrap-utilities';
+@import '../lib/bootstrap/scss/bootstrap-grid';*/
+
+@import '../lib/bootstrap/scss/_buttons';
+@import '../lib/bootstrap/scss/_dropdown';
+
+/*$nav-pills-link-active-bg: $ms-component-active-bg2;*/
+@import '../lib/bootstrap/scss/_nav';
+
+@import "../lib/bootstrap/scss/forms/labels";
+@import "../lib/bootstrap/scss/forms/form-text";
+@import "../lib/bootstrap/scss/forms/form-control";
+@import "../lib/bootstrap/scss/forms/form-select";
+@import "../lib/bootstrap/scss/forms/form-check";
+/*@import "forms/form-range";*/
+/*@import "forms/floating-labels";*/
+/*@import "forms/input-group";*/
+/*@import "forms/validation";*/
+
+@import "./bootstrap-grid-light";
+
+/* some styles from 'bootstrap-utilities' */
+.text-danger {
+	color: #dc3545 !important;
+}
+
+@import "../lib/bootstrap/scss/alert";
+@import "../lib/bootstrap/scss/tables";
+
+$pagination-color: $body-color;
+$pagination-hover-color: $body-color;
+$pagination-border-color:#eaedf2;
+$pagination-disabled-border-color: #eaedf2;
+/*$pagination-active-bg: $ms-component-active-bg2;
+$pagination-active-border-color: $ms-component-active-bg2;*/
+@import "../lib/bootstrap/scss/pagination";
+
+$modal-title-line-height: inherit;
+@import "../lib/bootstrap/scss/modal";
+@import "../lib/bootstrap/scss/close";
+
+@import "../lib/bootstrap/scss/helpers/visually-hidden";
+@import "../lib/bootstrap/scss/spinners.scss";
+
+
+/* override bootstrap styles */
+.btn-light {
+	&:hover{
+		background-color: $gray-200;
+	}
+}
+.btn-link {
+	color: inherit;
+}

@@ -1,0 +1,62 @@
+﻿@page "/Companies/{CompanyId:int}/Users/Create"
+
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model CompanyUserCreatePageModel
+
+@inject IHtmlLocalizer<CompanyResource> CmpLocalizer
+
+@{
+	Layout = "_PopupLayout";
+
+	ViewData["Title"] = CmpLocalizer["New user"];
+}
+
+<div class="ms-pagecontent">
+
+	<form method="post" class="ms-form-container">
+
+		<div class="row gx-5">
+
+			<div class="col-sm-6">
+				@Html.EditorFor(m => m.CmpUserData.User.Login, "~/Pages/Account/_SystemUserPartial.cshtml")
+
+				<div>
+					<label asp-for="CmpUserData.User.Description" class="form-label"></label>
+					<textarea asp-for="CmpUserData.User.Description" class="form-control"></textarea>
+					<span asp-validation-for="CmpUserData.User.Description" class="text-danger"></span>
+				</div>
+
+			</div>
+
+			<div class="col-sm-6">
+		
+				<section class="ms-form-group">
+					<h5 class="ms-form-checkgroup-header">@CmpLocalizer["__CmpUserPage__User rights"]</h5>
+
+					<div class="form-check">
+						<input asp-for="CmpUserData.IsPowerUser" class="form-check-input" />
+						<label asp-for="CmpUserData.IsPowerUser" class="form-check-label"></label>
+					</div>
+				</section>
+		
+				<section class="ms-form-group">
+					<h5>@CmpLocalizer["__CmpUserPage__Login information"]</h5>
+			
+					<div>
+						<label asp-for="CmpUserData.User.Login.PhoneNumber" class="form-label"></label>
+						<input asp-for="CmpUserData.User.Login.PhoneNumber" class="form-control" />
+						<span asp-validation-for="CmpUserData.User.Login.PhoneNumber" class="text-danger"></span>
+					</div>
+				</section>
+
+			</div>
+
+		</div>
+
+		<button class="btn btn-primary" type="submit">@CmpLocalizer["Create"]</button>
+
+	</form>
+
+</div>

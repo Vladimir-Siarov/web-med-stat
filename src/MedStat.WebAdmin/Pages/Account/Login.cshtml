@@ -1,0 +1,125 @@
+﻿@page "{handler?}"
+
+@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model LoginPageModel
+
+@inject IHtmlLocalizer<IdentityResource> IdentityLocalizer
+
+@{
+	var title = IdentityLocalizer["__pageTitle__Sign in"].Value;
+
+	ViewData["Title"] = title;
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Account);
+}
+
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Account" page-title="@title"></breadcrumb>
+	</nav>
+
+	@if (ViewData["error_message"] != null)
+	{
+		<div class="alert alert-danger" role="alert">
+			@ViewData["error_message"]
+		</div>
+	}
+}
+
+<div class="ms-login-container">
+	<div class="ms-login-container-left"></div>
+
+	<div class="ms-login-container-content">
+		<h1 class="ms-pageheader-pagetitle">@IdentityLocalizer["Sign in to the system"].Value</h1>
+	</div>
+
+	<div class="ms-login-container-right"></div>
+</div>
+
+<div class="ms-login-container">
+	<div class="ms-login-container-left bg"></div>
+
+	<div class="ms-login-container-content">
+
+
+		<div class="ms-pagecontent">
+
+			@if (Model.DisplayPhoneNumberSection)
+			{
+				<form method="post" asp-page-handler="CheckPhoneNumber" class="ms-form-container">
+
+					<div class="row">
+						<div class="col-xs-12">
+
+							<div>
+								<label asp-for="PhoneNumber" class="form-label"></label>
+								<input asp-for="PhoneNumber" class="form-control" />
+								<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+							</div>
+
+						</div>
+					</div>
+
+					<button class="btn btn-primary" type="submit">
+						@IdentityLocalizer["__button__Next"].Value
+					</button>
+
+				</form>
+			}
+			else
+			{
+				<form method="post" asp-page-handler="CheckPassword" class="ms-form-container">
+
+					<div class="row">
+						<div class="col-xs-12">
+
+							<div>
+								<label asp-for="Password" class="form-label"></label>
+								<input asp-for="Password" class="form-control" />
+								<span asp-validation-for="Password" class="text-danger"></span>
+							</div>
+
+							<div class="row ms-form-checkrow">
+								<div class="col-auto">
+									<div class="form-check">
+										<input asp-for="RememberMe" class="form-check-input" />
+										<label asp-for="RememberMe" class="form-check-label"></label>
+									</div>
+								</div>
+								<div class="col" style="text-align: right">
+									<a asp-area="" asp-page="/Account/ChangePassword" asp-route-phoneNumber="@Model.PhoneNumber">
+										@IdentityLocalizer["Lost password?"].Value
+									</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-auto">
+							<a class="btn btn-link" asp-area="" asp-page="/Account/Login">
+								@IdentityLocalizer["__button__Back"].Value
+							</a>
+						</div>
+						<div class="col">
+							<button class="btn btn-primary" type="submit">
+								@IdentityLocalizer["__button__Sign in"].Value
+							</button>
+						</div>
+					</div>
+
+					<input type="hidden" asp-for="PhoneNumber" />
+
+				</form>
+			}
+
+		</div>
+	</div>
+
+	<div class="ms-login-container-right bg"></div>
+</div>

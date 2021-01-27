@@ -1,0 +1,57 @@
+﻿@import '../lib/bootstrap/scss/_variables.scss';
+/*@import './_variables.scss';*/
+
+
+@mixin ms-pagetitle {
+	font-size: 1.8rem;
+	font-weight: 400;
+	/*opacity: .9;*/
+	/*margin: 0.5rem 0 1rem 0;*/
+}
+
+.ms-pageheader-titlepanel {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 0 .5rem 0;
+
+	h1 {
+		@include ms-pagetitle;
+		margin:0;
+	}
+
+	.btn{
+		.bi {
+			width: 1.5em;
+			height: 1.5em;
+			margin-right: 0.4em;
+		}
+	}	
+}
+
+.ms-pageheader-pagetitle {
+	@include ms-pagetitle;
+	margin: 0 0 1rem 0;
+}
+
+
+$md-grid-breakpoint: map-get($grid-breakpoints, "md");
+@media only screen and (max-width: $md-grid-breakpoint) {
+	/* For dev. purpose only:
+	body {
+		background-color: red !important;
+	}
+	*/
+
+	.ms-pageheader-titlepanel {
+		flex-direction: column;
+		justify-content: start;
+		justify-content: flex-start;
+		align-items: normal;
+
+		h1 {
+			margin: 0 0 .5rem 0;
+		}
+	}
+}
