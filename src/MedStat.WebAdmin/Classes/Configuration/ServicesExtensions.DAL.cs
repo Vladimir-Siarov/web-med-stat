@@ -40,6 +40,12 @@ namespace MedStat.WebAdmin.Classes.Configuration
 						sp.GetRequiredService<MedStatDbContext>(),
 						sp.GetRequiredService<ILogger<CompanyRepository>>(),
 						sp.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Identity.Name
+					))
+
+					.AddScoped<IDeviceRepository>(sp => new DeviceRepository(
+						sp.GetRequiredService<MedStatDbContext>(),
+						sp.GetRequiredService<ILogger<CompanyRepository>>(),
+						sp.GetRequiredService<IHttpContextAccessor>().HttpContext?.User?.Identity.Name
 					));
 		}
 	}

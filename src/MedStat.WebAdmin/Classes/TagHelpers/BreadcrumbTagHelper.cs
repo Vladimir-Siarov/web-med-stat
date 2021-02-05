@@ -77,6 +77,13 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 							_navLocalizer["Companies"]);
 						break;
 
+					case NavHelper.EnMainMenuItem.Devices:
+					case NavHelper.EnMainMenuItem.DeviceList:
+						output.Content.AppendFormat("<li><a href='{0}'>{1}</a></li>",
+							urlHelper.Page("/Devices/Index"),
+							_navLocalizer["Devices"]);
+						break;
+
 					case NavHelper.EnMainMenuItem.Account:
 						output.Content.AppendFormat("<li><a href='{0}'>{1}</a></li>",
 							urlHelper.Page("/Account/Manage/Index", new { area = "Identity" }),

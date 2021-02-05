@@ -35,6 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Classes\SharedResources.DeviceResource.ru.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Classes\SharedResources.DeviceResource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Classes\SharedResources.CompanyResource.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

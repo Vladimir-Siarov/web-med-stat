@@ -4,6 +4,7 @@
 @mixin ms-sitenav-svgicon-container {
 	display: inline-block;
 	width: 1.3rem;
+	min-width: 1.3rem;
 	height: 1.3rem;
 	line-height: 1;
 }
@@ -51,7 +52,6 @@
 		.ms-togglebtn {
 			@include ms-sitenav-svgicon-container;
 			@include ms-sitenav-hover-sensitive;
-
 			color: $sitenav-aside-color;
 			border: none;
 			background: transparent;
@@ -79,19 +79,24 @@
 		overflow-x: hidden;
 		overflow-y: auto;
 		margin-top: 2.25rem;
+
 		/* Ovveride Bootstrap */
-		& > .nav {
+		.nav {
 			margin: 0 1rem;
 			display: flex;
 			flex-direction: column;
 		}
 
+		.sub-nav {
+			margin: 0;
+		}
+
 		.nav-item {
 			$ms-navlink-active-bg: #2e3650;
+			margin-bottom: .2rem;
 
 			.nav-link {
 				@include ms-sitenav-hover-sensitive($ms-navlink-active-bg);
-
 				color: $sitenav-aside-color;
 				line-height: 1;
 				padding: .55rem .5rem;
@@ -99,8 +104,7 @@
 				display: flex;
 				flex-direction: row;
 				justify-content: flex-start;
-				align-items: flex-end;
-				margin-bottom: .2rem;
+				align-items: center;
 				cursor: pointer;
 			}
 
@@ -108,13 +112,34 @@
 				@include ms-sitenav-hover-sensitive($ms-navlink-active-bg, true);
 			}
 
-			.nav-link-icon {
+			.nav-link-icon,
+			.nav-link-textIcon {
 				@include ms-sitenav-svgicon-container;
 				margin-right: 1rem
 			}
 
+			.nav-link-textIcon {
+				text-align: center;
+				visibility: visible;
+			}
+
 			.nav-link-text {
-				font-size: 1.1rem;
+				/*font-size: 1.1rem;*/
+			}
+		}
+
+		.nav-groupItem {
+			margin-top: 1rem;
+			margin-bottom: 1rem;
+
+			/* It's temp solution, until adding sub-menu expand/collapse functionality */
+			span.nav-link {
+				cursor: default!important;
+
+				&:hover {
+					background: inherit!important;
+					opacity: .8!important;
+				}
 			}
 		}
 	}
@@ -139,6 +164,12 @@
 
 			.ms-btnexpand {
 				display: none;
+			}
+		}
+
+		.ms-sitenav-menu {
+			.nav-item .nav-link-textIcon {
+				visibility: hidden;
 			}
 		}
 	}

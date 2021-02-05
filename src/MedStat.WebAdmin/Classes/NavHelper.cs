@@ -8,7 +8,11 @@ namespace MedStat.WebAdmin.Classes
 		{
 			Home,
 			Company,
-			Account
+			Account,
+
+			Devices, // menu group
+				DeviceList,
+				DeviceModels
 		}
 
 
@@ -31,9 +35,14 @@ namespace MedStat.WebAdmin.Classes
 			return
 				viewData.IsMainMenuSelected(EnMainMenuItem.Home);
 		}
+		public static bool IsDevicesMainMenuSelected(this ViewDataDictionary viewData)
+		{
+			return
+				viewData.IsMainMenuSelected(EnMainMenuItem.Devices);
+		}
 
 
-		private static bool IsMainMenuSelected(this ViewDataDictionary viewData, EnMainMenuItem menuItem)
+		public static bool IsMainMenuSelected(this ViewDataDictionary viewData, EnMainMenuItem menuItem)
 		{
 			return
 				viewData[SelectedMainMenuItem] is EnMainMenuItem 

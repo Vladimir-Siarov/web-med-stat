@@ -1,0 +1,76 @@
+﻿@page
+@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.SharedResources
+@using MedStat.WebAdmin.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model DeviceListModel
+
+@inject IHtmlLocalizer<DeviceResource> DvLocalizer
+
+@{
+	@*Layout = "~/Pages/Shared/_Layout.cshtml";*@
+	var pageTitle = DvLocalizer["__pageTitle__Device list"];
+	var pageTitleShort = DvLocalizer["__pageTitle__List"];
+
+	ViewData["Title"] = pageTitle.Value;
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.DeviceList);
+	ViewData.SetDataTablePageFlag();
+
+	var deviceSearchPanelModel = new DataTableSearchPanelModel("tblDevices");
+}
+
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.DeviceList"
+								page-title="@pageTitleShort.Value"></breadcrumb>
+	</nav>
+
+	<h1 class="ms-pageheader-pagetitle">@pageTitle</h1>
+}
+
+<div class="ms-pagecontent">
+
+	<div class="ms-section-header">
+		<div>
+			<a asp-area="" asp-page="/Device/Create" class="btn btn-success btn-sm">
+				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+				</svg>@DvLocalizer["__btn__Create device"]
+			</a>
+		</div>
+		
+		<partial name="_DtSearchPanelPartial" model="@deviceSearchPanelModel" />
+		
+	</div>
+	@* 
+	<table id="tblDevices"
+				 class="table table-hover caption-top" style="width: 100%"
+				 data-ajax="@(Url.PageLink("Index", "DeviceList"))"
+				 data-auto-width="false"
+				 data-ms-page-length-control="#@(deviceSearchPanelModel.PageLengthControlId)"
+				 data-ms-search-control="#@(deviceSearchPanelModel.SearchControlId)"
+				 ms-datatable>
+		<caption>@DvLocalizer["List of devices"]</caption>
+		<thead>
+			<tr>
+				<th data-data="id" data-width="5%">Id</th>
+				<th data-data="name" data-width="45%" data-ms-html-template="#tblCompanies_linkTemplate">@CmpLocalizer["__CompanyGrid_Column__Title"]</th>
+				<th data-data="description" data-width="30%" data-ms-max-length="100">@CmpLocalizer["__CompanyGrid_Column__Description"]</th>
+				<th data-data="userCnt" data-width="10%">@CmpLocalizer["__CompanyGrid_Column__Users"]</th>
+				<th data-data="trackedPersonCnt" data-width="10%">@CmpLocalizer["__CompanyGrid_Column__Trekking"]</th>
+			</tr>
+		</thead>
+	</table>
+
+	<div id="tblCompanies_linkTemplate" style="display: none">
+		@{
+			string companyUrl = Url.Page("./Main", new { CompanyId = "-1" })
+				.Replace("-1", "{id}");
+		}
+		<a href="@(companyUrl)">{name}</a>
+	</div>
+	*@
+</div>

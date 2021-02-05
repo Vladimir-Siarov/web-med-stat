@@ -117,34 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account" xml:space="preserve">
-    <value>Аккаунт</value>
+  <data name="List of devices" xml:space="preserve">
+    <value>Список устройств</value>
   </data>
-  <data name="Collapse menu" xml:space="preserve">
-    <value>Свернуть меню</value>
+  <data name="__btn__Create device" xml:space="preserve">
+    <value>Создать устройство</value>
   </data>
-  <data name="Companies" xml:space="preserve">
-    <value>Компании</value>
+  <data name="__pageTitle__Device list" xml:space="preserve">
+    <value>Список устройств</value>
   </data>
-  <data name="Devices" xml:space="preserve">
-    <value>Устройства</value>
-  </data>
-  <data name="Expand menu" xml:space="preserve">
-    <value>Развернуть меню</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Домашняя</value>
-  </data>
-  <data name="List" xml:space="preserve">
+  <data name="__pageTitle__List" xml:space="preserve">
     <value>Список</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Вход</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Выход</value>
-  </data>
-  <data name="MedStat.Admin" xml:space="preserve">
-    <value>МедСтат.Админ</value>
   </data>
 </root>
