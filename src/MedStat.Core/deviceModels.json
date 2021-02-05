@@ -1,0 +1,25 @@
+{
+	"Models": [
+		// Smart Watches
+		{
+			"Uid": "SW_1",
+			"Name": "BTTLBT01",
+			"Type": "SmartWatch",
+			"Description": "Shenzhen Beitutu Technology, smart temperature watch with screen."
+		},
+		{
+			"Uid": "SW_2",
+			"Name": "T1S",
+			"Type": "SmartWatch",
+			"Description": "Temperature measurement, heart rate, fitness tracker and health monitoring band."
+		},
+
+		// Gateways
+		{
+			"Uid": "G_1",
+			"Name": "BTTBW01",
+			"Type": "Gateway",
+			"Description": "Shenzhen Beitutu Technology, BLE to Wifi host."
+		}
+	]
+}

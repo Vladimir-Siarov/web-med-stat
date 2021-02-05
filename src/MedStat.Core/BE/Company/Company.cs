@@ -25,5 +25,7 @@ namespace MedStat.Core.BE.Company
 		public CompanyRequisites Requisites { get; set; }
 
 		public List<CompanyUser> Users { get; set; }
+
+		public List<Device.Device> Devices { get; set; }
 	}
 }

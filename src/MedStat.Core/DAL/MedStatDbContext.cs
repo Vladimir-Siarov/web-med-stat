@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using MedStat.Core.BE.Company;
+using MedStat.Core.BE.Device;
 using MedStat.Core.Identity;
 
 namespace MedStat.Core.DAL
@@ -22,6 +22,8 @@ namespace MedStat.Core.DAL
 		public DbSet<CompanyRequisites> CompanyRequisites { get; set; }
 
 		public DbSet<CompanyUser> CompanyUsers { get; set; }
+
+		public DbSet<DeviceModel> DeviceModels { get; set; }
 
 
 		protected string ConnectionString { get; }
@@ -76,6 +78,8 @@ namespace MedStat.Core.DAL
 		{
 			base.OnModelCreating(builder);
 
+			builder.Ignore<DeviceModel>(); // DeviceModel class is not managed by EF
+
 			// SystemUsers
 			builder.Entity<SystemUser>(b => 
 			{ 
@@ -127,6 +131,17 @@ namespace MedStat.Core.DAL
 					// If Company wasn't deleted before,
 					// then throws an error at in memory db and leads to constraint violation fail in physical db
 					.OnDelete(deleteBehavior: DeleteBehavior.ClientSetNull);
+
+				builder.Entity<Company>()
+					.HasMany(c => c.Devices)
+					.WithOne().HasForeignKey(d => d.CompanyId);
+			}
+
+
+			// Device
+			{
+				builder.Entity<Device>()
+					.Property(d => d.DeviceModelUid).HasMaxLength(20).IsRequired();
 			}
 		}
 
