@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Security.Policy;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
-using MedStat.WebAdmin.Classes.SharedResources;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Localization;
+using MedStat.WebAdmin.Classes.SharedResources;
 
 namespace MedStat.WebAdmin.Classes.TagHelpers
 {
@@ -79,6 +76,7 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 
 					case NavHelper.EnMainMenuItem.Devices:
 					case NavHelper.EnMainMenuItem.DeviceList:
+					case NavHelper.EnMainMenuItem.DeviceModels:
 						output.Content.AppendFormat("<li><a href='{0}'>{1}</a></li>",
 							urlHelper.Page("/Devices/Index"),
 							_navLocalizer["Devices"]);

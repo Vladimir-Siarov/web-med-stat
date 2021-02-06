@@ -213,57 +213,6 @@ $lg-grid-breakpoint: map-get($grid-breakpoints, "lg"); // 960px
 }
 
 
-/* ---- DataTable -------*/
-.ms-datatable-searchpanel {
-	display: flex;
-	flex-wrap: nowrap;
-
-	input[type='search'] {
-		display: inline-block;
-		margin: 0 1rem 0 0.5rem;
-		width: auto;
-	}
-
-	select {
-		width: auto;
-	}
-}
-
-/* override DataTable.net styles */
-table.dataTable {
-	/*margin-top: 1rem!important;*/
-	margin-top: 0px !important;
-
-	th {
-		font-size: 0.9em;
-	}
-
-	caption {
-		margin-bottom: 0.5em;
-	}
-
-	.buttons {
-		white-space: nowrap;
-		/* Override bootstrap */
-		.btn {
-			line-height: 1;
-			padding: 0 0.3em 0.2em 0.3em;
-		}
-	}
-}
-div.dataTables_info {
-	color: $table-caption-color;
-	padding-top: 1em;
-}
-div.dataTables_wrapper div.dataTables_paginate {
-	margin-top: .8em;
-}
-
-.dataTables_wrapper .pagination{
-	font-size: 0.9em; /* like as NavPils */
-}
-
-
 /* --- Modal Dialog ---------*/
 .modal-header {
 	background-color: #f5f8fb; //$ms-body-bgcolor: #f5f8fb; #eaf0f7;

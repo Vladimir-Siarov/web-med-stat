@@ -15,6 +15,7 @@ using MedStat.Core.DAL;
 using MedStat.Core.Identity;
 using MedStat.WebAdmin.Classes;
 using MedStat.WebAdmin.Classes.Configuration;
+using Newtonsoft.Json.Converters;
 
 namespace MedStat.WebAdmin
 {
@@ -60,7 +61,13 @@ namespace MedStat.WebAdmin
 				.AddRazorPages(options => { options.Conventions.AuthorizeFolder("/Companies"); })
 				//.AddRazorRuntimeCompilation(); - disable runtime compilation on PROD (on IIS)
 				.AddCustomDataAnnotationsLocalization() // custom method: add DA localization for "Core" BEs and project's ViewModels
-				.AddViewLocalization();
+				.AddViewLocalization()
+				.AddNewtonsoftJson(option =>
+				{
+					// Json serializer settings: Enum as string and not ignore null values
+					option.SerializerSettings.Converters.Add(new StringEnumConverter());
+					option.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Include;
+				});
 
 			services.ConfigureRequestLocalization(); // custom method: setup Web App localization
 			services.Configure<WebEncoderOptions>(options =>

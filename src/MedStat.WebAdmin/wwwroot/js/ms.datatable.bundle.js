@@ -15642,7 +15642,9 @@ window.ms.DataTableToolsClass = function () {
 						var resultHtml = htmlTemplate + '';
 						for (var j = 0; j < matches.length; j++) {
 
-							resultHtml = resultHtml.replace(matches[j], row[matches[j].replace('{', '').replace('}', '')]);
+							var propertyName = matches[j].replace('{', '').replace('}', ''); // extract property name from '{X}'
+
+							resultHtml = resultHtml.replace(matches[j], row[propertyName]);
 						}
 
 						return resultHtml;

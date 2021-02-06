@@ -147,4 +147,7 @@
   <data name="MedStat.Admin" xml:space="preserve">
     <value>МедСтат.Админ</value>
   </data>
+  <data name="Models" xml:space="preserve">
+    <value>Модели</value>
+  </data>
 </root>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MedStat.Core.Interfaces
 {
-	public interface IDeviceRepository
+	public interface IDeviceRepository : IDeviceModelsRepository
 	{
 	}
 }

@@ -1,0 +1,100 @@
+﻿@page
+@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.Helpers
+@using MedStat.WebAdmin.Classes.SharedResources
+@using MedStat.WebAdmin.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@model DeviceModelListModel
+
+@inject IHtmlLocalizer<DeviceResource> DvLocalizer
+
+@{
+	var pageTitle = DvLocalizer["__pageTitle__Device Models"];
+	var pageTitleShort = DvLocalizer["__pageTitle__Models"];
+
+	ViewData["Title"] = pageTitle.Value;
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.DeviceModels);
+	ViewData.SetDataTablePageFlag();
+
+	var modelsSearchPanelModel = new DataTableSearchPanelModel("tblModels");
+}
+
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.DeviceModels"
+								page-title="@pageTitleShort.Value"></breadcrumb>
+	</nav>
+
+	<h1 class="ms-pageheader-pagetitle">@pageTitle</h1>
+}
+
+<div class="ms-pagecontent">
+
+	<div class="ms-section-header">
+		<div>
+			@* buttons *@
+		</div>
+		
+		<partial name="_DtSearchPanelPartial" model="@modelsSearchPanelModel" />
+	</div>
+	
+	<table id="tblModels"
+	       class="table table-hover caption-top" style="width: 100%"
+	       data-ajax="@(Url.PageLink("Index", "ModelList"))"
+	       data-auto-width="false"
+				 data-order='[[ 3, "asc" ]]'
+	       data-ms-page-length-control="#@(modelsSearchPanelModel.PageLengthControlId)"
+	       data-ms-search-control="#@(modelsSearchPanelModel.SearchControlId)">
+		<caption>@DvLocalizer["Model list"]</caption>
+		<thead>
+			<tr>
+				<th data-data="uid" data-width="10%">Uid</th>
+				<th data-data="name" data-width="30%">@DvLocalizer["__ModelGrid_Column__Name"]</th>
+				<th data-data="description" data-width="50%" data-ms-max-length="100">@DvLocalizer["__ModelGrid_Column__Description"]</th>
+				<th data-data="type" data-width="10%" data-ms-html-template="#tblModels_typeTemplate">@DvLocalizer["__ModelGrid_Column__Type"]</th>
+			</tr>
+		</thead>
+	</table>
+	
+	<div id="tblModels_typeTemplate">
+		<span class="ms-datable-icon" data-device-type="{type}"></span>
+	</div>
+	
+</div>
+
+
+@section Scripts
+{
+	<script type="text/javascript">
+
+		window.pageInit = function() {
+
+			// Grid functionality:
+
+			var deviceTypes = @(Html.Raw(Json.Serialize(IconHelper.GetDeviceTypeInfoList(DvLocalizer))));
+
+			$('#tblModels')
+				.on('draw.dt', function() {
+
+					// init Grid icons
+					$('#tblModels [data-device-type]').each(function() {
+
+						var $t = $(this);
+						var type = deviceTypes.find(t => t.type === $t.attr('data-device-type'));
+
+						if (type != null) {
+							$t.addClass(type.iconCss).attr('title', type.title);
+						} 
+						else {
+							throw 'Device type "' + $t.attr('data-device-type') + '" is not supported.';
+						}
+					});
+				})
+				.msDataTable(); // init grid
+		};
+
+	</script>
+}

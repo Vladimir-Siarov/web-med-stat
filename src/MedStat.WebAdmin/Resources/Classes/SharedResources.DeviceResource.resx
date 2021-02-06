@@ -120,10 +120,31 @@
   <data name="__btn__Create device" xml:space="preserve">
     <value>Create device</value>
   </data>
+  <data name="__DeviceType__Gateway" xml:space="preserve">
+    <value>Gateway</value>
+  </data>
+  <data name="__DeviceType__SmartWatch" xml:space="preserve">
+    <value>Watch</value>
+  </data>
+  <data name="__ModelGrid_Column__Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="__ModelGrid_Column__Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="__ModelGrid_Column__Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="__pageTitle__Device list" xml:space="preserve">
     <value>Device list</value>
   </data>
+  <data name="__pageTitle__Device Models" xml:space="preserve">
+    <value>Device Models</value>
+  </data>
   <data name="__pageTitle__List" xml:space="preserve">
     <value>List</value>
+  </data>
+  <data name="__pageTitle__Models" xml:space="preserve">
+    <value>Models</value>
   </data>
 </root>
