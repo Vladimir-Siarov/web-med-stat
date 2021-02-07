@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="253.08547"
-     inkscape:cy="883.86803"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="1162.4116"
+     inkscape:cy="613.15361"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -147,6 +147,37 @@
        style="fill:none;stroke:#000000;stroke-width:3.76544;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 43.240329,202.23128 h 12.02156"
        id="path843-5-0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3.96875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 129.64515,245.28985 -7.6378,-73.96519 c 0,0 1.71545,-8.06108 13.25601,-13.57915 17.26227,-8.25387 39.0515,-4.95629 39.0515,-4.95629 l -25.16296,86.92826 c 0,0 -12.54825,-4.00186 -19.50675,5.57237 z"
+       id="path833-0-1-9"
+       sodipodi:nodetypes="ccsccc" />
+    <circle
+       style="opacity:0.996;fill:none;stroke:#000000;stroke-width:3.96875;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path835-6-0-2"
+       cx="139.51862"
+       cy="264.88202"
+       r="9.8786564" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3.175;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 139.34262,225.22716 V 170.43688"
+       id="path837-6-9-3"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3.76155;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 137.75512,178.46032 h 13.01236"
+       id="path839-6-8-9"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3.78944;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 137.75512,189.5736 h 12.5561"
+       id="path841-3-8-4"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3.76544;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 137.75512,200.6855 h 12.02156"
+       id="path843-5-0-5"
        sodipodi:nodetypes="cc" />
   </g>
 </svg>
