@@ -8,7 +8,7 @@ namespace MedStat.Core.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Device",
+                name: "Devices",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,9 +22,9 @@ namespace MedStat.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Device", x => x.Id);
+                    table.PrimaryKey("PK_Devices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Device_Companies_CompanyId",
+                        name: "FK_Devices_Companies_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
@@ -32,15 +32,15 @@ namespace MedStat.Core.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Device_CompanyId",
-                table: "Device",
+                name: "IX_Devices_CompanyId",
+                table: "Devices",
                 column: "CompanyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Device");
+                name: "Devices");
         }
     }
 }

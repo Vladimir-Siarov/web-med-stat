@@ -127,7 +127,7 @@ namespace MedStat.Core.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Device");
+                    b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("MedStat.Core.Identity.SystemUser", b =>

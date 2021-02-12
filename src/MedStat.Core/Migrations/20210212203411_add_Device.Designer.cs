@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedStat.Core.Migrations
 {
     [DbContext(typeof(MedStatDbContext))]
-    [Migration("20210205142618_add_Device")]
+    [Migration("20210212203411_add_Device")]
     partial class add_Device
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,7 +129,7 @@ namespace MedStat.Core.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Device");
+                    b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("MedStat.Core.Identity.SystemUser", b =>

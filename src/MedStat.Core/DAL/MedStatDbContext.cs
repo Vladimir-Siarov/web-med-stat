@@ -23,7 +23,7 @@ namespace MedStat.Core.DAL
 
 		public DbSet<CompanyUser> CompanyUsers { get; set; }
 
-		public DbSet<DeviceModel> DeviceModels { get; set; }
+		public DbSet<Device> Devices { get; set; }
 
 
 		protected string ConnectionString { get; }
