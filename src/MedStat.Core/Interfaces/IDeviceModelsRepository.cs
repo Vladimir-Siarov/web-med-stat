@@ -10,6 +10,14 @@ namespace MedStat.Core.Interfaces
 	public interface IDeviceModelsRepository
 	{
 		/// <summary>
+		/// Returns device models by specified device type.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		IEnumerable<DeviceModel> GetDeviceModelsByType(EnDeviceType type);
+
+
+		/// <summary>
 		/// Finds device models and sorts results by specified params.
 		/// </summary>
 		/// <param name="name"></param>

@@ -53,6 +53,12 @@
 	<script type="text/javascript">
 		window.addEventListener('load', (event) => {
 
+			// Page init
+			if (window.pageInit != null && $.isFunction(window.pageInit)) {
+				window.setTimeout(window.pageInit, 50);
+			}
+
+			// Broadcast popup (create, updated and delete) events to the parent (grid) page
 			if (window.parent != null && window.parent.$ != null) {
 
 				var parentWindow = window.parent.$(window.parent);

@@ -75,9 +75,22 @@ namespace MedStat.Core.Tests.Repositories
 						TestUserUid
 					))
 
-					// Register "CompanyRepository" as "ICompanyUserRepository", because we wont to test that interface separately.
+					// Register "CompanyRepository" as "ICompanyUserRepository", because we want to test that interface separately.
 					.AddScoped<ICompanyUserRepository>(sp => new CompanyRepository(
 						sp.GetRequiredService<IIdentityRepository>(),
+						sp.GetRequiredService<MedStatDbContext>(),
+						sp.GetRequiredService<ILogger<CompanyRepository>>(),
+						TestUserUid
+					))
+
+					.AddScoped<IDeviceRepository>(sp => new DeviceRepository(
+						sp.GetRequiredService<MedStatDbContext>(),
+						sp.GetRequiredService<ILogger<CompanyRepository>>(),
+						TestUserUid
+					))
+
+					// Register "DeviceRepository" as "IDeviceModelsRepository", because we want to test that interface separately.
+					.AddScoped<IDeviceModelsRepository>(sp => new DeviceRepository(
 						sp.GetRequiredService<MedStatDbContext>(),
 						sp.GetRequiredService<ILogger<CompanyRepository>>(),
 						TestUserUid

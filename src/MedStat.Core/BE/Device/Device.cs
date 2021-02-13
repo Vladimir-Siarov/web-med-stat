@@ -26,6 +26,7 @@ namespace MedStat.Core.BE.Device
 
 		// Navigation Properties:
 
+		[Display(Name = "Model")] // "Модель"
 		public string DeviceModelUid { get; set; } // can be use for device list loading optimization
 
 		public int? CompanyId { get; set; }

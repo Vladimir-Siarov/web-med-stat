@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 using MedStat.Core.BE.Company;
+using MedStat.Core.BE.Device;
 using MedStat.Core.Identity;
 using MedStat.Core.Info.Company;
 using MedStat.WebAdmin.Models;
 using MedStat.WebAdmin.Pages.Account;
 using MedStat.WebAdmin.Pages.Companies;
+using MedStat.WebAdmin.Pages.Devices;
 using Microsoft.Extensions.Localization;
 
 namespace MedStat.WebAdmin.Classes
@@ -39,6 +41,19 @@ namespace MedStat.WebAdmin.Classes
 				return _identityLocalizer;
 			};
 
+		private static IStringLocalizer _deviceLocalizer;
+		private static readonly Func<IStringLocalizerFactory, IStringLocalizer> GetDeviceLocalizer
+			= (factory) =>
+			{
+				if (_deviceLocalizer == null)
+				{
+					_deviceLocalizer = factory.Create("DataAnnotations.Device",
+						typeof(DataAnnotationsLocalizer).GetTypeInfo().Assembly.FullName);
+				}
+
+				return _deviceLocalizer;
+			};
+
 
 		private static Dictionary<string, Func<IStringLocalizerFactory, IStringLocalizer>> _localizerDictionary
 			= new Dictionary<string, Func<IStringLocalizerFactory, IStringLocalizer>>
@@ -53,6 +68,8 @@ namespace MedStat.WebAdmin.Classes
 				{ typeof(CompanyUser).FullName, GetCompanyLocalizer },
 				{ typeof(CompanyUserInfo).FullName, GetCompanyLocalizer },
 
+				{ typeof(Device).FullName, GetDeviceLocalizer },
+
 
 				// MedStat.WebAdmin types:
 
@@ -60,7 +77,9 @@ namespace MedStat.WebAdmin.Classes
 				{ typeof(ChangePasswordPageModel).FullName, GetIdentityUserLocalizer },
 				{ typeof(ChangePhoneNumberModel).FullName, GetIdentityUserLocalizer },
 
-				{ typeof(CompanyDeletePageModel).FullName, GetCompanyLocalizer }
+				{ typeof(CompanyDeletePageModel).FullName, GetCompanyLocalizer },
+
+				{ typeof(DeviceCreatePageModel).FullName, GetDeviceLocalizer }
 			};
 
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MedStat.Core.BE.Company;
+using MedStat.Core.BE.Device;
 using MedStat.Core.Helpers;
 using MedStat.Core.Identity;
 
@@ -10,6 +12,8 @@ namespace MedStat.Core.Tests.Repositories
 	internal static class DataHelper
 	{
 		private static long _initialPhoneNumValue = 1111111;
+		private static int _initialInventoryNumValue = 1111;
+		private static int _initialMacNumValue = 1111;
 
 
 		// Company
@@ -105,6 +109,44 @@ namespace MedStat.Core.Tests.Repositories
 		{
 			return
 				$"{Guid.NewGuid().ToString("N")}_A";
+		}
+
+
+		// Device
+
+		public static DeviceData GetDeviceData(EnDeviceType type)
+		{
+			_initialInventoryNumValue += 1;
+
+			var invNumber = $"{_initialInventoryNumValue:####}";
+			var wifiMacAddress = $"AA-00-00-00-{_initialInventoryNumValue:##-##}";
+			var ethernetMacAddress = type == EnDeviceType.Gateway
+				? wifiMacAddress.Replace("AA", "BB")
+				: null;
+			
+			var device = new DeviceData
+			{
+				InventoryNumber = invNumber,
+
+				WifiMac = wifiMacAddress,
+				EthernetMac = ethernetMacAddress,
+				NormalizedWifiMac = DeviceManager.NormalizeMacAddress(wifiMacAddress),
+				NormalizedEthernetMac = DeviceManager.NormalizeMacAddress(ethernetMacAddress),
+
+				CreatedUtc = DateTime.UtcNow.AddDays(-1),
+
+				DeviceModelUid = DeviceManager.GetDeviceModels().FirstOrDefault(m => m.Type == type)?.Uid
+			};
+
+			return device;
+		}
+
+
+
+		public class DeviceData : Device
+		{
+			public string WifiMac { get; set; }
+			public string EthernetMac { get; set; }
 		}
 	}
 }

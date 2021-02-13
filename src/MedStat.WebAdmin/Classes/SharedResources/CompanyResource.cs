@@ -1,4 +1,4 @@
-﻿
+﻿using MedStat.WebAdmin.Classes.Helpers;
 using Microsoft.Extensions.Localization;
 
 namespace MedStat.WebAdmin.Classes.SharedResources
@@ -25,7 +25,7 @@ namespace MedStat.WebAdmin.Classes.SharedResources
 
 		public static string GetFormattedValue_ErrorHasOccurred(this IStringLocalizer<CompanyResource> localizer,
 			string errorMessage)
-			=> string.Format(localizer["Error has occurred: {0}"].Value, errorMessage);
+			=> PageResourceStringLocalizerHelper<CompanyResource>.GetFormattedValue_ErrorHasOccurred(localizer, errorMessage);
 
 
 		// Company Grid:
@@ -35,7 +35,7 @@ namespace MedStat.WebAdmin.Classes.SharedResources
 
 		//public static string GetValue_CmpGridColumn_Description(this IStringLocalizer<CompanyResource> localizer)
 		//	=> localizer["__CmpGridColumn__Description"].Value.Replace("__CmpGridColumn__", "");
-		
+
 		//public static string GetValue_CmpGridColumn_Users(this IStringLocalizer<CompanyResource> localizer)
 		//	=> localizer["__CmpGridColumn__Users"].Value.Replace("__CmpGridColumn__", "");
 	}

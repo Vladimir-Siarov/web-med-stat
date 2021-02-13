@@ -74,7 +74,7 @@
 
 			// Grid functionality:
 
-			var deviceTypes = @(Html.Raw(Json.Serialize(IconHelper.GetDeviceTypeInfoList(DvLocalizer))));
+			var deviceTypes = @(Html.Raw(Json.Serialize(DeviceHelper.GetDeviceTypeInfoList(DvLocalizer))));
 
 			$('#tblModels')
 				.on('draw.dt', function() {

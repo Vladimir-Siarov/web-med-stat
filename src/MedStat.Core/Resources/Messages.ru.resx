@@ -129,6 +129,15 @@
   <data name="Company with ID = {0} is not found" xml:space="preserve">
     <value>Компания с ID = {0} не найдена</value>
   </data>
+  <data name="Device Model with UID = {0} is not found" xml:space="preserve">
+    <value>Модель устройства с UID = {0} не найдена</value>
+  </data>
+  <data name="Device with inventory number {0} is already registered in the system" xml:space="preserve">
+    <value>Устройство с инвентарным номером {0} уже зарегистрирован в системе</value>
+  </data>
+  <data name="MAC address {0} is already registered in the system" xml:space="preserve">
+    <value>MAC адрес {0} уже зарегистрирован в системе</value>
+  </data>
   <data name="Password add operation was failed" xml:space="preserve">
     <value>Не удалось добавить пароль</value>
   </data>

@@ -1,0 +1,100 @@
+﻿@page
+
+@using MedStat.Core.BE.Device
+@using MedStat.WebAdmin.Classes.Helpers
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MedStat.WebAdmin.Classes.SharedResources
+
+@model DeviceCreatePageModel
+
+@inject IHtmlLocalizer<DeviceResource> DvLocalizer
+
+@{
+	Layout = "_PopupLayout";
+
+	ViewData["Title"] = DvLocalizer["__pageTitle__New device"];
+	ViewData.SetInputMaskUsageFlag();
+}
+
+<div class="ms-pagecontent">
+
+	<form method="post" class="ms-form-container">
+
+		<div class="row gx-5">
+
+			<div class="col-sm-6">
+				
+				<div>
+					<label asp-for="DeviceType" class="form-label"></label>
+					<select asp-for="DeviceType" asp-items="Model.DeviceTypes" class="form-select"
+					        onchange="$('#btnChangeDeviceType').click()"></select>
+					<span asp-validation-for="DeviceType" class="text-danger"></span>
+					
+					<input id="btnChangeDeviceType" type="submit" asp-page-handler="ChangeDeviceType" 
+					       style="display: none"/>
+				</div>
+
+				<div>
+					<label asp-for="DeviceData.DeviceModelUid" class="form-label"></label>
+					<select asp-for="DeviceData.DeviceModelUid" asp-items="Model.DeviceModels" class="form-select"></select>
+					<span asp-validation-for="DeviceData.DeviceModelUid" class="text-danger"></span>
+				</div>
+				
+
+			</div>
+
+			<div class="col-sm-6">
+		
+				<div>
+					<label asp-for="DeviceData.InventoryNumber" class="form-label"></label>
+					<input asp-for="DeviceData.InventoryNumber" class="form-control" />
+					<span asp-validation-for="DeviceData.InventoryNumber" class="text-danger"></span>
+				</div>
+				
+				<div>
+					<label asp-for="WifiMac" class="form-label"></label>
+					<input asp-for="WifiMac" class="form-control" data-type="mac" />
+					<span asp-validation-for="WifiMac" class="text-danger"></span>
+				</div>
+				
+				@if (Model.DeviceType == EnDeviceType.Gateway)
+				{
+					<div>
+						<label asp-for="EthernetMac" class="form-label"></label>
+						<input asp-for="EthernetMac" class="form-control" data-type="mac" />
+						<span asp-validation-for="EthernetMac" class="text-danger"></span>
+					</div>
+				}
+
+			</div>
+
+		</div>
+
+		<button class="btn btn-primary" type="submit">@DvLocalizer["__btn__Create"]</button>
+
+	</form>
+
+</div>
+
+
+@section Scripts
+{
+	<script type="text/javascript">
+
+		window.pageInit = function() {
+
+			// Init mask for MAC fields
+			$('input[data-type=mac]').mask('ZZ-ZZ-ZZ-ZZ-ZZ-ZZ', {
+				translation: {
+					'Z': {
+						pattern: /[0-9a-zA-Z]/, 
+						optional: false
+					}
+				},
+				placeholder: "__-__-__-__-__-__"
+			});
+
+		};
+
+	</script>
+}

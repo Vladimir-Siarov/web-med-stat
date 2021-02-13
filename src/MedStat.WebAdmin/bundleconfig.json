@@ -28,5 +28,16 @@
       "wwwroot/lib/datatables.net/js/dataTables.bootstrap5.js",
       "wwwroot/js/ms/msDataTable.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/jquery.mask.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-mask/dist/jquery.mask.min.js"
+    ],
+    "minify": {
+      "enabled": false,
+      "renameLocals": false,
+      "includeInProject": true
+    }
   }
 ]

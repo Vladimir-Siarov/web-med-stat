@@ -1,11 +1,15 @@
-﻿using MedStat.Core.BE.Device;
+﻿using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using MedStat.Core.BE.Device;
 using MedStat.WebAdmin.Classes.SharedResources;
-using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace MedStat.WebAdmin.Classes.Helpers
 {
-	public static class IconHelper
+	public static class DeviceHelper
 	{
+		private const string InputMaskUsageFlag = "INPUT_MASK_USAGE";
+
+
 		// Comment: Use "IHtmlLocalizer", because this method usually is called from View.
 		public static DeviceTypeInfo[] GetDeviceTypeInfoList(IHtmlLocalizer<DeviceResource> DvLocalizer)
 		{
@@ -26,6 +30,21 @@ namespace MedStat.WebAdmin.Classes.Helpers
 					}
 				};
 		}
+
+
+		// Extensions:
+
+		public static void SetInputMaskUsageFlag(this ViewDataDictionary viewData)
+		{
+			viewData[InputMaskUsageFlag] = true;
+		}
+
+		public static bool IsInputMaskUsage(this ViewDataDictionary viewData)
+		{
+			return
+				viewData.ContainsKey(InputMaskUsageFlag) && (bool)viewData[InputMaskUsageFlag];
+		}
+
 
 
 		public class DeviceTypeInfo

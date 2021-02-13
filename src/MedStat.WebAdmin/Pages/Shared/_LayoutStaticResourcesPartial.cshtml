@@ -1,4 +1,5 @@
 ﻿@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.Helpers
 @using MedStat.WebAdmin.Classes.SharedResources
 @using MedStat.WebAdmin.Models
 @using Microsoft.Extensions.Localization
@@ -45,6 +46,12 @@ else if (Model.Type == LayoutStaticResourcesModel.EnResourcesType.Scripts)
 			<!-- jQuery Unobtrusive Ajax-->
 			<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
 		*@
+		
+		<!-- Input Mask -->
+		@if (ViewData.IsInputMaskUsage())
+		{
+			<script defer src="~/lib/jquery-mask/dist/jquery.mask.min.js"></script>
+		}
 
 		<!-- DataTable -->
 		@if (ViewData.IsDataTablePage())
@@ -85,6 +92,12 @@ else if (Model.Type == LayoutStaticResourcesModel.EnResourcesType.Scripts)
 		<!-- jQuery Unobtrusive Ajax-->
 		<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
 		*@
+		
+		@*<!-- Input Mask -->*@
+		@if (ViewData.IsInputMaskUsage())
+		{
+			<script defer src="~/js/jquery.mask.min.js"></script>
+		}
 
 		@*<!-- DataTable -->*@
 		@if (ViewData.IsDataTablePage())

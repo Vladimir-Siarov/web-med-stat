@@ -18,6 +18,18 @@ namespace MedStat.Core.Repositories
 		protected IQueryable<DeviceModel> DeviceModels => DeviceManager.GetDeviceModels().AsQueryable();
 
 
+		#region Get
+
+		public IEnumerable<DeviceModel> GetDeviceModelsByType(EnDeviceType type)
+		{
+			var models = this.DeviceModels.Where(m => m.Type == type).ToArray();
+
+			return models;
+		}
+
+		#endregion
+
+
 		#region Search
 
 		public SearchResult<DeviceModel> FindDeviceModels(string name,

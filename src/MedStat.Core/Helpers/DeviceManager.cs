@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using MedStat.Core.BE.Device;
 using Microsoft.Extensions.Configuration;
 
@@ -32,6 +33,19 @@ namespace MedStat.Core.Helpers
 
 			return 
 				_deviceModels;
+		}
+
+
+		// Helpers:
+		
+		public static string NormalizeMacAddress(string address)
+		{
+			if (address == null)
+				return null;
+
+			address = Regex.Replace(address.ToUpper(), @"[^\d|A-Z]", "");
+
+			return address;
 		}
 	}
 }
