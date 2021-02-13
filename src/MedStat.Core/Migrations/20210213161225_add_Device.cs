@@ -35,6 +35,16 @@ namespace MedStat.Core.Migrations
                 name: "IX_Devices_CompanyId",
                 table: "Devices",
                 column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_NormalizedEthernetMac",
+                table: "Devices",
+                column: "NormalizedEthernetMac");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Devices_NormalizedWifiMac",
+                table: "Devices",
+                column: "NormalizedWifiMac");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedStat.Core.Migrations
 {
     [DbContext(typeof(MedStatDbContext))]
-    [Migration("20210212203411_add_Device")]
+    [Migration("20210213161225_add_Device")]
     partial class add_Device
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -128,6 +128,10 @@ namespace MedStat.Core.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("NormalizedEthernetMac");
+
+                    b.HasIndex("NormalizedWifiMac");
 
                     b.ToTable("Devices");
                 });

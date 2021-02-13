@@ -127,6 +127,10 @@ namespace MedStat.Core.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("NormalizedEthernetMac");
+
+                    b.HasIndex("NormalizedWifiMac");
+
                     b.ToTable("Devices");
                 });
 

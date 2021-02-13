@@ -2,7 +2,7 @@
 -- run 20210125230950_Init.sql
 
 
--- 2) 20210212203411_add_Device
+-- 2) 20210213161225_add_Device
 BEGIN TRANSACTION;
 GO
 
@@ -22,9 +22,16 @@ GO
 CREATE INDEX [IX_Devices_CompanyId] ON [Devices] ([CompanyId]);
 GO
 
+CREATE INDEX [IX_Devices_NormalizedEthernetMac] ON [Devices] ([NormalizedEthernetMac]);
+GO
+
+CREATE INDEX [IX_Devices_NormalizedWifiMac] ON [Devices] ([NormalizedWifiMac]);
+GO
+
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20210212203411_add_Device', N'5.0.0');
+VALUES (N'20210213161225_add_Device', N'5.0.0');
 GO
 
 COMMIT;
 GO
+

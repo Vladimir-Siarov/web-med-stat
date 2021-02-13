@@ -142,6 +142,13 @@ namespace MedStat.Core.DAL
 			{
 				builder.Entity<Device>()
 					.Property(d => d.DeviceModelUid).HasMaxLength(20).IsRequired();
+
+				builder.Entity<Device>()
+					.HasIndex(d => d.NormalizedWifiMac);
+				// .IsUnique(); Do that check by BL. Moreover MAC should be unique across multiple columns
+				builder.Entity<Device>()
+					.HasIndex(d => d.NormalizedEthernetMac);
+				// .IsUnique(); Do that check by BL. Moreover MAC should be unique across multiple columns
 			}
 		}
 
