@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Device #{0} was created successfully" xml:space="preserve">
+    <value>Устройство #{0} было успешно создано</value>
+  </data>
+  <data name="Device data were updated" xml:space="preserve">
+    <value>Данные устройства были обновлены</value>
+  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
@@ -128,6 +134,9 @@
   </data>
   <data name="__btn__Create device" xml:space="preserve">
     <value>Создать устройство</value>
+  </data>
+  <data name="__btn__Save" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
   <data name="__DeviceType__Gateway" xml:space="preserve">
     <value>Шлюз</value>

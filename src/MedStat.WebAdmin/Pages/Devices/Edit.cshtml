@@ -5,14 +5,15 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using MedStat.WebAdmin.Classes.SharedResources
 
-@model DeviceCreatePageModel
+@model DeviceEditPageModel
 
 @inject IHtmlLocalizer<DeviceResource> DvLocalizer
 
 @{
 	Layout = "_PopupLayout";
 
-	ViewData["Title"] = DvLocalizer["__pageTitle__New device"];
+	ViewData["Title"] = Model.PageTitle;
+
 	ViewData.SetInputMaskUsageFlag();
 }
 
@@ -30,8 +31,8 @@
 					        onchange="$('#btnChangeDeviceType').click()"></select>
 					<span asp-validation-for="DeviceData.DeviceType" class="text-danger"></span>
 					
-					<input id="btnChangeDeviceType" type="submit" asp-page-handler="ChangeDeviceType" 
-					       style="display: none"/>
+					<input id="btnChangeDeviceType" type="submit" style="display: none"
+					       asp-page-handler="ChangeDeviceType" asp-route-deviceId="@Model.DeviceId" />
 				</div>
 
 				<div>
@@ -69,8 +70,9 @@
 			</div>
 
 		</div>
-
-		<button class="btn btn-primary" type="submit" asp-page-handler="">@DvLocalizer["__btn__Create"]</button>
+		
+		<button class="btn btn-primary" type="submit" 
+		        asp-page-handler="" asp-route-deviceId="@Model.DeviceId">@DvLocalizer["__btn__Save"]</button>
 
 	</form>
 

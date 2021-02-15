@@ -25,7 +25,7 @@ namespace MedStat.WebAdmin.Classes.SharedResources
 
 		public static string GetFormattedValue_ErrorHasOccurred(this IStringLocalizer<CompanyResource> localizer,
 			string errorMessage)
-			=> PageResourceStringLocalizerHelper<CompanyResource>.GetFormattedValue_ErrorHasOccurred(localizer, errorMessage);
+			=> PageResourceHelper<CompanyResource>.GetFormattedValue_ErrorHasOccurred(localizer, errorMessage);
 
 
 		// Company Grid:

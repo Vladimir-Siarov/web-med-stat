@@ -132,6 +132,9 @@
   <data name="Device Model with UID = {0} is not found" xml:space="preserve">
     <value>Device Model with UID = {0} is not found</value>
   </data>
+  <data name="Device with ID = {0} is not found" xml:space="preserve">
+    <value>Device with ID = {0} is not found</value>
+  </data>
   <data name="Device with inventory number {0} is already registered in the system" xml:space="preserve">
     <value>Device with inventory number {0} is already registered in the system</value>
   </data>

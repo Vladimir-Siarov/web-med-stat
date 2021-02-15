@@ -79,7 +79,7 @@ namespace MedStat.WebAdmin.Classes
 
 				{ typeof(CompanyDeletePageModel).FullName, GetCompanyLocalizer },
 
-				{ typeof(DeviceCreatePageModel).FullName, GetDeviceLocalizer }
+				{ typeof(DeviceViewModel).FullName, GetDeviceLocalizer }
 			};
 
 

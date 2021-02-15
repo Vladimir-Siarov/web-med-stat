@@ -2,7 +2,7 @@
 
 namespace MedStat.WebAdmin.Classes.Helpers
 {
-	public class PageResourceStringLocalizerHelper<T> where T: class // resource
+	public class PageResourceHelper<T> where T: class // resource
 	{
 		// Formatted values:
 

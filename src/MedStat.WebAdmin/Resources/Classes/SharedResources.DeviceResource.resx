@@ -123,6 +123,9 @@
   <data name="__btn__Create device" xml:space="preserve">
     <value>Create device</value>
   </data>
+  <data name="__btn__Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="__DeviceType__Gateway" xml:space="preserve">
     <value>Gateway</value>
   </data>
