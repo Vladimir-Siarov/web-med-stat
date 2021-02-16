@@ -123,6 +123,9 @@
   <data name="Device data were updated" xml:space="preserve">
     <value>Данные устройства были обновлены</value>
   </data>
+  <data name="Device list" xml:space="preserve">
+    <value>Список устройств</value>
+  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
@@ -138,6 +141,15 @@
   <data name="__btn__Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
+  <data name="__DeviceGrid_Button__Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="__DeviceGrid_Button__Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="__DeviceGrid_Column__InventoryNumber" xml:space="preserve">
+    <value>Инвентарный #</value>
+  </data>
   <data name="__DeviceType__Gateway" xml:space="preserve">
     <value>Шлюз</value>
   </data>
@@ -146,6 +158,9 @@
   </data>
   <data name="__ModelGrid_Column__Description" xml:space="preserve">
     <value>Описание</value>
+  </data>
+  <data name="__ModelGrid_Column__Model" xml:space="preserve">
+    <value>Модель</value>
   </data>
   <data name="__ModelGrid_Column__Name" xml:space="preserve">
     <value>Имя</value>

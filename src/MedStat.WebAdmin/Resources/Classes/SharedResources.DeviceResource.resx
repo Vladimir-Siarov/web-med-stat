@@ -126,6 +126,21 @@
   <data name="__btn__Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="__DeviceGrid_Button__Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="__DeviceGrid_Button__Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="__DeviceGrid_Column__EthernetMac" xml:space="preserve">
+    <value>Ethernet MAC</value>
+  </data>
+  <data name="__DeviceGrid_Column__InventoryNumber" xml:space="preserve">
+    <value>Inventory #</value>
+  </data>
+  <data name="__DeviceGrid_Column__WifiMac" xml:space="preserve">
+    <value>WiFi MAC</value>
+  </data>
   <data name="__DeviceType__Gateway" xml:space="preserve">
     <value>Gateway</value>
   </data>
@@ -134,6 +149,9 @@
   </data>
   <data name="__ModelGrid_Column__Description" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="__ModelGrid_Column__Model" xml:space="preserve">
+    <value>Model</value>
   </data>
   <data name="__ModelGrid_Column__Name" xml:space="preserve">
     <value>Name</value>

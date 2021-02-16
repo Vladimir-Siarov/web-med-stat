@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using MedStat.Core.BE.Device;
+using MedStat.Core.Info;
 
 namespace MedStat.Core.Interfaces
 {
@@ -38,5 +39,19 @@ namespace MedStat.Core.Interfaces
 		/// <returns></returns>
 		Task UpdateDeviceAsync(int deviceId,
 			string deviceModelUid, string inventoryNumber, string wifiMac, string ethernetMac);
+
+
+		/// <summary>
+		/// Finds devices and sorts results by specified params.
+		/// </summary>
+		/// <param name="numberOrMac"></param>
+		/// <param name="sortByProperty"></param>
+		/// <param name="isSortByAsc"></param>
+		/// <param name="skip"></param>
+		/// <param name="take"></param>
+		/// <returns></returns>
+		Task<SearchResult<Device>> FindDevicesAsync(string numberOrMac,
+			string sortByProperty, bool isSortByAsc,
+			int skip, int take);
 	}
 }

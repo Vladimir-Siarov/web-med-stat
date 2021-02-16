@@ -166,6 +166,78 @@ namespace MedStat.Core.Repositories
 		#endregion
 
 
+		#region Search
+
+		public async Task<SearchResult<Device>> FindDevicesAsync(string numberOrMac,
+			string sortByProperty, bool isSortByAsc,
+			int skip, int take)
+		{
+			var q = this.DbContext.Devices.Select(d => d);
+
+			if (!string.IsNullOrEmpty(numberOrMac))
+			{
+				q = q.Where(c => c.InventoryNumber.Contains(numberOrMac)
+												 || c.NormalizedWifiMac.Contains(numberOrMac)
+												 || c.NormalizedEthernetMac.Contains(numberOrMac));
+			}
+
+			var result = new SearchResult<Device>();
+
+			result.TotalRecords = await q.CountAsync();
+
+			#region Sorting
+
+			if (!string.IsNullOrEmpty(sortByProperty))
+			{
+				switch (sortByProperty)
+				{
+					case nameof(Device.Id):
+						q = isSortByAsc ? q.OrderBy(d => d.Id) : q.OrderByDescending(d => d.Id);
+						break;
+
+					case nameof(Device.InventoryNumber):
+						q = isSortByAsc ? q.OrderBy(d => d.InventoryNumber) : q.OrderByDescending(d => d.InventoryNumber);
+						break;
+
+					case nameof(Device.Model.Name):
+						// TODO:
+						break;
+
+					case nameof(Device.Model.Type):
+						// TODO
+						break;
+
+					default:
+						throw new NotSupportedException(sortByProperty);
+				}
+			}
+
+			#endregion
+
+			result.Data = await q.Skip(skip).Take(take).AsNoTracking().ToArrayAsync();
+
+			#region Load Device Models
+
+			if (result.Data.Any())
+			{
+				var modelsUids = result.Data.Select(d => d.DeviceModelUid).Distinct().ToArray();
+				var models = this.DeviceModels.Where(m => modelsUids.Contains(m.Uid))
+					.ToDictionary(m => m.Uid, m => m);
+
+				foreach (Device device in result.Data)
+				{
+					device.Model = models[device.DeviceModelUid];
+				}
+			}
+
+			#endregion
+
+			return result;
+		}
+
+		#endregion
+
+
 		protected async Task CheckForUniqueInventoryNumberAsync(string inventoryNumber, int? exceptId = null)
 		{
 			string normalizedInvNumber = inventoryNumber.Trim().ToUpper();

@@ -1,5 +1,6 @@
 ﻿@page
 @using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.Helpers
 @using MedStat.WebAdmin.Classes.SharedResources
 @using MedStat.WebAdmin.Models
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -57,36 +58,48 @@
 		<partial name="_DtSearchPanelPartial" model="@deviceSearchPanelModel" />
 		
 	</div>
-	@* 
+	
 	<table id="tblDevices"
 				 class="table table-hover caption-top" style="width: 100%"
 				 data-ajax="@(Url.PageLink("Index", "DeviceList"))"
 				 data-auto-width="false"
 				 data-ms-page-length-control="#@(deviceSearchPanelModel.PageLengthControlId)"
-				 data-ms-search-control="#@(deviceSearchPanelModel.SearchControlId)"
-				 ms-datatable>
-		<caption>@DvLocalizer["List of devices"]</caption>
+				 data-ms-search-control="#@(deviceSearchPanelModel.SearchControlId)">
+		<caption>@DvLocalizer["Device list"]</caption>
 		<thead>
 			<tr>
 				<th data-data="id" data-width="5%">Id</th>
-				<th data-data="name" data-width="45%" data-ms-html-template="#tblCompanies_linkTemplate">@CmpLocalizer["__CompanyGrid_Column__Title"]</th>
-				<th data-data="description" data-width="30%" data-ms-max-length="100">@CmpLocalizer["__CompanyGrid_Column__Description"]</th>
-				<th data-data="userCnt" data-width="10%">@CmpLocalizer["__CompanyGrid_Column__Users"]</th>
-				<th data-data="trackedPersonCnt" data-width="10%">@CmpLocalizer["__CompanyGrid_Column__Trekking"]</th>
+				<th data-data="inventoryNumber" data-width="20%">@DvLocalizer["__DeviceGrid_Column__InventoryNumber"]</th>
+				<th data-data="wifiMac" data-width="20%">@DvLocalizer["__DeviceGrid_Column__WifiMac"]</th>
+				<th data-data="ethernetMac" data-width="20%">@DvLocalizer["__DeviceGrid_Column__EthernetMac"]</th>
+				<th data-data="modelName" data-orderable="false" data-width="20%">@DvLocalizer["__ModelGrid_Column__Model"]</th>
+				<th data-data="type" data-orderable="false" data-width="10%" data-ms-html-template="#tblDevices_typeTemplate">@DvLocalizer["__ModelGrid_Column__Type"]</th>
+				<th data-orderable="false" data-width="5%" data-class-name="buttons" data-ms-html-template="#tblDevices_buttonsTemplate">
+					<!-- buttons -->
+				</th>
 			</tr>
 		</thead>
 	</table>
 
-	<div id="tblCompanies_linkTemplate" style="display: none">
-		@{
-			string companyUrl = Url.Page("./Main", new { CompanyId = "-1" })
-				.Replace("-1", "{id}");
-		}
-		<a href="@(companyUrl)">{name}</a>
+	<div id="tblDevices_typeTemplate">
+		<span class="ms-datable-icon" data-device-type="{type}"></span>
 	</div>
-	*@
 	
-	
+	<div id="tblDevices_buttonsTemplate" style="display: none">
+		<button type="button" class="btn btn-link" title="@DvLocalizer["__DeviceGrid_Button__Edit"]"
+		        data-action="edit" data-device-id="{id}">
+			<span class="ms-datable-icon ms-icon-grid-edit"></span>
+			<span class="visually-hidden">@DvLocalizer["__DeviceGrid_Button__Edit"]</span>
+		</button>
+
+		<button type="button" class="btn btn-link" title="@DvLocalizer["__DeviceGrid_Button__Delete"]"
+		        data-action="delete" data-device-id="{id}">
+			<span class="ms-datable-icon ms-icon-grid-delete"></span>
+			<span class="visually-hidden">@DvLocalizer["__DeviceGrid_Button__Delete"]</span>
+		</button>
+	</div>
+
+
 	@* Device Popup *@
 	<partial name="_PopupDialogPartial" model="@deviceDialogModel" />
 	
@@ -130,8 +143,10 @@
 				});
 
 
-			// Init Grid buttons:
+			// Grid functionality:
 
+			var deviceTypes = @(Html.Raw(Json.Serialize(DeviceHelper.GetDeviceTypeInfoList(DvLocalizer))));
+			
 			var onDeviceActionBtnClick = function() {
 
 				var deviceId = $(this).attr('data-device-id');
@@ -161,8 +176,24 @@
 			$('#tblDevices')
 				.on('draw.dt', function() {
 
-				$('#tblDevices button').click(onDeviceActionBtnClick);
-			});
+					// init grid buttons
+					$('#tblDevices button').click(onDeviceActionBtnClick);
+
+					// init Grid icons
+					$('#tblDevices [data-device-type]').each(function() {
+
+						var $t = $(this);
+						var type = deviceTypes.find(t => t.type === $t.attr('data-device-type'));
+
+						if (type != null) {
+							$t.addClass(type.iconCss).attr('title', type.title);
+						} 
+						else {
+							throw 'Device type "' + $t.attr('data-device-type') + '" is not supported.';
+						}
+					});
+				})
+				.msDataTable(); // init grid
 		};
 
 	</script>

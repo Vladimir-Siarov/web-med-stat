@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
+﻿using System.Text;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using MedStat.Core.BE.Device;
 using MedStat.WebAdmin.Classes.SharedResources;
@@ -8,6 +9,7 @@ namespace MedStat.WebAdmin.Classes.Helpers
 	public static class DeviceHelper
 	{
 		private const string InputMaskUsageFlag = "INPUT_MASK_USAGE";
+		public const char MacAddressSeparator = '-';
 
 
 		// Comment: Use "IHtmlLocalizer", because this method usually is called from View.
@@ -29,6 +31,29 @@ namespace MedStat.WebAdmin.Classes.Helpers
 						Title = DvLocalizer["__DeviceType__Gateway"].Value
 					}
 				};
+		}
+
+		public static string FormatMacAddress(string mac)
+		{
+			if (string.IsNullOrEmpty(mac))
+				return mac;
+
+			StringBuilder sb = new StringBuilder();
+			int i = 0;
+			
+			foreach (char symbol in mac)
+			{
+				if (i == 2)
+				{
+					sb.Append(MacAddressSeparator);
+					i = 0;
+				}
+
+				sb.Append(symbol);
+				i++;
+			}
+
+			return sb.ToString();
 		}
 
 
