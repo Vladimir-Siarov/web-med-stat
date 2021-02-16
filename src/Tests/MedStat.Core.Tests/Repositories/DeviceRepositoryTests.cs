@@ -254,6 +254,53 @@ namespace MedStat.Core.Tests.Repositories
 			}
 		}
 
+
+		[Fact]
+		public async void DeleteDeviceAsync()
+		{
+			// Arrange:
+
+			int deviceId = this.AddNewDeviceToDb(EnDeviceType.Gateway).Id;
+			
+			int assignedToCompanyDeviceId;
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var device = DataHelper.GetDeviceData(EnDeviceType.SmartWatch);
+				
+				var company = DataHelper.GetCompanyData();
+				company.Devices = new List<Device> { device };
+
+				dbContext.Companies.Add(company);
+				dbContext.SaveChanges();
+
+				assignedToCompanyDeviceId = device.Id;
+			}
+
+
+			// Act:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				var sp = this.GetServiceProvider(dbContext);
+				var dvRepository = sp.GetRequiredService<IDeviceRepository>();
+
+				await dvRepository.DeleteDeviceAsync(deviceId);
+
+				// act + assert: Try to delete Device assigned to Company
+				await Assert.ThrowsAsync<OperationCanceledException>(() =>
+					dvRepository.DeleteDeviceAsync(assignedToCompanyDeviceId));
+			}
+
+
+			// Assert:
+
+			using (var dbContext = new MedStatDbContext(this.Fixture.ContextOptions))
+			{
+				bool isDeviceExist = dbContext.Devices.Any(d => d.Id == deviceId);
+				isDeviceExist.Should().BeFalse();
+			}
+		}
+
 		#endregion
 
 

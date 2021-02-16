@@ -40,6 +40,12 @@ namespace MedStat.Core.Interfaces
 		Task UpdateDeviceAsync(int deviceId,
 			string deviceModelUid, string inventoryNumber, string wifiMac, string ethernetMac);
 
+		/// <summary>
+		/// Delete specified device.
+		/// </summary>
+		/// <param name="deviceId"></param>
+		/// <returns></returns>
+		Task DeleteDeviceAsync(int deviceId);
 
 		/// <summary>
 		/// Finds devices and sorts results by specified params.

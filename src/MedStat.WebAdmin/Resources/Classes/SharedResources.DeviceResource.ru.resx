@@ -126,6 +126,12 @@
   <data name="Device list" xml:space="preserve">
     <value>Список устройств</value>
   </data>
+  <data name="Device was deleted successfully" xml:space="preserve">
+    <value>Устройство было успешно удалено</value>
+  </data>
+  <data name="Device will be deleted permanently. Are you sure?" xml:space="preserve">
+    <value>Устройство будет удалено без возможности восстановления. Вы уверены?</value>
+  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
@@ -140,6 +146,9 @@
   </data>
   <data name="__btn__Save" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="__button__Delete" xml:space="preserve">
+    <value>Удалить</value>
   </data>
   <data name="__DeviceGrid_Button__Delete" xml:space="preserve">
     <value>Удалить</value>

@@ -43,7 +43,7 @@ namespace MedStat.Core.Repositories
 		#endregion
 
 
-		#region Create / Update
+		#region Create / Update / Delete
 
 		public async Task<int> CreateDeviceAsync(string deviceModelUid,
 			string inventoryNumber, string wifiMac, string ethernetMac)
@@ -122,7 +122,7 @@ namespace MedStat.Core.Repositories
 
 			#endregion
 
-			Device dbDevice = this.DbContext.Devices.FirstOrDefault(d => d.Id == deviceId);
+			Device dbDevice = await this.DbContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
 			if (dbDevice == null)
 			{
 				throw new OperationCanceledException(string.Format(
@@ -159,6 +159,47 @@ namespace MedStat.Core.Repositories
 			{
 				this.Logger.LogError(ex, "Device update action was failed. {@params}",
 					new { deviceId, deviceModelUid, inventoryNumber, wifiMac, ethernetMac });
+				throw;
+			}
+		}
+
+		public async Task DeleteDeviceAsync(int deviceId)
+		{
+			try
+			{
+				var dbDevice = await this.DbContext.Devices.FirstOrDefaultAsync(d => d.Id == deviceId);
+				if (dbDevice == null)
+				{
+					throw new OperationCanceledException(string.Format(
+						this.MessagesManager.GetString("Device with ID = {0} is not found"),
+						deviceId));
+				}
+
+				if (dbDevice.CompanyId != null)
+				{
+					throw new OperationCanceledException(string.Format(this.MessagesManager
+							.GetString("Device with ID = {0} is assigned to the some company and cannot be deleted"),
+						deviceId));
+				}
+				// TODO: Check assigned tracked persons
+
+				//await using (var transaction = await this.DbContext.Database.BeginTransactionAsync())
+				{
+					var deviceInfo = new { dbDevice.Id, dbDevice.InventoryNumber };
+
+					this.DbContext.Devices.Remove(dbDevice);
+					await this.DbContext.SaveChangesAsync();
+
+					//await transaction.CommitAsync();
+
+					this.Logger.LogInformation("Device {@Device} was deleted by {UserUid}",
+						deviceInfo, this.UserUid);
+				}
+			}
+			catch (Exception ex)
+			{
+				this.Logger.LogError(ex, "Device delete action was failed. {@params}",
+					new { deviceId });
 				throw;
 			}
 		}

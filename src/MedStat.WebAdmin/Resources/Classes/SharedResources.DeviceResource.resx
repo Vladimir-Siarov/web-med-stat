@@ -126,6 +126,9 @@
   <data name="__btn__Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="__button__Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="__DeviceGrid_Button__Delete" xml:space="preserve">
     <value>Delete</value>
   </data>

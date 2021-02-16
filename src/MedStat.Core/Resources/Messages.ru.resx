@@ -132,6 +132,9 @@
   <data name="Device Model with UID = {0} is not found" xml:space="preserve">
     <value>Модель устройства с UID = {0} не найдена</value>
   </data>
+  <data name="Device with ID = {0} is assigned to the some company and cannot be deleted" xml:space="preserve">
+    <value>Устройство с ID = {0} назначено компании и не может быть удалено</value>
+  </data>
   <data name="Device with ID = {0} is not found" xml:space="preserve">
     <value>Устройство с Id = {0} не найдено</value>
   </data>
