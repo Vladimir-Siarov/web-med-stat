@@ -156,6 +156,9 @@
   <data name="Delete company" xml:space="preserve">
     <value>Удалить компанию</value>
   </data>
+  <data name="Employee list" xml:space="preserve">
+    <value>Список сотрудников</value>
+  </data>
   <data name="Error has occurred: {0}" xml:space="preserve">
     <value>Произошла ошибка: {0}</value>
   </data>
@@ -195,9 +198,6 @@
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
-  <data name="Trekking" xml:space="preserve">
-    <value>Трекинг</value>
-  </data>
   <data name="Update date" xml:space="preserve">
     <value>Дата последних изменений</value>
   </data>
@@ -225,11 +225,32 @@
   <data name="__button__Confirm" xml:space="preserve">
     <value>Подтвердить</value>
   </data>
+  <data name="__button__Create employee" xml:space="preserve">
+    <value>Создать сотрудника</value>
+  </data>
   <data name="__button__Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
   <data name="__button__Edit" xml:space="preserve">
     <value>Редактировать</value>
+  </data>
+  <data name="__CmpMenu__Devices" xml:space="preserve">
+    <value>Устройства</value>
+  </data>
+  <data name="__CmpMenu__Main" xml:space="preserve">
+    <value>Основное</value>
+  </data>
+  <data name="__CmpMenu__Requisites" xml:space="preserve">
+    <value>Реквизиты</value>
+  </data>
+  <data name="__CmpMenu__Staff" xml:space="preserve">
+    <value>Сотрудники</value>
+  </data>
+  <data name="__CmpMenu__Tracking" xml:space="preserve">
+    <value>Трекинг</value>
+  </data>
+  <data name="__CmpMenu__Users" xml:space="preserve">
+    <value>Пользователи</value>
   </data>
   <data name="__CmpUserGrid_Column__Description" xml:space="preserve">
     <value>Описание</value>
@@ -272,5 +293,11 @@
   </data>
   <data name="__pageTitle__Delete user" xml:space="preserve">
     <value>Удаление пользователя</value>
+  </data>
+  <data name="__StaffGrid_Column__Position" xml:space="preserve">
+    <value>Должность</value>
+  </data>
+  <data name="__StaffGrid_Column__Temperature" xml:space="preserve">
+    <value>Температура</value>
   </data>
 </root>

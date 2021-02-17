@@ -129,11 +129,32 @@
   <data name="__button__Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="__button__Create employee" xml:space="preserve">
+    <value>Create employee</value>
+  </data>
   <data name="__button__Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="__button__Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="__CmpMenu__Devices" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="__CmpMenu__Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="__CmpMenu__Requisites" xml:space="preserve">
+    <value>Requisites</value>
+  </data>
+  <data name="__CmpMenu__Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+  <data name="__CmpMenu__Tracking" xml:space="preserve">
+    <value>Tracking</value>
+  </data>
+  <data name="__CmpMenu__Users" xml:space="preserve">
+    <value>Users</value>
   </data>
   <data name="__CmpUserGrid_Column__Description" xml:space="preserve">
     <value>Description</value>
@@ -176,5 +197,11 @@
   </data>
   <data name="__pageTitle__Delete user" xml:space="preserve">
     <value>Delete user</value>
+  </data>
+  <data name="__StaffGrid_Column__Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="__StaffGrid_Column__Temperature" xml:space="preserve">
+    <value>Temperature</value>
   </data>
 </root>

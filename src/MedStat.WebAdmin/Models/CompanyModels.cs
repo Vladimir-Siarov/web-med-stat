@@ -13,7 +13,10 @@ namespace MedStat.WebAdmin.Models
 		Main,
 		Requisites,
 		Users,
-		Trekking
+
+		// Tracking:
+		Staff,
+		Devices
 	}
 
 

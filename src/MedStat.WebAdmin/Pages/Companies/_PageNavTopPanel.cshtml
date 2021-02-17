@@ -6,6 +6,28 @@
 
 @inject IHtmlLocalizer<CompanyResource> CmpLocalizer
 
+@{
+	bool isTracking = Model.Section == EnCompanySection.Staff
+	                  || Model.Section == EnCompanySection.Devices;
+
+	Func<string> getTrackingMenuText = () =>
+	{
+		var mainText = CmpLocalizer["__CmpMenu__Tracking"].Value;
+
+		switch (Model.Section)
+		{
+			case EnCompanySection.Staff:
+				return $"{CmpLocalizer["__CmpMenu__Staff"].Value} - {mainText}";
+
+			case EnCompanySection.Devices:
+				return $"{CmpLocalizer["__CmpMenu__Devices"].Value} - {mainText}";
+
+			default:
+				return mainText;
+		}
+	};
+
+}
 
 <nav class="ms-pagenav-toppanel" aria-label="Company menu">
 	<ul class="nav nav-pills">
@@ -15,37 +37,50 @@
 			<li class="nav-item">
 				<a class="nav-link @(Model.Section == EnCompanySection.Main ? "active" : null)"
 				   asp-page="/Companies/Main"
-				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Main"]</a>
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["__CmpMenu__Main"]</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link @(Model.Section == EnCompanySection.Requisites ? "active" : null)"
 				   asp-page="/Companies/Requisites"
-				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Requisites"]</a>
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["__CmpMenu__Requisites"]</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link @(Model.Section == EnCompanySection.Users ? "active" : null)"
 				   asp-page="/Companies/Users/Index"
-				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Users"]</a>
+				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["__CmpMenu__Users"]</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link @(Model.Section == EnCompanySection.Trekking ? "active" : null)"
-				   asp-page="/Companies/Trekking"
-				   asp-route-CompanyId="@Model.CompanyId">@CmpLocalizer["Trekking"]</a>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle @(isTracking ? "active" : null)" href="#" id="navLinkTracking" 
+				   role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					@getTrackingMenuText()
+				</a>
+				<ul class="dropdown-menu " aria-labelledby="navLinkTracking">
+					<li>
+						<a class="dropdown-item" 
+						   asp-page="/Companies/Staff/Index" asp-route-CompanyId="@Model.CompanyId">
+							@CmpLocalizer["__CmpMenu__Staff"]
+						</a>
+					</li>
+					<li><a class="dropdown-item" 
+					       asp-page="/Companies/Devices/Index" asp-route-CompanyId="@Model.CompanyId">
+						@CmpLocalizer["__CmpMenu__Devices"]
+					</a></li>
+				</ul>
 			</li>
 		}
 		else
 		{
 			<li class="nav-item">
-				<a class="nav-link active" href="#">@CmpLocalizer["Main"]</a>
+				<a class="nav-link active" href="#">@CmpLocalizer["__CmpMenu__Main"]</a>
 			</li>
 			<li class="nav-item">
-				<span class="nav-link disabled">@CmpLocalizer["Requisites"]</span>
+				<span class="nav-link disabled">@CmpLocalizer["__CmpMenu__Requisites"]</span>
 			</li>
 			<li class="nav-item">
-				<span class="nav-link disabled">@CmpLocalizer["Users"]</span>
+				<span class="nav-link disabled">@CmpLocalizer["__CmpMenu__Users"]</span>
 			</li>
 			<li class="nav-item">
-				<span class="nav-link disabled">@CmpLocalizer["Trekking"]</span>
+				<span class="nav-link disabled">@CmpLocalizer["__CmpMenu__Tracking"]</span>
 			</li>
 		}
 

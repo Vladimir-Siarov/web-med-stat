@@ -14,7 +14,7 @@
 		: CmpLocalizer["New company"].Value;
 
 	var browserPageTitle = Model.CompanyId > 0
-		? $"{CmpLocalizer[Model.Section.ToString()].Value} - {Model.CompanyName}"
+		? $"{CmpLocalizer["__CmpMenu__" + Model.Section].Value} - {Model.CompanyName}"
 		: CmpLocalizer["New company creation"].Value;
 
 	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Company);
