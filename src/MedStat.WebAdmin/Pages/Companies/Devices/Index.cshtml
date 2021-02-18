@@ -1,0 +1,225 @@
+﻿@page "/Companies/{CompanyId:int}/Devices/"
+
+@using MedStat.WebAdmin.Classes
+@using MedStat.WebAdmin.Classes.Helpers
+@using MedStat.WebAdmin.Classes.SharedResources
+@using MedStat.WebAdmin.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+
+@model CompanyDevicesPageModel
+
+@inject IHtmlLocalizer<DeviceResource> DvLocalizer
+@inject IStringLocalizer<DialogResources> DlgLocalizer
+
+@{
+	Layout = "_CompanyLayout";
+
+	ViewData.SetDataTablePageFlag();
+	
+	var deviceSearchPanelModel = new DataTableSearchPanelModel("tblDevices");
+}
+
+<div class="ms-under-construction">Страница в разработке</div>
+
+<div class="ms-pagecontent">
+
+	<div class="ms-section-header">
+		<div>
+			<button id="btnCreateDevice" class="btn btn-success btn-sm" data-action="create">
+				<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+				</svg>@DvLocalizer["__button__Add device"]
+			</button>
+		</div>
+		
+		<partial name="_DtSearchPanelPartial" model="@deviceSearchPanelModel" />
+		
+	</div>
+	
+	<table id="tblDevices"
+				 class="table table-hover caption-top" style="width: 100%"
+				 data-auto-width="false"
+				 data-ms-page-length-control="#@(deviceSearchPanelModel.PageLengthControlId)"
+				 data-ms-search-control="#@(deviceSearchPanelModel.SearchControlId)">
+		<caption>@DvLocalizer["Device list"]</caption>
+		<thead>
+			<tr>
+				@*<th data-data="id" data-width="5%">Id</th>*@
+				<th data-data="type" data-orderable="false" data-width="5%" data-ms-html-template="#tblDevices_typeTemplate">@DvLocalizer["__ModelGrid_Column__Type"]</th>
+				<th data-data="inventoryNumber" data-width="20%">@DvLocalizer["__DeviceGrid_Column__InventoryNumber"]</th>
+				<th data-data="status" data-width="20%" data-ms-html-template="#tblDevices_statusTemplate">@DvLocalizer["__ModelGrid_Column__Status"]</th>
+				<th data-data="modelName" data-width="20%">@DvLocalizer["__ModelGrid_Column__Model"]</th>
+				<th data-data="wifiMac" data-width="15%">@DvLocalizer["__DeviceGrid_Column__WifiMac"]</th>
+				<th data-data="ethernetMac" data-width="15%">@DvLocalizer["__DeviceGrid_Column__EthernetMac"]</th>
+				<th data-orderable="false" data-width="5%" data-class-name="buttons" data-ms-html-template="#tblDevices_buttonsTemplate">
+					<!-- buttons -->
+				</th>
+			</tr>
+		</thead>
+	</table>
+
+	<div id="tblDevices_typeTemplate" style="display: none">
+		<span class="ms-datable-icon" data-device-type="{type}"></span>
+	</div>
+	
+	<div id="tblDevices_statusTemplate" style="display: none">
+		<span data-device-status="{status}">{status}</span>
+	</div>
+	
+	<div id="tblDevices_buttonsTemplate" style="display: none">
+		@*<button type="button" class="btn btn-link" title="@DvLocalizer["__DeviceGrid_Button__Edit"]"
+		        data-action="edit" data-device-id="{id}">
+			<span class="ms-datable-icon ms-icon-grid-edit"></span>
+			<span class="visually-hidden">@DvLocalizer["__DeviceGrid_Button__Edit"]</span>
+		</button>
+		*@
+		<button type="button" class="btn btn-link" title="@DvLocalizer["__DeviceGrid_Button__Delete"]"
+		        data-action="delete" data-device-id="{id}">
+			<span class="ms-datable-icon ms-icon-grid-delete"></span>
+			<span class="visually-hidden">@DvLocalizer["__DeviceGrid_Button__Delete"]</span>
+		</button>
+	</div>
+</div>
+
+
+
+@section Scripts
+{
+	<script type="text/javascript">
+
+		window.pageInit = function() {
+
+			// Grid functionality:
+
+			var deviceTypes = @(Html.Raw(Json.Serialize(DeviceHelper.GetDeviceTypeInfoList(DvLocalizer))));
+
+			var onDeviceActionBtnClick = function() {
+
+				alert('Функциональность в разработке');
+			};
+
+			var deviceData = [
+				{
+					id: 1,
+					inventoryNumber: '0001',
+					wifiMac: 'AA-00-00-00-00-01',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'назначено'
+				},
+				{
+					id: 2,
+					inventoryNumber: '0002',
+					wifiMac: 'AA-00-00-00-00-02',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'назначено'
+				},
+				{
+					id: 3,
+					inventoryNumber: '0003',
+					wifiMac: 'AA-00-00-00-00-03',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'назначено'
+				},
+				{
+					id: 4,
+					inventoryNumber: '0004',
+					wifiMac: 'AA-00-00-00-00-04',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'назначено'
+				},
+				{
+					id: 5,
+					inventoryNumber: '0005',
+					wifiMac: 'AA-00-00-00-00-05',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'назначено'
+				},
+				{
+					id: 6,
+					inventoryNumber: '0006',
+					wifiMac: 'AA-00-00-00-00-06',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'свободно'
+				},
+				{
+					id: 7,
+					inventoryNumber: '0007',
+					wifiMac: 'AA-00-00-00-00-07',
+					ethernetMac: '',
+					modelName: 'BTTLBT01',
+					type: 'SmartWatch',
+					status: 'свободно'
+				},
+				{
+					id: 101,
+					inventoryNumber: '0101',
+					wifiMac: 'BB-00-00-00-01-01',
+					ethernetMac: 'CC-00-00-00-01-01',
+					modelName: 'BTTBW01',
+					type: 'Gateway',
+					status: 'используется'
+				},
+				{
+					id: 102,
+					inventoryNumber: '0102',
+					wifiMac: 'BB-00-00-00-01-02',
+					ethernetMac: 'CC-00-00-00-01-02',
+					modelName: 'BTTBW01',
+					type: 'Gateway',
+					status: 'свободно'
+				}
+			];
+
+			$('#btnCreateDevice').click(onDeviceActionBtnClick);
+
+			$('#tblDevices')
+				.on('draw.dt',
+					function() {
+
+						// init grid buttons
+						$('#tblDevices button').click(onDeviceActionBtnClick);
+
+						// init 'status'
+						$('#tblDevices [data-device-status]').each(function() {
+
+							var $t = $(this);
+							if ($t.attr('data-device-status') !== 'свободно') {
+								$t.addClass('ms-device-status-inuse');
+							}
+						});
+
+						// init Grid icons
+						$('#tblDevices [data-device-type]').each(function() {
+
+							var $t = $(this);
+							var type = deviceTypes.find(t => t.type === $t.attr('data-device-type'));
+
+							if (type != null) {
+								$t.addClass(type.iconCss).attr('title', type.title);
+							} else {
+								throw 'Device type "' + $t.attr('data-device-type') + '" is not supported.';
+							}
+						});
+					})
+				.msDataTable({ // init grid
+					data: deviceData,
+					serverSide: false,
+					order: [[ 1, "asc" ]]
+				});
+		};
+
+	</script>
+}

@@ -19,7 +19,7 @@ namespace MedStat.WebAdmin.Pages.Companies.Staff
 		public override EnCompanySection Section => EnCompanySection.Staff;
 
 		
-		public CompanyStaffPageModel(ILogger<CompanyMainPageModel> logger,
+		public CompanyStaffPageModel(ILogger<CompanyStaffPageModel> logger,
 			ICompanyRepository cmpRepository, 
 			IStringLocalizer<CompanyResource> cmpLocalizer,
 			IStringLocalizer<DialogResources> dlgLocalizer)

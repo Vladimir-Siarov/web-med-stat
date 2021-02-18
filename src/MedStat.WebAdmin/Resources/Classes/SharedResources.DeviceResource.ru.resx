@@ -147,6 +147,9 @@
   <data name="__btn__Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
+  <data name="__button__Add device" xml:space="preserve">
+    <value>Добавить устройство</value>
+  </data>
   <data name="__button__Delete" xml:space="preserve">
     <value>Удалить</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="__ModelGrid_Column__Name" xml:space="preserve">
     <value>Имя</value>
+  </data>
+  <data name="__ModelGrid_Column__Status" xml:space="preserve">
+    <value>Статус</value>
   </data>
   <data name="__ModelGrid_Column__Type" xml:space="preserve">
     <value>Тип</value>

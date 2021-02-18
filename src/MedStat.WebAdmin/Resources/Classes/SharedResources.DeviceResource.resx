@@ -126,6 +126,9 @@
   <data name="__btn__Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="__button__Add device" xml:space="preserve">
+    <value>Add device</value>
+  </data>
   <data name="__button__Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -158,6 +161,9 @@
   </data>
   <data name="__ModelGrid_Column__Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="__ModelGrid_Column__Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="__ModelGrid_Column__Type" xml:space="preserve">
     <value>Type</value>

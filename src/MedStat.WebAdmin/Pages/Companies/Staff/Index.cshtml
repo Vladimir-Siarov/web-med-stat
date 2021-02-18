@@ -50,6 +50,10 @@
 				<th data-data="patronymic" data-width="15%">@CmpLocalizer["__CmpUserGrid_Column__Patronymic"]</th>
 				<th data-data="temperature" data-width="10%" data-ms-html-template="#tblStaff_temperatureTemplate">@CmpLocalizer["__StaffGrid_Column__Temperature"]</th>
 				<th data-data="position" data-width="auto" data-ms-max-length="50">@CmpLocalizer["__StaffGrid_Column__Position"]</th>
+				<th data-data="inventoryNumber" data-width="10%">
+					<span class="ms-datable-icon ms-icon-devicetype-smartwatch" data-device-type="SmartWatch" 
+					      title="Инвентарный # назначенного устройства"></span>
+				</th>
 				<th data-orderable="false" data-width="5%" data-class-name="buttons" data-ms-html-template="#tblStaff_buttonsTemplate">
 					<!-- buttons -->
 				</th>
@@ -100,7 +104,8 @@
 					firstName: 'Сергей',
 					patronymic: 'Александрович',
 					temperature: 36.4,
-					position: 'менеджер по продажам'
+					position: 'менеджер по продажам',
+					inventoryNumber: '0001'
 				},
 				{
 					id: 2,
@@ -108,7 +113,8 @@
 					firstName: 'Николай',
 					patronymic: 'Сергеевич',
 					temperature: 36.5,
-					position: 'менеджер по продажам'
+					position: 'менеджер по продажам',
+					inventoryNumber: '0002'
 				},
 				{
 					id: 3,
@@ -116,7 +122,8 @@
 					firstName: 'Эльвира',
 					patronymic: 'Андреевна',
 					temperature: 37.5,
-					position: 'старший бухгалтер'
+					position: 'старший бухгалтер',
+					inventoryNumber: '0003'
 				},
 				{
 					id: 4,
@@ -124,7 +131,8 @@
 					firstName: 'Антон',
 					patronymic: 'Николаевич',
 					temperature: 36.5,
-					position: 'менеджер по закупкам'
+					position: 'менеджер по закупкам',
+					inventoryNumber: '0004'
 				},
 				{
 					id: 5,
@@ -132,7 +140,8 @@
 					firstName: 'Андрей',
 					patronymic: 'Витальевич',
 					temperature: 36.4,
-					position: 'менеджер по закупкам'
+					position: 'менеджер по закупкам',
+					inventoryNumber: '0005'
 				}
 			];
 
@@ -154,6 +163,7 @@
 
 							if (temperature !== NaN && temperature >= 37.5) {
 								$t.addClass('ms-temperature-danger');
+								$t.closest('tr').addClass('ms-temperature-danger');
 							}
 						});
 					})
