@@ -76,9 +76,13 @@
 	</div>
 	
 	<div id="tblStaff_temperatureTemplate" style="display: none">
-		<span data-temperature="{temperature}">
+		@{
+			string trackingUrl = Url.Page("/Tracking/Person", new { PersonId = "-1" })
+				.Replace("-1", "{id}");
+		}
+		<a href="@(trackingUrl)" data-temperature="{temperature}">
 			{temperature}
-		</span>
+		</a>
 	</div>
 
 </div>
@@ -121,7 +125,7 @@
 					surname: 'Смирнова',
 					firstName: 'Эльвира',
 					patronymic: 'Андреевна',
-					temperature: 37.5,
+					temperature: 38.1,
 					position: 'старший бухгалтер',
 					inventoryNumber: '0003'
 				},

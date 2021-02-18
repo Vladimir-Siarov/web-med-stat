@@ -1,0 +1,139 @@
+﻿@page "{PersonId:int}"
+
+@using MedStat.WebAdmin.Classes
+
+@model TrackingPersonPageModel
+
+@{
+	ViewData["Title"] = "Трекинг";
+	ViewData.SetSelectedMainMenu(NavHelper.EnMainMenuItem.Tracking);
+}
+
+
+<div class="ms-under-construction">Страница в разработке</div>
+
+@section PageHeader
+{
+	<nav aria-label="breadcrumb">
+		<breadcrumb menu-item="@NavHelper.EnMainMenuItem.Tracking"
+		            page-title="Смирнова Эльвира Андреевна"></breadcrumb>
+	</nav>
+
+	<h1 class="ms-pageheader-pagetitle">Смирнова Эльвира Андреевна</h1>
+}
+
+<div class="ms-pagecontent">
+
+	<div class="ms-lg-container">
+		
+		<!-- Summary -->
+		<div class="row">
+
+			<div class="col-sm-6">
+
+				<figure class="ms-dashboard-card">
+					<h5 class="ms-dashboard-card-title">Температура</h5>
+					<span class="ms-dashboard-card-text-big ms-temperature-danger">38.1</span>
+				</figure>
+
+			</div>
+
+			<div class="col-sm-6">
+
+				<figure class="ms-dashboard-card">
+					<h5 class="ms-dashboard-card-title">Средняя температура</h5>
+					<span class="ms-dashboard-card-text-big">36.5</span>
+				</figure>
+
+			</div>
+
+		</div>
+
+		<!-- Charts -->
+		<section>
+			
+			<figure class="ms-dashboard-card" style="margin-top: 1rem;">
+				<h5 class="ms-dashboard-card-title">График температуры зa сутки</h5>
+				<div id="divDayTemperature_chart" class="ms-chart" style="width: 100%; height: 400px;"></div>
+			</figure>
+			
+			<figure class="ms-dashboard-card" style="margin-top: 2rem;">
+				<h5 class="ms-dashboard-card-title">График температуры зa неделю</h5>
+				<div id="divWeekTemperature_chart" class="ms-chart" style="width: 100%; height: 400px;"></div>
+			</figure>
+
+		</section>
+
+	</div>
+
+</div>
+
+@section Scripts
+{
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script type="text/javascript">
+
+		google.charts.load('current', { 'packages': ['corechart'] });
+		//google.charts.setOnLoadCallback(drawVisualization);
+
+		window.drawVisualization = function() {
+
+			var dayData = google.visualization.arrayToDataTable([
+				['Время', 'Температура', 'Температура'],
+				['9:00', 36.3, null],
+				['10:00', 36.5, null],
+				['11:00', 36.6, null],
+				['12:00', 36.8, null],
+				['12:00', 36.6, null],
+				['13:00', 37, null],
+				['14:00', 37.8, 37.8],
+				['15:00', null, 38],
+				['16:00', null, 38.1]
+			]);
+
+			var weekData = google.visualization.arrayToDataTable([
+				['Дата', 'Температура', 'Температура'],
+				['@(DateTime.Now.AddDays(-4).ToString("dd/MM"))', 36.5, null],
+				['@(DateTime.Now.AddDays(-3).ToString("dd/MM"))', 36.6, null],
+				['@(DateTime.Now.AddDays(-2).ToString("dd/MM"))', 36.7, null],
+				['@(DateTime.Now.AddDays(-1).ToString("dd/MM"))', 36.8, null],
+				['@(DateTime.Now.ToString("dd/MM"))', 38.1, 38.1]
+			]);
+
+			var options = {
+				title: null,
+				legend: 'none',
+				vAxis: { title: null, baseline: 37.5 },
+				hAxis: { title: null },
+				curveType: 'function',
+				pointSize: 8,
+				seriesType: 'line',
+				series: {
+					0: { color: '#444' },
+					1: { type: 'area', color: 'red' }
+				}
+			};
+
+			var dayChart = new google.visualization.ComboChart(document.getElementById('divDayTemperature_chart'));
+			dayChart.draw(dayData, options);
+
+			var weekChart = new google.visualization.ComboChart(document.getElementById('divWeekTemperature_chart'));
+			weekChart.draw(weekData, options);
+		}
+
+		window.addEventListener('load', function(e) {
+			window.drawVisualization();
+		});
+		window.addEventListener('resize', function(e) {
+			
+			if(this.resizeTO) 
+				clearTimeout(this.resizeTO);
+
+			this.resizeTO = setTimeout(function() {
+				window.drawVisualization();
+			}, 250);
+		});
+
+	</script>
+}

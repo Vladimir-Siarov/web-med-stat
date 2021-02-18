@@ -150,4 +150,7 @@
   <data name="Models" xml:space="preserve">
     <value>Модели</value>
   </data>
+  <data name="Tracking" xml:space="preserve">
+    <value>Трекинг</value>
+  </data>
 </root>

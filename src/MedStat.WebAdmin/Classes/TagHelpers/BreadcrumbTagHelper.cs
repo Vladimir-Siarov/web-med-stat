@@ -88,6 +88,11 @@ namespace MedStat.WebAdmin.Classes.TagHelpers
 							_navLocalizer["Account"]);
 						break;
 
+					case NavHelper.EnMainMenuItem.Tracking:
+						output.Content.AppendFormat("<li><span>{0}</span></li>",
+							_navLocalizer["Tracking"]);
+						break;
+
 					default:
 						throw new NotSupportedException(MenuItem.ToString());
 				}

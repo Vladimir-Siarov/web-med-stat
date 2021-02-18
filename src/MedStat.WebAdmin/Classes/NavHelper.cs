@@ -12,7 +12,9 @@ namespace MedStat.WebAdmin.Classes
 
 			Devices, // menu group
 				DeviceList,
-				DeviceModels
+				DeviceModels,
+
+			Tracking
 		}
 
 

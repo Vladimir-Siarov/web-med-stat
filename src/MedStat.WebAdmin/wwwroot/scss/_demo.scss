@@ -53,3 +53,40 @@ table.dataTable {
 		color: green;
 	}
 }
+
+
+/* ---- Tracking ---------- */
+.ms-lg-container {
+	max-width: map-get($grid-breakpoints, "lg"); // 960px
+}
+
+.ms-dashboard-card {
+
+	h5 {
+		font-size: 1.2rem;
+	}
+
+	h4 {
+		font-size: 1.4rem;
+	}
+
+	&-title {
+		opacity: .8;
+	}
+
+	&-text-big {
+		font-size: 3rem;
+		line-height: 1.1;
+		opacity: .8;
+	}
+
+	.ms-temperature-danger {
+		color: red;
+	}
+
+	.ms-chart {
+		border: 1px solid #ced4da;
+		margin-top: .8rem;
+		box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.1);
+	}
+}
