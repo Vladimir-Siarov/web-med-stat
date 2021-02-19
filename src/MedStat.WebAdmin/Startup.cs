@@ -113,7 +113,7 @@ namespace MedStat.WebAdmin
 			// handle 400, 404 and other HTTP status codes
 			app.UseStatusCodePagesWithReExecute("/error", "?httpCode={0}");
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();

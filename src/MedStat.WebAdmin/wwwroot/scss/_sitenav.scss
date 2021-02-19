@@ -184,7 +184,7 @@
 	padding: 0 $ms-content-xpadding;
 	display: flex;
 	flex-direction: row;
-	justify-content: end; /* temporary */
+	justify-content: flex-end; /* temporary */
 	align-items: center;
 
 	.ms-nav-link {

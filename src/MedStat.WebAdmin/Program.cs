@@ -2,7 +2,11 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
+using MedStat.Core.Interfaces;
 using MedStat.WebAdmin.Classes.Configuration;
+using MedStat.WebAdmin.Classes.Configuration.Sections;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace MedStat.WebAdmin
@@ -23,7 +27,16 @@ namespace MedStat.WebAdmin
 					await host.SetupRolesAsync(); // custom method: Add user roles to DB if required
 					await host.SetupSystemAdminAsync(); // custom method: setup System Admin record
 				}
-				
+
+				using (var scope = host.Services.CreateScope())
+				{
+					var services = scope.ServiceProvider;
+					var configuration = services.GetRequiredService<IConfiguration>();
+					string connectionString = configuration.GetConnectionString("MedStat.WebAdmin.ConnectionString");
+
+					Log.Information("Connection String: {connString}", connectionString);
+				}
+
 				Log.Information("Starting web host");
 				host.Run();
 			}
