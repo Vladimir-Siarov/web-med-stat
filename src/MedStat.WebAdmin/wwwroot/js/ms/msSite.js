@@ -91,7 +91,9 @@ window.ms.siteNav = {
 $(function() {
 
 	// Init Site Nav panel
-	window.ms.siteNav.init();
+	window.setTimeout(function() {
+		window.ms.siteNav.init();
+	}, 50);
 	
 
 	// Init Switch language control
