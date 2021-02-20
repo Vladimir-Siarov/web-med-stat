@@ -3,7 +3,6 @@
 
 @mixin shiftedcontent {
 	margin-left: $ms-sitenav-aside-collapsed-width;
-	transition: margin $ms-sitenav-aside-toggle-transition-time linear;
 	padding-left: $ms-content-xpadding;
 	padding-right: $ms-content-xpadding;
 }
@@ -47,9 +46,15 @@
 
 /* expanded sitenav */
 .ms-sitenav-expanded {
-	.ms-pagecontainer, 
+	.ms-pagecontainer,
 	.ms-footer {
 		margin-left: $ms-sitenav-aside-expanded-width;
+	}
+}
+.with-transition {
+	.ms-pagecontainer,
+	.ms-footer {
+		transition: margin $ms-sitenav-aside-toggle-transition-time linear;
 	}
 }
 

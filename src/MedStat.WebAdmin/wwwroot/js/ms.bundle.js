@@ -98,21 +98,101 @@ window.ms.PopupDialogClass = function(options) {
 		}
 	};
 };
-// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+'use strict';
 
-// Write your JavaScript code.
+/*!
+ * Common functionality for MedStat.Admin site.
+ *
+ * Copyright (c) 2021 MedStat Company.
+ */
+
+/**
+ * Depends on:
+ *  - jQuery
+ *  - js.cookie
+*/
+
+window.ms = window.ms || {};
+
+window.ms.siteNav = {
+
+	stateCookieName: 'ms-siteNav-state',
+
+	expand: function (isSaveState, withTransition) {
+
+		this.setTransition(withTransition);
+
+		$(document.body).addClass('ms-sitenav-expanded');
+
+		if (isSaveState)
+			this.setState('expanded');
+	},
+	collapse: function (isSaveState, withTransition) {
+
+		this.setTransition(withTransition);
+
+		$(document.body).removeClass('ms-sitenav-expanded');
+
+		if (isSaveState)
+			this.setState('collapsed');
+	},
+
+	setTransition: function (withTransition) {
+
+		if (withTransition) {
+			$(document.body).addClass('with-transition');
+		}
+		else {
+			$(document.body).removeClass('with-transition');
+		}
+	},
+	setState: function (state) {
+
+		Cookies.remove(this.stateCookieName);
+		Cookies.remove(this.stateCookieName, { path: '/' });
+		Cookies.set(this.stateCookieName, state);
+	},
+
+	initMenuState: function() {
+
+		var siteNavState = Cookies.get(this.stateCookieName);
+
+		if (siteNavState === 'expanded') {
+			this.expand(false);
+		}
+		else if (siteNavState === 'collapsed') {
+			this.collapse(false);
+		}
+		else { // auto expand / collapse
+
+			if ($(window).width() >= 960) { // lg
+				this.expand(false);
+			}
+		}
+	},
+
+	init: function () {
+
+		this.initMenuState();
+
+
+		// Init Expand/Collapse buttons:
+
+		$('#sitenav_header_btnCollapse').click(function () {
+			window.ms.siteNav.collapse(true, true);
+		});
+		$('#sitenav_header_btnExpand').click(function () {
+			window.ms.siteNav.expand(true, true);
+		});
+	}
+};
+
 
 $(function() {
 
-	// Init Site Nav panel (Expand/Collapse button)
-	$('#sitenav_header_btnCollapse').click(function () {
-		$(document.body).removeClass('ms-sitenav-expanded');
-	});
-	$('#sitenav_header_btnExpand').click(function () {
-		$(document.body).addClass('ms-sitenav-expanded');
-	});
-
+	// Init Site Nav panel
+	window.ms.siteNav.init();
+	
 
 	// Init Switch language control
 	$('#cbxRuLanguage').change(function () {

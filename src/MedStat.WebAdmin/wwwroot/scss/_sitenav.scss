@@ -38,7 +38,6 @@
 	box-sizing: border-box;
 	background-color: $sitenav-aside-bg;
 	color: $sitenav-aside-color;
-	transition: width $ms-sitenav-aside-toggle-transition-time linear;
 
 	.ms-sitenav-header {
 		height: $ms-sitenav-header-height;
@@ -79,7 +78,6 @@
 		overflow-x: hidden;
 		overflow-y: auto;
 		margin-top: 2.25rem;
-
 		/* Ovveride Bootstrap */
 		.nav {
 			margin: 0 1rem;
@@ -131,14 +129,13 @@
 		.nav-groupItem {
 			margin-top: 1rem;
 			margin-bottom: 1rem;
-
 			/* It's temp solution, until adding sub-menu expand/collapse functionality */
 			span.nav-link {
-				cursor: default!important;
+				cursor: default !important;
 
 				&:hover {
-					background: inherit!important;
-					opacity: .8!important;
+					background: inherit !important;
+					opacity: .8 !important;
 				}
 			}
 		}
@@ -172,6 +169,11 @@
 				visibility: hidden;
 			}
 		}
+	}	
+}
+.with-transition {
+	.ms-sitenav-aside {
+		transition: width $ms-sitenav-aside-toggle-transition-time linear;
 	}
 }
 
